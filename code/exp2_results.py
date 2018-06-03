@@ -22,6 +22,7 @@ def make_experiment_chains_figure(file_path):
 	data = tools.read_json_file('../data/experiments/exp2_chains.json')
 	il_visualize.make_figure(data, file_path, start_gen=0, end_gen=50, n_columns=15, overwrite=True)
 
+######################################################################
 
 # make_experiment_results_figure('../manuscript/figs/exp2_results.eps')
 # make_model_comparison_figure('../manuscript/figs/exp2_model_comparison.eps')

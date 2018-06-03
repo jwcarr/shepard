@@ -79,6 +79,8 @@ def make_model_chains_figure(file_path):
 	data = {'chains':[best_chain_sim, best_chain_inf, best_chain_strong_inf]}
 	il_visualize.make_figure(data, file_path, start_gen=0, end_gen=50, n_columns=15, method='language', overwrite=True)
 
+######################################################################
+
 # web_model_results('/Users/jon/Sites/shepard_results/figs/')
 # web_animations('/Users/jon/Sites/shepard_results/anis/')
 

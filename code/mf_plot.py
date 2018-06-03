@@ -67,28 +67,27 @@ def make_plot(sim_opt, inf_opt, file_path, n_levels=32, show_evaluations=False, 
 	if not file_path.endswith('.svg'):
 		tools.convert_svg(file_path, file_path)
 
+######################################################################
 
-if __name__ == '__main__':
+# with open('../data/modelfit/simplicity/result', mode='rb') as file:
+# 	sim_opt = pickle.load(file)
 
-	with open('../data/modelfit/simplicity/result', mode='rb') as file:
-		sim_opt = pickle.load(file)
+# (w_star, e_star), neg_log_p_sim = expected_minimum(sim_opt)
+# print('Simplicity:', len(sim_opt.func_vals), 'iterations)')
+# print('w* =', w_star)
+# print('e* =', e_star)
+# print('log(P) =', -neg_log_p_sim)
 
-	(w_star, e_star), neg_log_p_sim = expected_minimum(sim_opt)
-	print('Simplicity:', len(sim_opt.func_vals), 'iterations)')
-	print('w* =', w_star)
-	print('e* =', e_star)
-	print('log(P) =', -neg_log_p_sim)
+# with open('../data/modelfit/informativeness/result', mode='rb') as file:
+# 	inf_opt = pickle.load(file)
 
-	with open('../data/modelfit/informativeness/result', mode='rb') as file:
-		inf_opt = pickle.load(file)
+# (w_star, e_star), neg_log_p_inf = expected_minimum(inf_opt)
+# print('\nInformativeness:', len(inf_opt.func_vals), 'iterations)')
+# print('w* =', w_star)
+# print('e* =', e_star)
+# print('log(P) =', -neg_log_p_inf)
 
-	(w_star, e_star), neg_log_p_inf = expected_minimum(inf_opt)
-	print('\nInformativeness:', len(inf_opt.func_vals), 'iterations)')
-	print('w* =', w_star)
-	print('e* =', e_star)
-	print('log(P) =', -neg_log_p_inf)
+# print('\nLLR =', neg_log_p_inf - neg_log_p_sim)
 
-	print('\nLLR =', neg_log_p_inf - neg_log_p_sim)
-
-	# make_plot(sim_opt, inf_opt, file_path='../manuscript/figs/model_fit.eps')
-	# make_plot(sim_opt, inf_opt, file_path='../visuals/model_fit.pdf')
+# make_plot(sim_opt, inf_opt, file_path='../manuscript/figs/model_fit.eps')
+# make_plot(sim_opt, inf_opt, file_path='../visuals/model_fit.pdf')

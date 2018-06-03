@@ -60,10 +60,11 @@ def save_figure(figure, filename):
 	if not filename.endswith('.svg'):
 		tools.convert_svg(filename, filename)
 
+######################################################################
 
-universe = rectlang.Space((4,4), max_exhaustive_size=16)
-figure = build_figure(universe, figure_width=5.5, n_cols=10)
-save_figure(figure, '../manuscript/figs/symbols.eps')
+# universe = rectlang.Space((4,4), max_exhaustive_size=16)
+# figure = build_figure(universe, figure_width=5.5, n_cols=10)
+# save_figure(figure, '../manuscript/figs/symbols.eps')
 
-T_shape = np.array([[1,1,1,0],[0,1,0,0],[0,1,0,0],[0,1,0,0]], dtype=bool)
-print('Binary string for T-shaped region: ', universe.encode_concept(T_shape))
+# T_shape = np.array([[1,1,1,0],[0,1,0,0],[0,1,0,0],[0,1,0,0]], dtype=bool)
+# print('Binary string for T-shaped region: ', universe.encode_concept(T_shape))

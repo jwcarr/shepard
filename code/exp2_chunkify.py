@@ -120,26 +120,17 @@ def evaluate_partition(partition):
 				else:
 					regular_count[shape] = 1
 
+######################################################################
 
+# data = read_json_file('../data/experiments/exp2_chains.json')
+# for chain in range(0,12):
+# 	gens = data[chain]['generations']
+# 	for gen in range(len(gens)):
+# 		partition = np.array(gens[gen]['partition'], dtype=int).reshape((8, 8))
+# 		evaluate_partition(partition)
 
-data = read_json_file('../data/experiments/exp2_chains.json')
-for chain in range(0,12):
-	gens = data[chain]['generations']
-	for gen in range(len(gens)):
-		partition = np.array(gens[gen]['partition'], dtype=int).reshape((8, 8))
-		evaluate_partition(partition)
-
-# print(regular_count)
-# print(len(regular_count))
-# print(sum(regular_count.values()))
-# print(sum([w*h*count for (w, h), count in regular_count.items()]))
-
-
-# print(variant_hashes)
-
-
-print(sum(irregular_count[29].values()))
-print(sum(irregular_count[39].values()))
-print(sum(irregular_count[49].values()))
-print(sum(irregular_count[59].values()))
-print(sum(irregular_count[64].values()))
+# print(sum(irregular_count[29].values()))
+# print(sum(irregular_count[39].values()))
+# print(sum(irregular_count[49].values()))
+# print(sum(irregular_count[59].values()))
+# print(sum(irregular_count[64].values()))

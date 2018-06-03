@@ -46,4 +46,6 @@ def raw_model_results_to_json_files(input_file, output_file):
 	with open(output_file, 'w') as file:
 		file.write(json.dumps(results))
 
+######################################################################
+
 # raw_model_results_to_json_files('../data/experiments_raw/chains.json', '../data/experiments/exp2_chains.json')

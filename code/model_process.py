@@ -37,24 +37,25 @@ def process(input_dir, output_file, min_generations):
 	with open(output_file, 'w') as file:
 		file.write(json.dumps(results_dict))
 
+######################################################################
 
 # CONVERT BASIC MODEL RESULTS
 
-for noise in ['0.01', '0.05', '0.1']:
-	for bottleneck in ['1', '2', '3', '4']:
-		for exposures in ['1', '2', '3', '4']:
+# for noise in ['0.01', '0.05', '0.1']:
+# 	for bottleneck in ['1', '2', '3', '4']:
+# 		for exposures in ['1', '2', '3', '4']:
 
 			# input_dir = '../data/model_raw/s_1.0_%s_%s_%s/' % (noise, bottleneck, exposures)
 			# output_file = '../data/model_sim/1.0_%s_%s_%s.json' % (noise, bottleneck, exposures)
 			# process(input_dir, output_file, 50)
 
-			input_dir = '../data/model_raw/i_1.0_%s_%s_%s/' % (noise, bottleneck, exposures)
-			output_file = '../data/model_inf/1.0_%s_%s_%s.json' % (noise, bottleneck, exposures)
-			process(input_dir, output_file, 50)
+			# input_dir = '../data/model_raw/i_1.0_%s_%s_%s/' % (noise, bottleneck, exposures)
+			# output_file = '../data/model_inf/1.0_%s_%s_%s.json' % (noise, bottleneck, exposures)
+			# process(input_dir, output_file, 50)
 
-			input_dir = '../data/model_raw/i_500.0_%s_%s_%s/' % (noise, bottleneck, exposures)
-			output_file = '../data/model_inf/500.0_%s_%s_%s.json' % (noise, bottleneck, exposures)
-			process(input_dir, output_file, 50)
+			# input_dir = '../data/model_raw/i_500.0_%s_%s_%s/' % (noise, bottleneck, exposures)
+			# output_file = '../data/model_inf/500.0_%s_%s_%s.json' % (noise, bottleneck, exposures)
+			# process(input_dir, output_file, 50)
 
 # CONVERT MODEL FIT RESULTS
 

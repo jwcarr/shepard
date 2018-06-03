@@ -74,8 +74,10 @@ def visualize_participants_production(dataset, dir_path):
 			file_path = dir_path + '%s/%s.pdf' % (participant['condition'], participant['user_id'])
 			visualize.visualize(partition, file_path)
 
-prod_data = tools.read_json_lines('../data/experiments/exp1_production.json')
-comp_data = tools.read_json_lines('../data/experiments/exp1_comprehension.json')
+######################################################################
+
+# prod_data = tools.read_json_lines('../data/experiments/exp1_production.json')
+# comp_data = tools.read_json_lines('../data/experiments/exp1_comprehension.json')
 
 # prod_results = mean_prop_correct_production(prod_data)
 # comp_results = mean_prop_correct_comprehension(comp_data)
