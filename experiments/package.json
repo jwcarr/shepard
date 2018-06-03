@@ -1,0 +1,16 @@
+{
+  "name": "shepard-exp",
+  "version": "0.1.0",
+  "description": "Online experiment for exploring the tradeoff between category learnability and category informativeness.",
+  "author": "Jon W. Carr",
+  "license": "CC-BY-4.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jwcarr/shepard-exp"
+  },
+  "dependencies": {
+    "express": "^4.13.4",
+    "mongojs": "^2.4.0",
+    "socket.io": "^1.4.5"
+  }
+}

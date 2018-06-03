@@ -1,0 +1,391 @@
+<svg width='4000' height='4000' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:svg='http://www.w3.org/2000/svg' xmlns='http://www.w3.org/2000/svg' version='1.1'>
+
+<g id='chain-7'>
+
+	<g id="stimulus-0">
+		<polygon points="0,0 500,0 500,500 0,500" style="stroke: white; stroke-width:10; fill:#6B6B7F;" />
+		<circle cx="250" cy="250" r="25" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="250" y1="250" x2="229.033699" y2="263.616689" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-1">
+		<polygon points="0,500 500,500 500,1000 0,1000" style="stroke: white; stroke-width:10; fill:#6B6B7F;" />
+		<circle cx="250" cy="750" r="25" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="250" y1="750" x2="225.201952" y2="753.171249" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-2">
+		<polygon points="0,1000 500,1000 500,1500 0,1500" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="250" cy="1250" r="25" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="250" y1="1250" x2="226.281786" y2="1242.097702" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-3">
+		<polygon points="0,1500 500,1500 500,2000 0,2000" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="250" cy="1750" r="25" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="250" y1="1750" x2="232.059324" y2="1732.589310" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-4">
+		<polygon points="0,2000 500,2000 500,2500 0,2500" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="250" cy="2250" r="25" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="250" y1="2250" x2="241.390250" y2="2226.529333" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-5">
+		<polygon points="0,2500 500,2500 500,3000 0,3000" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="250" cy="2750" r="25" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="250" y1="2750" x2="252.426450" y2="2725.118032" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-6">
+		<polygon points="0,3000 500,3000 500,3500 0,3500" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="250" cy="3250" r="25" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="250" y1="3250" x2="262.979923" y2="3228.633634" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-7">
+		<polygon points="0,3500 500,3500 500,4000 0,4000" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="250" cy="3750" r="25" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="250" y1="3750" x2="270.966401" y2="3736.383465" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-8">
+		<polygon points="500,0 1000,0 1000,500 500,500" style="stroke: white; stroke-width:10; fill:#6B6B7F;" />
+		<circle cx="750" cy="250" r="50" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="750" y1="250" x2="708.067398" y2="277.233377" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-9">
+		<polygon points="500,500 1000,500 1000,1000 500,1000" style="stroke: white; stroke-width:10; fill:#6B6B7F;" />
+		<circle cx="750" cy="750" r="50" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="750" y1="750" x2="700.403904" y2="756.342499" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-10">
+		<polygon points="500,1000 1000,1000 1000,1500 500,1500" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="750" cy="1250" r="50" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="750" y1="1250" x2="702.563571" y2="1234.195405" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-11">
+		<polygon points="500,1500 1000,1500 1000,2000 500,2000" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="750" cy="1750" r="50" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="750" y1="1750" x2="714.118648" y2="1715.178619" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-12">
+		<polygon points="500,2000 1000,2000 1000,2500 500,2500" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="750" cy="2250" r="50" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="750" y1="2250" x2="732.780499" y2="2203.058667" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-13">
+		<polygon points="500,2500 1000,2500 1000,3000 500,3000" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="750" cy="2750" r="50" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="750" y1="2750" x2="754.852899" y2="2700.236064" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-14">
+		<polygon points="500,3000 1000,3000 1000,3500 500,3500" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="750" cy="3250" r="50" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="750" y1="3250" x2="775.959846" y2="3207.267268" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-15">
+		<polygon points="500,3500 1000,3500 1000,4000 500,4000" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="750" cy="3750" r="50" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="750" y1="3750" x2="791.932803" y2="3722.766931" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-16">
+		<polygon points="1000,0 1500,0 1500,500 1000,500" style="stroke: white; stroke-width:10; fill:#6B6B7F;" />
+		<circle cx="1250" cy="250" r="75" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="1250" y1="250" x2="1187.101096" y2="290.850066" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-17">
+		<polygon points="1000,500 1500,500 1500,1000 1000,1000" style="stroke: white; stroke-width:10; fill:#6B6B7F;" />
+		<circle cx="1250" cy="750" r="75" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="1250" y1="750" x2="1175.605856" y2="759.513748" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-18">
+		<polygon points="1000,1000 1500,1000 1500,1500 1000,1500" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="1250" cy="1250" r="75" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="1250" y1="1250" x2="1178.845357" y2="1226.293107" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-19">
+		<polygon points="1000,1500 1500,1500 1500,2000 1000,2000" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="1250" cy="1750" r="75" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="1250" y1="1750" x2="1196.177972" y2="1697.767929" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-20">
+		<polygon points="1000,2000 1500,2000 1500,2500 1000,2500" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="1250" cy="2250" r="75" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="1250" y1="2250" x2="1224.170749" y2="2179.588000" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-21">
+		<polygon points="1000,2500 1500,2500 1500,3000 1000,3000" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="1250" cy="2750" r="75" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="1250" y1="2750" x2="1257.279349" y2="2675.354095" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-22">
+		<polygon points="1000,3000 1500,3000 1500,3500 1000,3500" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="1250" cy="3250" r="75" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="1250" y1="3250" x2="1288.939768" y2="3185.900901" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-23">
+		<polygon points="1000,3500 1500,3500 1500,4000 1000,4000" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="1250" cy="3750" r="75" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="1250" y1="3750" x2="1312.899204" y2="3709.150396" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-24">
+		<polygon points="1500,0 2000,0 2000,500 1500,500" style="stroke: white; stroke-width:10; fill:#6B6B7F;" />
+		<circle cx="1750" cy="250" r="100" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="1750" y1="250" x2="1666.134795" y2="304.466755" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-25">
+		<polygon points="1500,500 2000,500 2000,1000 1500,1000" style="stroke: white; stroke-width:10; fill:#6B6B7F;" />
+		<circle cx="1750" cy="750" r="100" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="1750" y1="750" x2="1650.807809" y2="762.684998" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-26">
+		<polygon points="1500,1000 2000,1000 2000,1500 1500,1500" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="1750" cy="1250" r="100" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="1750" y1="1250" x2="1655.127143" y2="1218.390810" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-27">
+		<polygon points="1500,1500 2000,1500 2000,2000 1500,2000" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="1750" cy="1750" r="100" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="1750" y1="1750" x2="1678.237296" y2="1680.357238" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-28">
+		<polygon points="1500,2000 2000,2000 2000,2500 1500,2500" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="1750" cy="2250" r="100" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="1750" y1="2250" x2="1715.560998" y2="2156.117333" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-29">
+		<polygon points="1500,2500 2000,2500 2000,3000 1500,3000" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="1750" cy="2750" r="100" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="1750" y1="2750" x2="1759.705798" y2="2650.472127" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-30">
+		<polygon points="1500,3000 2000,3000 2000,3500 1500,3500" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="1750" cy="3250" r="100" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="1750" y1="3250" x2="1801.919691" y2="3164.534535" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-31">
+		<polygon points="1500,3500 2000,3500 2000,4000 1500,4000" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="1750" cy="3750" r="100" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="1750" y1="3750" x2="1833.865605" y2="3695.533861" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-32">
+		<polygon points="2000,0 2500,0 2500,500 2000,500" style="stroke: white; stroke-width:10; fill:#6B6B7F;" />
+		<circle cx="2250" cy="250" r="125" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="2250" y1="250" x2="2145.168494" y2="318.083444" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-33">
+		<polygon points="2000,500 2500,500 2500,1000 2000,1000" style="stroke: white; stroke-width:10; fill:#6B6B7F;" />
+		<circle cx="2250" cy="750" r="125" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="2250" y1="750" x2="2126.009761" y2="765.856247" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-34">
+		<polygon points="2000,1000 2500,1000 2500,1500 2000,1500" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="2250" cy="1250" r="125" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="2250" y1="1250" x2="2131.408928" y2="1210.488512" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-35">
+		<polygon points="2000,1500 2500,1500 2500,2000 2000,2000" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="2250" cy="1750" r="125" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="2250" y1="1750" x2="2160.296620" y2="1662.946548" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-36">
+		<polygon points="2000,2000 2500,2000 2500,2500 2000,2500" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="2250" cy="2250" r="125" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="2250" y1="2250" x2="2206.951248" y2="2132.646666" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-37">
+		<polygon points="2000,2500 2500,2500 2500,3000 2000,3000" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="2250" cy="2750" r="125" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="2250" y1="2750" x2="2262.132248" y2="2625.590159" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-38">
+		<polygon points="2000,3000 2500,3000 2500,3500 2000,3500" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="2250" cy="3250" r="125" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="2250" y1="3250" x2="2314.899614" y2="3143.168169" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-39">
+		<polygon points="2000,3500 2500,3500 2500,4000 2000,4000" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="2250" cy="3750" r="125" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="2250" y1="3750" x2="2354.832006" y2="3681.917326" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-40">
+		<polygon points="2500,0 3000,0 3000,500 2500,500" style="stroke: white; stroke-width:10; fill:#6B6B7F;" />
+		<circle cx="2750" cy="250" r="150" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="2750" y1="250" x2="2624.202193" y2="331.700132" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-41">
+		<polygon points="2500,500 3000,500 3000,1000 2500,1000" style="stroke: white; stroke-width:10; fill:#6B6B7F;" />
+		<circle cx="2750" cy="750" r="150" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="2750" y1="750" x2="2601.211713" y2="769.027497" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-42">
+		<polygon points="2500,1000 3000,1000 3000,1500 2500,1500" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="2750" cy="1250" r="150" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="2750" y1="1250" x2="2607.690714" y2="1202.586214" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-43">
+		<polygon points="2500,1500 3000,1500 3000,2000 2500,2000" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="2750" cy="1750" r="150" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="2750" y1="1750" x2="2642.355944" y2="1645.535857" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-44">
+		<polygon points="2500,2000 3000,2000 3000,2500 2500,2500" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="2750" cy="2250" r="150" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="2750" y1="2250" x2="2698.341497" y2="2109.176000" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-45">
+		<polygon points="2500,2500 3000,2500 3000,3000 2500,3000" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="2750" cy="2750" r="150" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="2750" y1="2750" x2="2764.558698" y2="2600.708191" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-46">
+		<polygon points="2500,3000 3000,3000 3000,3500 2500,3500" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="2750" cy="3250" r="150" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="2750" y1="3250" x2="2827.879537" y2="3121.801803" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-47">
+		<polygon points="2500,3500 3000,3500 3000,4000 2500,4000" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="2750" cy="3750" r="150" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="2750" y1="3750" x2="2875.798408" y2="3668.300792" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-48">
+		<polygon points="3000,0 3500,0 3500,500 3000,500" style="stroke: white; stroke-width:10; fill:#6B6B7F;" />
+		<circle cx="3250" cy="250" r="175" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="3250" y1="250" x2="3103.235891" y2="345.316821" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-49">
+		<polygon points="3000,500 3500,500 3500,1000 3000,1000" style="stroke: white; stroke-width:10; fill:#6B6B7F;" />
+		<circle cx="3250" cy="750" r="175" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="3250" y1="750" x2="3076.413665" y2="772.198746" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-50">
+		<polygon points="3000,1000 3500,1000 3500,1500 3000,1500" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="3250" cy="1250" r="175" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="3250" y1="1250" x2="3083.972499" y2="1194.683917" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-51">
+		<polygon points="3000,1500 3500,1500 3500,2000 3000,2000" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="3250" cy="1750" r="175" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="3250" y1="1750" x2="3124.415268" y2="1628.125167" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-52">
+		<polygon points="3000,2000 3500,2000 3500,2500 3000,2500" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="3250" cy="2250" r="175" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="3250" y1="2250" x2="3189.731747" y2="2085.705333" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-53">
+		<polygon points="3000,2500 3500,2500 3500,3000 3000,3000" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="3250" cy="2750" r="175" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="3250" y1="2750" x2="3266.985147" y2="2575.826222" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-54">
+		<polygon points="3000,3000 3500,3000 3500,3500 3000,3500" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="3250" cy="3250" r="175" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="3250" y1="3250" x2="3340.859460" y2="3100.435437" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-55">
+		<polygon points="3000,3500 3500,3500 3500,4000 3000,4000" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="3250" cy="3750" r="175" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="3250" y1="3750" x2="3396.764809" y2="3654.684257" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-56">
+		<polygon points="3500,0 4000,0 4000,500 3500,500" style="stroke: white; stroke-width:10; fill:#6B6B7F;" />
+		<circle cx="3750" cy="250" r="200" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="3750" y1="250" x2="3582.269590" y2="358.933510" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-57">
+		<polygon points="3500,500 4000,500 4000,1000 3500,1000" style="stroke: white; stroke-width:10; fill:#6B6B7F;" />
+		<circle cx="3750" cy="750" r="200" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="3750" y1="750" x2="3551.615617" y2="775.369996" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-58">
+		<polygon points="3500,1000 4000,1000 4000,1500 3500,1500" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="3750" cy="1250" r="200" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="3750" y1="1250" x2="3560.254285" y2="1186.781619" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-59">
+		<polygon points="3500,1500 4000,1500 4000,2000 3500,2000" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="3750" cy="1750" r="200" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="3750" y1="1750" x2="3606.474592" y2="1610.714476" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-60">
+		<polygon points="3500,2000 4000,2000 4000,2500 3500,2500" style="stroke: white; stroke-width:10; fill:#FCBE32;" />
+		<circle cx="3750" cy="2250" r="200" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="3750" y1="2250" x2="3681.121996" y2="2062.234666" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-61">
+		<polygon points="3500,2500 4000,2500 4000,3000 3500,3000" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="3750" cy="2750" r="200" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="3750" y1="2750" x2="3769.411597" y2="2550.944254" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-62">
+		<polygon points="3500,3000 4000,3000 4000,3500 3500,3500" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="3750" cy="3250" r="200" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="3750" y1="3250" x2="3853.839383" y2="3079.069071" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+	<g id="stimulus-63">
+		<polygon points="3500,3500 4000,3500 4000,4000 3500,4000" style="stroke: white; stroke-width:10; fill:#E85A71;" />
+		<circle cx="3750" cy="3750" r="200" style="stroke:black; stroke-width: 10; fill:none;" />
+		<line x1="3750" y1="3750" x2="3917.731210" y2="3641.067722" style="stroke: black; stroke-width: 10;" />
+	</g>
+
+</g>
+
+</svg>

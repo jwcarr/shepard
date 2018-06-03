@@ -1,0 +1,286 @@
+<!DOCTYPE HTML>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <link rel='stylesheet' type='text/css' href='assets/stylesheet.css?force' />
+    <title>Language learning task</title>
+  </head>
+<body>
+
+  <div id='entry' style='display: none;'>
+    <p>Please enter your CrowdFlower Worker ID. Payment will be made to this ID only.</p>
+    <p>&nbsp;</p>
+    <input type='text' id='user_id' autocomplete='off' maxlength='8' value='' />
+    <p>&nbsp;</p>
+    <div id='validation_message'></div>
+    <p>&nbsp;</p>
+    <button id='submit_id'>NEXT</button>
+  </div>
+
+  <div id='unavailable' style='display: none;'>
+    <p>Sorry, this task is no longer available</p>
+  </div>
+
+  <div id='busy' style='display: none;'>
+    <p>Sorry, this task is currently busy. Please try again later.</p>
+  </div>
+
+  <div id='consent' class='instructions' style='display: none;'>
+    <h1>Informed consent</h1>
+    <p>You are about to participate in a study which involves learning a simple language consisting of words for different shapes. Your session should last around 20 minutes. You will be given full instructions shortly. You will be paid $3 for your participation in this study, plus an additional bonus of 2&cent; for every correct answer, so it is possible to earn up to $4.92. <a href='assets/consent.pdf' target='_blank'>You can download the full consent sheet here</a>.</p>
+    <p>By accepting this task, you consent to the following:</p>
+    <ol>
+      <li>I understand that <strong>my name and personal details</strong> will not be made public under any circumstances.</li>
+      <li>I agree that the anonymized data I produce may be <strong>kept permanently</strong> in Edinburgh University archives and <strong>made freely available online</strong>.</li>
+      <li>I agree that the anonymized data I produce <strong>may be used by the above-named researchers, as well as by other qualified researchers, for teaching or research purposes, and in professional presentations and publications</strong>.</li>
+      <li>I understand that I have the <strong>right to terminate this session</strong> at any point. If I choose to <strong>withdraw after completing the study</strong>, my data will be deleted at that time.</li>
+    </ol>
+    <div class='consent_checkbox'><input type='checkbox' id='confirm_age' /> <label for='confirm_age'>I confirm that I am over 18 years old</label></div>
+    <div class='consent_checkbox'><input type='checkbox' id='confirm_consent' /> <label for='confirm_consent'>I consent to taking part in this study</label></div>
+    <p><button id='submit_consent'>NEXT</button></p>
+  </div>
+
+  <div id='training_instructions' class='instructions' style='display: none;'>
+    <h1>Stage 1: Training</h1>
+    <h2>15 minutes</h2>
+    <p>You are going to learn a simple language. <strong>We will train you on 4 words</strong> in the language and <strong>we will test how well you are learning the words</strong>. Try to learn the language as well as you can and <strong>aim to be accurate in your answers</strong>. You will receive a <strong>2&cent; bonus payment</strong> for every correct test answer. If you decide to stop the task, please click the <span class='exit'>EXIT</span> button so that someone else can take part.</p>
+    <img src='assets/demo_prod.jpg' width='800' height='370' id='prod_training_image' style='display: none;' />
+    <img src='assets/demo_comp.jpg' width='800' height='370' id='comp_training_image' style='display: none;' />
+    <img src='assets/demo_comm.jpg' width='800' height='370' id='comm_training_image' style='display: none;' />
+    <p><button id='start_training'>START</button></p>
+  </div>
+
+  <div id='production_instructions' class='instructions' style='display: none;'>
+    <h1>Stage 2: Test</h1>
+    <h2>5 minutes</h2>
+    <p>You have now completed the training stage! Next <strong>we will test you on the language</strong> that you just learned. For each picture, try to click on the correct word. You will get a <strong>2&cent; bonus payment</strong> for every correct answer. It is therefore possible to earn <strong>up to $1.28</strong> in this stage of the task. However, this time <strong>we will <u>not</u> tell you if you are correct or incorrect</strong>. You will find out at the end how many you got correct.</p>
+    <p>&nbsp;</p>
+    <p><button id='start_production'>START</button></p>
+  </div>
+
+  <div id='comprehension_instructions' class='instructions' style='display: none;'>
+    <h1>Stage 2: Test</h1>
+    <h2>5 minutes</h2>
+    <p>You have now completed the training stage! Next <strong>we will test you on the language</strong> that you just learned. <strong>We will show you a word and a selection of possible pictures</strong>. <strong>Click on a picture that matches the word</strong>. You will get a <strong>2&cent; bonus payment</strong> for every correct answer. It is therefore possible to earn <strong>up to $1.28</strong> in this stage of the task. However, this time <strong>we will <u>not</u> tell you if you are correct or incorrect</strong>. You will find out at the end how many you got correct.</p>
+    <p>&nbsp;</p>
+    <p><button id='start_comprehension'>START</button></p>
+  </div>
+
+  <div id='communication_instructions' class='instructions' style='display: none;'>
+    <h1>Stage 2: Communication</h1>
+    <h2>5 minutes</h2>
+    <p>You have now completed the training stage! Next <strong>you will use the language to talk to another person</strong>. Your payment will be based on how accurately you communicate with the other person. You will get a <strong>2&cent; bonus payment</strong> for every correct answer. It is therefore possible to earn <strong>up to $1.28</strong> in this stage of the task.</p>
+    <p>When you click Start, we will try to connect you to another person who has just learned the same language as you. It may take a few minutes for another person to be ready. We will pay you extra based on how long you have to wait.</p>
+    <p>&nbsp;</p>
+    <p><button id='start_communication'>START</button></p>
+    <div id='communication_spinner' style='display: none; text-align: center;'>
+      <img src='assets/spinner.gif' id='communication_spinner' style='width:34px; height:34px;' />
+      <p>Please wait while we connect you to another person...</p>
+      <p>Estimated waiting time: <span id='wait_time'>...</span></p>
+    </div>
+  </div>
+
+  <div id='end' class='instructions' style='display: none;'>
+    <h1>Thank you</h1>
+    <p>Congratulations! You have now completed the task! Please copy and paste your completion code into the CrowdFlower website to receive payment. You will receive 1&cent; immediately. The remaining amount will be paid within 4 hours once your responses have been verified.</p>
+    <p>&nbsp;</p>
+    <p id='completion_code' style='text-align: center;'>Completion Code:</p>
+    <p>&nbsp;</p>
+    <table>
+    <tr>
+      <td class='pay_type'>basic pay</td><td></td>
+      <td class='pay_type'>training bonus</td><td></td>
+      <td class='pay_type'>test bonus</td><td></td>
+      <td class='pay_type'>total</td>
+    </tr>
+    <tr>
+      <td class='currency' id='basic_pay'></td>
+      <td class='plus'>+</td>
+      <td class='currency' id='training_bonus'></td>
+      <td class='plus'>+</td>
+      <td class='currency' id='test_bonus'></td>
+      <td class='plus'>=</td>
+      <td class='currency' id='total_pay'></td>
+    </tr>
+    <tr>
+      <td></td><td></td>
+      <td class='bonus_proportion' id='training_bonus_proportion'></td>
+      <td></td>
+      <td class='bonus_proportion' id='test_bonus_proportion'></td>
+      <td></td><td></td>
+    </tr>
+    </table>
+    <p>&nbsp;</p><hr /><p>&nbsp;</p>
+    <div id='comment_area' style='text-align: center;'>
+      <p>If you would like to make any comments, please enter them into the box below and click send.</p>
+      <p>&nbsp;</p>
+      <textarea id='comments' class='comments'></textarea>
+      <p>&nbsp;</p>
+      <button id='send_comments'>SEND</button>
+    </div>
+  </div>
+
+  <div id='partner_disconnect' class='instructions' style='display: none;'>
+    <h1>Your partner exited the task</h1>
+    <p>Unfortunately your partner has exited the task, so we won't be able to continue any further. However, we will still pay you what you earned so far. Please copy and paste your completion code into the CrowdFlower website to receive payment. You will receive 1&cent; immediately. The remaining amount will be paid within 4 hours once your responses have been verified.</p>
+    <p>&nbsp;</p>
+    <p id='partner_disconnect_completion_code' style='text-align: center;'>Completion Code:</p>
+    <p>&nbsp;</p>
+    <table>
+    <tr>
+      <td class='pay_type'>basic pay</td><td></td>
+      <td class='pay_type'>training bonus</td><td></td>
+      <td class='pay_type'>test bonus</td><td></td>
+      <td class='pay_type'>total</td>
+    </tr>
+    <tr>
+      <td class='currency' id='partner_disconnect_basic_pay'></td>
+      <td class='plus'>+</td>
+      <td class='currency' id='partner_disconnect_training_bonus'></td>
+      <td class='plus'>+</td>
+      <td class='currency' id='partner_disconnect_test_bonus'></td>
+      <td class='plus'>=</td>
+      <td class='currency' id='partner_disconnect_total_pay'></td>
+    </tr>
+    <tr>
+      <td></td><td></td>
+      <td class='bonus_proportion' id='partner_disconnect_training_bonus_proportion'></td>
+      <td></td>
+      <td class='bonus_proportion' id='partner_disconnect_test_bonus_proportion'></td>
+      <td></td><td></td>
+    </tr>
+    </table>
+    <p>&nbsp;</p><hr /><p>&nbsp;</p>
+    <div id='partner_disconnect_comment_area' style='text-align: center;'>
+      <p>If you would like to make any comments, please enter them into the box below and click send.</p>
+      <p>&nbsp;</p>
+      <textarea id='partner_disconnect_comments' class='comments'></textarea>
+      <p>&nbsp;</p>
+      <button id='partner_disconnect_send_comments'>SEND</button>
+    </div>
+  </div>
+
+  <div id='early_exit' class='instructions' style='display: none;'>
+    <h1>Thank you</h1>
+    <p>Please copy and paste your completion code into the CrowdFlower website to receive payment. You will only receive 1&cent; because you did not complete the task.</p>
+    <p>&nbsp;</p>
+    <p id='early_completion_code' style='text-align: center;'>Completion Code:</p>
+    <p>&nbsp;</p><hr /><p>&nbsp;</p>
+    <div id='early_comment_area' style='text-align: center;'>
+      <p>If you would like to make any comments, please enter them into the box below and click send.</p>
+      <p>&nbsp;</p>
+      <textarea id='early_comments' class='comments'></textarea>
+      <p>&nbsp;</p>
+      <button id='early_send_comments'>SEND</button>
+    </div>
+  </div>
+
+  <div id='timeout' class='instructions' style='display: none;'>
+    <h1>Timeout</h1>
+    <p>We have terminated your session because you were inactive for more than 5 minutes.</p>
+  </div>
+
+  <div id='experiment' style='display: none;'>
+    <div id='progress_bar'><div id='progress'></div></div>
+    <div id='money'>0&cent;</div>
+    <div class='exit' id='terminate'>EXIT</div>
+    <canvas id='canvas_middle' width='480' height='480'></canvas>
+    <canvas id='canvas_left' width='480' height='480' style='display: none;'></canvas>
+    <canvas id='canvas_right' width='480' height='480' style='display: none;'></canvas>
+    <div id='stim_picker' style='display: none;'>
+      <canvas id='stim_button_0' class='stim_button' width='55' height='55' style='top:0px; left: 0px;'></canvas>
+      <canvas id='stim_button_1' class='stim_button' width='55' height='55' style='top:0px; left: 61px;'></canvas>
+      <canvas id='stim_button_2' class='stim_button' width='55' height='55' style='top:0px; left: 122px;'></canvas>
+      <canvas id='stim_button_3' class='stim_button' width='55' height='55' style='top:0px; left: 183px;'></canvas>
+      <canvas id='stim_button_4' class='stim_button' width='55' height='55' style='top:0px; left: 244px;'></canvas>
+      <canvas id='stim_button_5' class='stim_button' width='55' height='55' style='top:0px; left: 305px;'></canvas>
+      <canvas id='stim_button_6' class='stim_button' width='55' height='55' style='top:0px; left: 366px;'></canvas>
+      <canvas id='stim_button_7' class='stim_button' width='55' height='55' style='top:0px; left: 427px;'></canvas>
+      <canvas id='stim_button_8' class='stim_button' width='55' height='55' style='top:61px; left: 0px;'></canvas>
+      <canvas id='stim_button_9' class='stim_button' width='55' height='55' style='top:61px; left: 61px;'></canvas>
+      <canvas id='stim_button_10' class='stim_button' width='55' height='55' style='top:61px; left: 122px;'></canvas>
+      <canvas id='stim_button_11' class='stim_button' width='55' height='55' style='top:61px; left: 183px;'></canvas>
+      <canvas id='stim_button_12' class='stim_button' width='55' height='55' style='top:61px; left: 244px;'></canvas>
+      <canvas id='stim_button_13' class='stim_button' width='55' height='55' style='top:61px; left: 305px;'></canvas>
+      <canvas id='stim_button_14' class='stim_button' width='55' height='55' style='top:61px; left: 366px;'></canvas>
+      <canvas id='stim_button_15' class='stim_button' width='55' height='55' style='top:61px; left: 427px;'></canvas>
+      <canvas id='stim_button_16' class='stim_button' width='55' height='55' style='top:122px; left: 0px;'></canvas>
+      <canvas id='stim_button_17' class='stim_button' width='55' height='55' style='top:122px; left: 61px;'></canvas>
+      <canvas id='stim_button_18' class='stim_button' width='55' height='55' style='top:122px; left: 122px;'></canvas>
+      <canvas id='stim_button_19' class='stim_button' width='55' height='55' style='top:122px; left: 183px;'></canvas>
+      <canvas id='stim_button_20' class='stim_button' width='55' height='55' style='top:122px; left: 244px;'></canvas>
+      <canvas id='stim_button_21' class='stim_button' width='55' height='55' style='top:122px; left: 305px;'></canvas>
+      <canvas id='stim_button_22' class='stim_button' width='55' height='55' style='top:122px; left: 366px;'></canvas>
+      <canvas id='stim_button_23' class='stim_button' width='55' height='55' style='top:122px; left: 427px;'></canvas>
+      <canvas id='stim_button_24' class='stim_button' width='55' height='55' style='top:183px; left: 0px;'></canvas>
+      <canvas id='stim_button_25' class='stim_button' width='55' height='55' style='top:183px; left: 61px;'></canvas>
+      <canvas id='stim_button_26' class='stim_button' width='55' height='55' style='top:183px; left: 122px;'></canvas>
+      <canvas id='stim_button_27' class='stim_button' width='55' height='55' style='top:183px; left: 183px;'></canvas>
+      <canvas id='stim_button_28' class='stim_button' width='55' height='55' style='top:183px; left: 244px;'></canvas>
+      <canvas id='stim_button_29' class='stim_button' width='55' height='55' style='top:183px; left: 305px;'></canvas>
+      <canvas id='stim_button_30' class='stim_button' width='55' height='55' style='top:183px; left: 366px;'></canvas>
+      <canvas id='stim_button_31' class='stim_button' width='55' height='55' style='top:183px; left: 427px;'></canvas>
+      <canvas id='stim_button_32' class='stim_button' width='55' height='55' style='top:244px; left: 0px;'></canvas>
+      <canvas id='stim_button_33' class='stim_button' width='55' height='55' style='top:244px; left: 61px;'></canvas>
+      <canvas id='stim_button_34' class='stim_button' width='55' height='55' style='top:244px; left: 122px;'></canvas>
+      <canvas id='stim_button_35' class='stim_button' width='55' height='55' style='top:244px; left: 183px;'></canvas>
+      <canvas id='stim_button_36' class='stim_button' width='55' height='55' style='top:244px; left: 244px;'></canvas>
+      <canvas id='stim_button_37' class='stim_button' width='55' height='55' style='top:244px; left: 305px;'></canvas>
+      <canvas id='stim_button_38' class='stim_button' width='55' height='55' style='top:244px; left: 366px;'></canvas>
+      <canvas id='stim_button_39' class='stim_button' width='55' height='55' style='top:244px; left: 427px;'></canvas>
+      <canvas id='stim_button_40' class='stim_button' width='55' height='55' style='top:305px; left: 0px;'></canvas>
+      <canvas id='stim_button_41' class='stim_button' width='55' height='55' style='top:305px; left: 61px;'></canvas>
+      <canvas id='stim_button_42' class='stim_button' width='55' height='55' style='top:305px; left: 122px;'></canvas>
+      <canvas id='stim_button_43' class='stim_button' width='55' height='55' style='top:305px; left: 183px;'></canvas>
+      <canvas id='stim_button_44' class='stim_button' width='55' height='55' style='top:305px; left: 244px;'></canvas>
+      <canvas id='stim_button_45' class='stim_button' width='55' height='55' style='top:305px; left: 305px;'></canvas>
+      <canvas id='stim_button_46' class='stim_button' width='55' height='55' style='top:305px; left: 366px;'></canvas>
+      <canvas id='stim_button_47' class='stim_button' width='55' height='55' style='top:305px; left: 427px;'></canvas>
+      <canvas id='stim_button_48' class='stim_button' width='55' height='55' style='top:366px; left: 0px;'></canvas>
+      <canvas id='stim_button_49' class='stim_button' width='55' height='55' style='top:366px; left: 61px;'></canvas>
+      <canvas id='stim_button_50' class='stim_button' width='55' height='55' style='top:366px; left: 122px;'></canvas>
+      <canvas id='stim_button_51' class='stim_button' width='55' height='55' style='top:366px; left: 183px;'></canvas>
+      <canvas id='stim_button_52' class='stim_button' width='55' height='55' style='top:366px; left: 244px;'></canvas>
+      <canvas id='stim_button_53' class='stim_button' width='55' height='55' style='top:366px; left: 305px;'></canvas>
+      <canvas id='stim_button_54' class='stim_button' width='55' height='55' style='top:366px; left: 366px;'></canvas>
+      <canvas id='stim_button_55' class='stim_button' width='55' height='55' style='top:366px; left: 427px;'></canvas>
+      <canvas id='stim_button_56' class='stim_button' width='55' height='55' style='top:427px; left: 0px;'></canvas>
+      <canvas id='stim_button_57' class='stim_button' width='55' height='55' style='top:427px; left: 61px;'></canvas>
+      <canvas id='stim_button_58' class='stim_button' width='55' height='55' style='top:427px; left: 122px;'></canvas>
+      <canvas id='stim_button_59' class='stim_button' width='55' height='55' style='top:427px; left: 183px;'></canvas>
+      <canvas id='stim_button_60' class='stim_button' width='55' height='55' style='top:427px; left: 244px;'></canvas>
+      <canvas id='stim_button_61' class='stim_button' width='55' height='55' style='top:427px; left: 305px;'></canvas>
+      <canvas id='stim_button_62' class='stim_button' width='55' height='55' style='top:427px; left: 366px;'></canvas>
+      <canvas id='stim_button_63' class='stim_button' width='55' height='55' style='top:427px; left: 427px;'></canvas>
+    </div>
+    <div id='panel'>
+      <div id='spinner'>
+        <img src='assets/spinner.gif' style='width:34px; height:34px;' alt='please wait...' />
+      </div>
+      <div id='message' style='display: none;'></div>
+      <div id='signal' class='bubble' style='display: none;'></div>
+      <div id='word_array' style='display: none;'>
+        <button id='word_button_0' class='word_button'></button>
+        <button id='word_button_1' class='word_button'></button>
+        <button id='word_button_2' class='word_button'></button>
+        <button id='word_button_3' class='word_button'></button>
+      </div>
+    </div>
+  </div>
+
+  <div id='screen_blank' style='display: none;'>
+    <div id='alert' class='alert' style='display: none;'>
+      <p id='alert_message' class='alert_message'></p>
+      <div class='alert_response_buttons'>
+        <button id='alert_continue_button'>CONTINUE</button>
+        <button id='alert_exit_button' style='background-color: #FF2F00;'>EXIT</button>
+      </div>
+    </div>
+  </div>
+  
+  <script type='text/javascript' src='assets/jquery-2.2.3.min.js'></script>
+  <script type='text/javascript' src='assets/socket.io-1.3.7.js'></script>
+  <script type='text/javascript' src='client.js'></script>
+
+</body>
+</html>
