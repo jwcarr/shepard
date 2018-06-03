@@ -3,10 +3,9 @@ Builds a figure depicting all rectlang symbols for a given size
 universe.
 '''
 
-from os import path, remove
-from subprocess import call, STDOUT, DEVNULL
 import numpy as np
 import rectlang
+import tools
 
 cell_size = 10
 symbol_padding = 12
@@ -25,7 +24,7 @@ def draw_symbol(rect, pixel_position, symbol_size, codeword):
 	svg += "	</g>\n\n"
 	return svg
 
-def build_figure(universe, figure_width=5, n_cols=10, n_pages=13):
+def build_figure(universe, figure_width=5, n_cols=10, n_pages=1):
 	n_symbols = len(universe.symbol_to_string)
 	n_rows = n_symbols // n_cols + (n_symbols % n_cols > 0)
 	n_rows = n_rows // n_pages
@@ -51,38 +50,20 @@ def build_figure(universe, figure_width=5, n_cols=10, n_pages=13):
 			codeword_i += 1
 		svg += "</svg>"
 		pages.append(svg)
+	if len(pages) == 1:
+		return pages[0]
 	return pages
 
-def save_figure(figure, filename, show=False):
-	filename, extension = path.splitext(filename)
-	if extension not in ['.svg', '.pdf', '.eps', '.png']:
-		raise ValueError('Invalid format. Use either .svg, .pdf, .eps, or .png')
-	with open(filename + '.svg', mode='w', encoding='utf-8') as file:
+def save_figure(figure, filename):
+	with open(filename, mode='w', encoding='utf-8') as file:
 		file.write(figure)
-	if extension == '.pdf':
-		call(['/usr/local/bin/inkscape', filename + '.svg', '-A', filename + '.pdf', '--export-text-to-path'], stdout=DEVNULL, stderr=STDOUT)
-	elif extension == '.eps':
-		call(['/usr/local/bin/inkscape', filename + '.svg', '-E', filename + '.eps', '--export-text-to-path'], stdout=DEVNULL, stderr=STDOUT)
-	elif extension == '.png':
-		call(['/usr/local/bin/inkscape', filename + '.svg', '-e', filename + '.png', '--export-width=500'], stdout=DEVNULL, stderr=STDOUT)
-	if extension != '.svg':
-		remove(filename + '.svg')
-	print('File saved to: ' + filename + extension)
-	if show:
-		call(['open', filename + extension])
+	if not filename.endswith('.svg'):
+		tools.convert_svg(filename, filename)
 
-
-universe = rectlang.Space((2,2), max_exhaustive_size=4)
-figure = build_figure(universe, figure_width=5.5, n_cols=3, n_pages=1)
-save_figure(figure[0], '../visuals/rectlang/2x2.pdf', True)
-
-universe = rectlang.Space((3,3), max_exhaustive_size=9)
-figure = build_figure(universe, figure_width=5.5, n_cols=6, n_pages=1)
-save_figure(figure[0], '../visuals/rectlang/3x3.pdf', True)
 
 universe = rectlang.Space((4,4), max_exhaustive_size=16)
-figure = build_figure(universe, figure_width=5.5, n_cols=10, n_pages=1)
-save_figure(figure[0], '../visuals/rectlang/4x4.pdf', True)
+figure = build_figure(universe, figure_width=5.5, n_cols=10)
+save_figure(figure, '../manuscript/figs/symbols.eps')
 
-tshape = np.array([[1,1,1,0],[0,1,0,0],[0,1,0,0],[0,1,0,0]], dtype=bool)
-print('Binary string for T-shaped region: ', universe.encode_concept(tshape))
+T_shape = np.array([[1,1,1,0],[0,1,0,0],[0,1,0,0],[0,1,0,0]], dtype=bool)
+print('Binary string for T-shaped region: ', universe.encode_concept(T_shape))

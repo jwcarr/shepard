@@ -1,7 +1,7 @@
 from os import path, remove
-from subprocess import call, STDOUT, DEVNULL
 import numpy as np
 import json
+import tools
 
 radiuses = [25, 50, 75, 100, 125, 150, 175, 200]
 angles = [2.5656, 3.0144, 3.4632, 3.912, 4.3608, 4.8096, 5.2583, 5.7072]
@@ -10,10 +10,6 @@ category_colors = ['#E85A71', '#6B6B7F', '#4EA1D3', '#FCBE32']
 letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 scale_factor = 16
 figure_width = 5.5 #inches
-
-def read_json_file(file_path):
-	with open(file_path) as file:
-		return json.loads(file.read())
 
 def draw_partition(partition, offset_x, offset_y, chain, generation, show_stimuli=True):
 	partition_id = letters[chain] + str(generation)
@@ -147,23 +143,13 @@ def make_figure(data, filename, start_gen=0, end_gen=100, n_columns=10, show_sti
 	'''
 	if path.isfile(filename) and not overwrite:
 		raise ValueError('Could not write to path: ' + str(filename) + '. Set overwrite=True to override')
-	filename, extension = path.splitext(filename)
-	if extension not in ['.svg', '.pdf', '.eps', '.png']:
-		raise ValueError('Invalid format. Use either .svg, .pdf, .eps, or .png')
 
 	for chain in data['chains']:
 		chain['generations'] = [generation for gen_i, generation in enumerate(chain['generations']) if gen_i >= start_gen and gen_i <= end_gen]
 
 	svg = draw_all_chains(data['chains'], n_columns, show_stimuli, method, verbose)
 
-	with open(filename + '.svg', mode='w', encoding='utf-8') as file:
+	with open(filename, mode='w', encoding='utf-8') as file:
 		file.write(svg)
-	if extension == '.pdf':
-		call(['/usr/local/bin/inkscape', filename + '.svg', '-A', filename + '.pdf', '--export-text-to-path'], stdout=DEVNULL, stderr=STDOUT)
-	elif extension == '.eps':
-		call(['/usr/local/bin/inkscape', filename + '.svg', '-E', filename + '.eps', '--export-text-to-path'], stdout=DEVNULL, stderr=STDOUT)
-	elif extension == '.png':
-		call(['/usr/local/bin/inkscape', filename + '.svg', '-e', filename + '.png', '--export-width=1000'], stdout=DEVNULL, stderr=STDOUT)
-	if extension != '.svg':
-		remove(filename + '.svg')
-	print('File saved to: ' + filename + extension)
+	if not filename.endswith('.svg'):
+		tools.convert_svg(filename, filename)

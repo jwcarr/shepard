@@ -7,8 +7,8 @@ visualize(language, 'some_file.pdf', show_stimuli=True)
 '''
 
 from os import path, remove
-from subprocess import call, STDOUT, DEVNULL
 import numpy as np
+import tools
 
 radiuses = [25, 50, 75, 100, 125, 150, 175, 200]
 angles = [2.5656, 3.0144, 3.4632, 3.912, 4.3608, 4.8096, 5.2583, 5.7072]
@@ -123,26 +123,16 @@ def visualize(data, filename, overwrite=False, show_stimuli=True, show_labels=Fa
 		raise ValueError('Input data should be numpy array')
 	if path.isfile(filename) and not overwrite:
 		raise ValueError('Could not write to path: ' + str(filename) + '. Set overwrite=True to override')
-	filename, extension = path.splitext(filename)
-	if extension not in ['.svg', '.pdf', '.eps', '.png']:
-		raise ValueError('Invalid format. Use either .svg, .pdf, .eps, or .png')
 	if len(data.shape) == 2 and (data.dtype == int or data.dtype == bool):
 		svg = create_production_svg(data, show_stimuli, show_labels, rectangles, uncomp_recs)
 	elif len(data.shape) == 3 and data.dtype == float:
 		svg = create_comprehension_svg(data)
 	else:
 		raise ValueError('Invalid input data. Should be 8x8 ints (production) or 8x8x4 floats (comprehension)')
-	with open(filename + '.svg', mode='w', encoding='utf-8') as file:
+	with open(filename, mode='w', encoding='utf-8') as file:
 		file.write(svg)
-	if extension == '.pdf':
-		call(['/usr/local/bin/inkscape', filename + '.svg', '-A', filename + '.pdf', '--export-text-to-path'], stdout=DEVNULL, stderr=STDOUT)
-	elif extension == '.eps':
-		call(['/usr/local/bin/inkscape', filename + '.svg', '-E', filename + '.eps', '--export-text-to-path'], stdout=DEVNULL, stderr=STDOUT)
-	elif extension == '.png':
-		call(['/usr/local/bin/inkscape', filename + '.svg', '-e', filename + '.png', '--export-width=500'], stdout=DEVNULL, stderr=STDOUT)
-	if extension != '.svg':
-		remove(filename + '.svg')
-	print('File saved to: ' + filename + extension)
+	if not filename.endswith('.svg'):
+		tools.convert_svg(filename, filename)
 
 # -------------------------------------------------------------------
 
