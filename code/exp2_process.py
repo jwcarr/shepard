@@ -8,23 +8,17 @@ import numpy as np
 import rectlang
 import commcost
 import varofinf
+import tools
 
 shape = (8,8)
 
 rectlang_space = rectlang.Space(shape, solutions_file='../data/8x8_solutions.json')
 commcost_space = commcost.Space(shape)
 
-def read_json(json_file):
-	with open(json_file, encoding='utf-8') as file:
-		for line in file:
-			line = line.strip()
-			if line == '':
-				continue
-			yield json.loads(line)
-
 def raw_model_results_to_json_files(input_file, output_file):
 	results = {'bottleneck':2, 'exposures':4, 'chains':[]}
-	for chain in read_json(input_file):
+	data = tools.read_json_lines(input_file)
+	for chain in data:
 		chain_data = {'chain_id':chain['chain_id'], 'first_fixation':chain['first_fixation'], 'generations':[]}
 		for gen_i, generation in enumerate(chain['generations']):
 			generation_data = {'generation_number':gen_i, 'productions':generation['partition'], 'data_out':[]}

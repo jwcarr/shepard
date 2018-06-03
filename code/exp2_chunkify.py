@@ -6,16 +6,11 @@ cluster.
 
 import numpy as np
 from scipy import ndimage
-import json
 from os import path
+import tools
 
 variant_hashes = {}
 canonical_hashes = []
-
-def read_json_file(file_path):
-	with open(file_path, mode='r', encoding='utf-8') as file:
-		data = [json.loads(line) for line in file if len(line) > 1]
-	return data
 
 def create_rectlang_file(chunk_array, chunk_hash, chunk_size):
 	filename = '../data/rectlang/input/' + str(chunk_size) + '_' + chunk_hash + '_in'
@@ -122,7 +117,7 @@ def evaluate_partition(partition):
 
 ######################################################################
 
-# data = read_json_file('../data/experiments/exp2_chains.json')
+# data = tools.read_json_file('../data/experiments/exp2_chains.json')
 # for chain in range(0,12):
 # 	gens = data[chain]['generations']
 # 	for gen in range(len(gens)):

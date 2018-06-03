@@ -1,6 +1,5 @@
 from os import path, remove
 import numpy as np
-import json
 import tools
 
 radiuses = [25, 50, 75, 100, 125, 150, 175, 200]
