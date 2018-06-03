@@ -49,10 +49,10 @@ def make_plot(sim_opt, inf_opt, file_path, n_levels=32, show_evaluations=False, 
 			axis.scatter(*opt.x, c='k', s=100, lw=0, marker='*')
 		axis.set_xlim(*opt.space.bounds[0])
 		axis.set_ylim(0,1)
-		axis.set_xlabel('Weight (<i>w</i>)')
+		axis.set_xlabel('Weight (w)')
 	sim_axis.set_title('Simplicity prior (πsim)', fontsize=10)
 	inf_axis.set_title('Informativeness prior (πinf)', fontsize=10)
-	sim_axis.set_ylabel('Noise (<i>ε</i>)')
+	sim_axis.set_ylabel('Noise (ε)')
 	inf_axis.set_yticklabels([])
 
 	cb = plt.colorbar(cs, cax=leg_axis)

@@ -29,8 +29,6 @@ def format_svg_labels(svg_file_path):
 	with open(svg_file_path, mode='r', encoding='utf-8') as file:
 		svg = file.read()
 	svg = re.sub(r'font-family:.*?;', 'font-family:Helvetica Neue;', svg)
-	svg = svg.replace('&lt;i&gt;', '<tspan style="font-style: italic;">')
-	svg = svg.replace('&lt;/i&gt;', '</tspan>')
 	svg = svg.replace('πsim', '<tspan style="font-style: italic;">π</tspan><tspan baseline-shift="sub" style="font-size: 6pt">sim</tspan>')
 	svg = svg.replace('πinf', '<tspan style="font-style: italic;">π</tspan><tspan baseline-shift="sub" style="font-size: 6pt">inf</tspan>')
 	svg = svg.replace('<g id="legend_1">', '<g id="legend_1" transform="translate(10)">')
@@ -38,6 +36,7 @@ def format_svg_labels(svg_file_path):
 	svg = svg.replace('ξ', '<tspan style="font-style: italic;">ξ</tspan>')
 	svg = svg.replace('b =', '<tspan style="font-style: italic;">b</tspan> =')
 	svg = svg.replace('w =', '<tspan style="font-style: italic;">w</tspan> =')
+	svg = svg.replace('(w)', '(<tspan style="font-style: italic;">w</tspan>)')
 	with open(svg_file_path, mode='w', encoding='utf-8') as file:
 		file.write(svg)
 
