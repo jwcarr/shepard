@@ -10,9 +10,9 @@ letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 scale_factor = 16
 figure_width = 5.5 #inches
 
-def draw_partition(partition, offset_x, offset_y, chain, generation, show_stimuli=True):
-	partition_id = letters[chain] + str(generation)
-	svg = '		<g id="partition-%s">\n' % partition_id
+def draw_language(language, offset_x, offset_y, chain, generation, show_stimuli=True):
+	language_id = letters[chain] + str(generation)
+	svg = '		<g id="language-%s">\n' % language_id
 	for x in range(8):
 		rad = radiuses[x] / scale_factor
 		loc_x = (offset_x + (x * 500) + 250) / scale_factor
@@ -25,7 +25,7 @@ def draw_partition(partition, offset_x, offset_y, chain, generation, show_stimul
 			box_y = (offset_y + (y * 500)) / scale_factor
 			line_x = rad * np.cos(ang) + loc_x
 			line_y = rad * np.sin(ang) + loc_y
-			color = category_colors[partition[y,x]]
+			color = category_colors[language[y,x]]
 			svg += "				<polygon points='%s,%s %s,%s %s,%s %s,%s' style='stroke: %s; stroke-width:1; fill:%s;' />\n" % (str(box_x), str(box_y), str(box_x+(500//scale_factor)), str(box_y), str(box_x+(500//scale_factor)), str(box_y+(500//scale_factor)), str(box_x), str(box_y+(500//scale_factor)), color, color)
 			if show_stimuli:
 				svg += "				<circle cx='%s' cy='%s' r='%s' style='stroke:black; stroke-width:1; fill:none;' />\n" % (str(loc_x), str(loc_y), str(rad))
@@ -93,8 +93,8 @@ def draw_all_chains(chain_data, n_columns=10, show_stimuli=True, method='product
 					arr[-1].append(str(chain['chain_id']))
 					svg += draw_letter(chain['chain_id'], offset_x, offset_y)
 				elif row_i == 0 and col_i == 1:
-					partition = np.array(chain['generations'][0][method], dtype=int).reshape((8,8))
-					svg += draw_partition(partition, offset_x, offset_y, chain['chain_id'], 0, show_stimuli)
+					language = np.array(chain['generations'][0][method], dtype=int).reshape((8,8))
+					svg += draw_language(language, offset_x, offset_y, chain['chain_id'], 0, show_stimuli)
 					arr[-1].append('0')
 				elif row_i > 0 and col_i == 0:
 					# blank
@@ -115,8 +115,8 @@ def draw_all_chains(chain_data, n_columns=10, show_stimuli=True, method='product
 						if len(str_gen) == 1:
 							str_gen = '0' + str_gen
 						arr[-1].append(str_gen)
-						partition = np.array(chain['generations'][generation][method], dtype=int).reshape((8,8))
-						svg += draw_partition(partition, offset_x, offset_y, chain['chain_id'], generation, show_stimuli)
+						language = np.array(chain['generations'][generation][method], dtype=int).reshape((8,8))
+						svg += draw_language(language, offset_x, offset_y, chain['chain_id'], generation, show_stimuli)
 					else:
 						arr[-1].append('--')
 				offset_x += 4400

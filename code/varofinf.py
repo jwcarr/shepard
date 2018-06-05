@@ -6,36 +6,35 @@ measure of transmission error.
 
 import numpy as np
 
-def language_to_category_sets(partiton):
+def language_to_partition(language):
 	'''
-	Converts a partiton array to a list of category sets.
+	Converts a language array to a list of category sets.
 	'''
-	partiton = partiton.flatten()
 	category_sets = {}
-	for i in range(len(partiton)):
-		if partiton[i] in category_sets.keys():
-			category_sets[partiton[i]].append(i)
+	for meaning, signal in enumerate(language.flatten()):
+		if signal in category_sets:
+			category_sets[signal].add(meaning)
 		else:
-			category_sets[partiton[i]] = [i]
-	return [vals for vals in category_sets.values()]
+			category_sets[signal] = set([meaning])
+	return list(category_sets.values())
 
-def variation_of_information(partition1, partition2):
+def variation_of_information(language1, language2):
 	'''
 	Computes the variation of information, an information theoretic
 	measure of the distance between two set partitions. Used as the
 	measure of transmission error.
 	'''
-	if partition1.shape != partition2.shape:
+	if language1.shape != language2.shape:
 		raise ValueError('The shapes of the partitions do not match.')
-	n = partition1.size
-	partition1 = language_to_category_sets(partition1)
-	partition2 = language_to_category_sets(partition2)
+	n = float(language1.size)
+	partition1 = language_to_partition(language1)
+	partition2 = language_to_partition(language2)
 	sigma = 0.0
-	for cat1 in partition1:
-		p = len(cat1) / n
-		for cat2 in partition2:
-			q = len(cat2) / n
-			r = len(set(cat1) & set(cat2)) / n
+	for category1 in partition1:
+		p = len(category1) / n
+		for category2 in partition2:
+			q = len(category2) / n
+			r = len(category1 & category2) / n
 			if r > 0.0:
 				sigma += r * (np.log2(r / p) + np.log2(r / q))
-	return abs(-sigma)
+	return abs(sigma)
