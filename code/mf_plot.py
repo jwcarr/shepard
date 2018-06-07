@@ -56,7 +56,7 @@ def make_plot(sim_opt, inf_opt, file_path, n_levels=32, show_evaluations=False, 
 	inf_axis.set_yticklabels([])
 
 	cb = plt.colorbar(cs, cax=leg_axis)
-	cb.set_label('log likelihood (Eq. 12)', labelpad=-20, y=0.5)
+	cb.set_label('log likelihood (Eq. 11)', labelpad=-20, y=0.5)
 	cb.set_ticks([levels[0], levels[-1]])
 	cb.set_ticklabels(['high', 'low'])
 	leg_axis.invert_yaxis()
@@ -89,5 +89,5 @@ def make_plot(sim_opt, inf_opt, file_path, n_levels=32, show_evaluations=False, 
 
 # print('\nLLR =', neg_log_p_inf - neg_log_p_sim)
 
-# make_plot(sim_opt, inf_opt, file_path='../manuscript/figs/model_fit.eps')
+# make_plot(sim_opt, inf_opt, file_path='../manuscript/figs/exp2_model_fit.eps')
 # make_plot(sim_opt, inf_opt, file_path='../visuals/model_fit.pdf')
