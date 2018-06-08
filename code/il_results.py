@@ -11,6 +11,9 @@ figure_layout = [['expressivity', 'error'],
 measure_bounds = {'expressivity':(1, 4), 'complexity':(0, 600), 'cost':(4, 6), 'error':(0, 4)}
 measures_names = {'expressivity':'Expressivity', 'complexity':'Complexity', 'cost':'Communicative cost', 'error':'Transmission error'}
 
+def distance(x, y):
+	return np.sqrt(sum((x-y)**2 for x, y in zip(x, y)))
+
 def load(json_file, start_gen, end_gen, method='prod', return_typical_chain=False):
 	data = tools.read_json_file(json_file)
 	dataset = {}
@@ -41,8 +44,13 @@ def extract_dataset(data, start_gen, end_gen, measure, return_typical_chain=Fals
 			best_dist, best_chain = dist, chain_i
 	return data['chains'][best_chain]
 
-def distance(x, y):
-	return np.sqrt(sum((x-y)**2 for x, y in zip(x, y)))
+def extract_generation_distribution(file_path, measure, generation):
+	data = tools.read_json_file(file_path)
+	distribution = []
+	for chain in data['chains']:
+		datum = chain['generations'][generation][measure]
+		distribution.append(datum)
+	return distribution
 
 def make_figure(datasets, file_path, title=None, show_legend=False, deep_legend=False):
 	if show_legend:
@@ -86,6 +94,39 @@ def make_figure(datasets, file_path, title=None, show_legend=False, deep_legend=
 			fig.tight_layout(pad=0.5, h_pad=0.5, w_pad=0.5, rect=(0, 0.1, 1, 1))
 	else:
 		fig.tight_layout(pad=0.5, h_pad=0.5, w_pad=0.5)
+	fig.savefig(file_path, format='svg')
+	tools.format_svg_labels(file_path)
+	if not file_path.endswith('.svg'):
+		tools.convert_svg(file_path, file_path)
+
+def plot_final_gen_densities(axis, results):
+	positions = [0, -0.4, -0.8]
+	distributions = list(results.values())
+	labels = list(results.keys())
+	violins = axis.violinplot(distributions, positions, vert=False, showmedians=False, showextrema=False)
+	for i, body in enumerate(violins['bodies']):
+		m = np.mean(body.get_paths()[0].vertices[:, 1])
+		body.get_paths()[0].vertices[:, 1] = np.clip(body.get_paths()[0].vertices[:, 1], m, np.inf)
+		body.set_facecolor('#323536')
+		body.set_edgecolor('#323536')
+		body.set_alpha(1.0)
+		axis.text(np.median(distributions[i]), positions[i]+0.1, labels[i], {'color':'white'}, ha='center', va='top')
+	axis.set_yticklabels([])
+	axis.tick_params(axis='y', which='both', left='off', right='off')
+	axis.set_xlabel('Complexity')
+	max_x = max([max(distribution) for distribution in distributions])
+	axis.set_xlim(0, max_x)
+	axis.set_ylim(-0.8, 0.3)
+
+def plot_final_gen_distributions(bottleneck_results, exposure_results, noise_results, file_path):
+	fig, axes = plt.subplots(1, 3, figsize=(5.5, 2.5))
+	plot_final_gen_densities(axes[0], bottleneck_results)
+	plot_final_gen_densities(axes[1], exposure_results)
+	plot_final_gen_densities(axes[2], noise_results)
+	axes[0].set_title('Bottleneck', fontsize=10)
+	axes[1].set_title('Exposures', fontsize=10)
+	axes[2].set_title('Noise', fontsize=10)
+	fig.tight_layout(pad=0.1, h_pad=0.5, w_pad=0.5)
 	fig.savefig(file_path, format='svg')
 	tools.format_svg_labels(file_path)
 	if not file_path.endswith('.svg'):
