@@ -1,10 +1,10 @@
 from os import path, remove
 import numpy as np
+import colors
 import tools
 
 radiuses = [25, 50, 75, 100, 125, 150, 175, 200]
 angles = [2.5656, 3.0144, 3.4632, 3.912, 4.3608, 4.8096, 5.2583, 5.7072]
-category_colors = ['#E85A71', '#6B6B7F', '#4EA1D3', '#FCBE32']
 
 letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 scale_factor = 16
@@ -25,7 +25,7 @@ def draw_language(language, offset_x, offset_y, chain, generation, show_stimuli=
 			box_y = (offset_y + (y * 500)) / scale_factor
 			line_x = rad * np.cos(ang) + loc_x
 			line_y = rad * np.sin(ang) + loc_y
-			color = category_colors[language[y,x]]
+			color = colors.categories[language[y,x]]
 			svg += "				<polygon points='%s,%s %s,%s %s,%s %s,%s' style='stroke: %s; stroke-width:1; fill:%s;' />\n" % (str(box_x), str(box_y), str(box_x+(500//scale_factor)), str(box_y), str(box_x+(500//scale_factor)), str(box_y+(500//scale_factor)), str(box_x), str(box_y+(500//scale_factor)), color, color)
 			if show_stimuli:
 				svg += "				<circle cx='%s' cy='%s' r='%s' style='stroke:black; stroke-width:1; fill:none;' />\n" % (str(loc_x), str(loc_y), str(rad))

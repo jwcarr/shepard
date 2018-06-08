@@ -1,6 +1,7 @@
 import il_results
 import il_visualize
 import il_animations
+import colors
 import tools
 
 def web_model_results(dir_path):
@@ -11,9 +12,9 @@ def web_model_results(dir_path):
 				model_results_sim = il_results.load('../data/model_sim/1.0_%s_%s_%s.json' % (noise, bottleneck, exposures), start_gen=0, end_gen=50, method='lang')
 				model_results_inf = il_results.load('../data/model_inf/1.0_%s_%s_%s.json' % (noise, bottleneck, exposures), start_gen=0, end_gen=50, method='lang')
 				model_results_inf_500 = il_results.load('../data/model_inf/500.0_%s_%s_%s.json' % (noise, bottleneck, exposures), start_gen=0, end_gen=50, method='lang')
-				il_results.make_figure([(model_results_sim, 'Simplicity', '#4D5C83', '#CACFDA', '-'),
-				                       (model_results_inf, 'Informativeness', '#F56A4F', '#FCD3CB', '-'),
-				                       (model_results_inf_500, 'Strong informativeness', '#F56A4F', '#FCD3CB', ':')],
+				il_results.make_figure([(model_results_sim, 'Simplicity', colors.blue, colors.light_blue, '-'),
+				                       (model_results_inf, 'Informativeness', colors.red, colors.light_red, '-'),
+				                       (model_results_inf_500, 'Strong informativeness', colors.red, colors.light_red, ':')],
 				                       file_path=file_path, show_legend=True)
 
 def supplementary_model_results(dir_path):
@@ -25,9 +26,9 @@ def supplementary_model_results(dir_path):
 				model_results_sim = il_results.load('../data/model_sim/1.0_%s_%s_%s.json' % (noise, bottleneck, exposures), start_gen=0, end_gen=50, method='lang')
 				model_results_inf = il_results.load('../data/model_inf/1.0_%s_%s_%s.json' % (noise, bottleneck, exposures), start_gen=0, end_gen=50, method='lang')
 				model_results_inf_500 = il_results.load('../data/model_inf/500.0_%s_%s_%s.json' % (noise, bottleneck, exposures), start_gen=0, end_gen=50, method='lang')
-				il_results.make_figure([(model_results_sim, 'Simplicity prior (πsim, w = 1)', '#4D5C83', '#CACFDA', '-'),
-				                       (model_results_inf, 'Informativeness prior (πinf, w = 1)', '#F56A4F', '#FCD3CB', '-'),
-				                       (model_results_inf_500, 'Strong informativeness prior (πinf, w = 500)', '#F56A4F', '#FCD3CB', ':')],
+				il_results.make_figure([(model_results_sim, 'Simplicity prior (πsim, w = 1)', colors.blue, colors.light_blue, '-'),
+				                       (model_results_inf, 'Informativeness prior (πinf, w = 1)', colors.red, colors.light_red, '-'),
+				                       (model_results_inf_500, 'Strong informativeness prior (πinf, w = 500)', colors.red, colors.light_red, ':')],
 				                       file_path=file_path, title=title, show_legend=True, deep_legend=True)
 
 def web_animations(dir_path):
@@ -57,16 +58,16 @@ def make_model_results_figure(file_path):
 	model_results_sim = il_results.load('../data/model_sim/1.0_0.01_2_2.json', start_gen=0, end_gen=50, method='lang')
 	model_results_inf = il_results.load('../data/model_inf/1.0_0.01_2_2.json', start_gen=0, end_gen=50, method='lang')
 	model_results_inf_500 = il_results.load('../data/model_inf/500.0_0.01_2_2.json', start_gen=0, end_gen=50, method='lang')
-	il_results.make_figure([(model_results_sim, 'Simplicity', '#4D5C83', '#CACFDA', '-'),
-	                        (model_results_inf, 'Informativeness', '#F56A4F', '#FCD3CB', '-'),
-	                        (model_results_inf_500, 'Strong informativeness', '#F56A4F', '#FCD3CB', ':')],
+	il_results.make_figure([(model_results_sim, 'Simplicity', colors.blue, colors.light_blue, '-'),
+	                        (model_results_inf, 'Informativeness', colors.red, colors.light_red, '-'),
+	                        (model_results_inf_500, 'Strong informativeness', colors.red, colors.light_red, ':')],
 	                        file_path=file_path, show_legend=True)
 
 def make_model_results_figure_no_bottleneck(file_path):
 	model_results_sim_001 = il_results.load('../data/model_sim/1.0_0.01_4_2.json', start_gen=0, end_gen=50, method='lang')
 	model_results_sim_010 = il_results.load('../data/model_sim/1.0_0.1_4_2.json', start_gen=0, end_gen=50, method='lang')
-	il_results.make_figure([(model_results_sim_001, 'Simplicity prior (ε = 0.01)', '#4D5C83', '#CACFDA', '-'),
-	                        (model_results_sim_010, 'Simplicity prior (ε = 0.1)', '#4D5C83', '#CACFDA', ':')],
+	il_results.make_figure([(model_results_sim_001, 'Simplicity prior (ε = 0.01)', colors.blue, colors.light_blue, '-'),
+	                        (model_results_sim_010, 'Simplicity prior (ε = 0.1)', colors.blue, colors.light_blue, ':')],
 	                        file_path=file_path, show_legend=True)
 
 def make_model_chains_figure(file_path):
@@ -83,22 +84,22 @@ def make_final_gen_dist_figure(file_path):
 	primary_results = il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_2_2.json', 'lang_complexity', 50)
 	final_gen_results = [
 	    ('Bottleneck', [
-	        ('b = 3', '#323536', il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_3_2.json', 'lang_complexity', 50)),
-	        ('b = 2', '#4D5C83', primary_results),
-	        ('b = 1', '#323536', il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_1_2.json', 'lang_complexity', 50))
+	        ('b = 3', colors.black, il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_3_2.json', 'lang_complexity', 50)),
+	        ('b = 2', colors.blue, primary_results),
+	        ('b = 1', colors.black, il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_1_2.json', 'lang_complexity', 50))
 	    ]),
 	    ('Exposures', [
-	        ('ξ = 3', '#323536', il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_2_3.json', 'lang_complexity', 50)),
-	        ('ξ = 2', '#4D5C83', primary_results),
-	        ('ξ = 1', '#323536', il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_2_1.json', 'lang_complexity', 50))
+	        ('ξ = 3', colors.black, il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_2_3.json', 'lang_complexity', 50)),
+	        ('ξ = 2', colors.blue, primary_results),
+	        ('ξ = 1', colors.black, il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_2_1.json', 'lang_complexity', 50))
 	    ]),
 	    ('Noise', [
-	        ('ε = .1', '#323536', il_results.extract_generation_distribution('../data/model_sim/1.0_0.1_2_2.json', 'lang_complexity', 50)),
-	        ('ε = .05', '#4D5C83', primary_results),
-	        ('ε = .01', '#323536', il_results.extract_generation_distribution('../data/model_sim/1.0_0.01_2_2.json', 'lang_complexity', 50))
+	        ('ε = .1', colors.black, il_results.extract_generation_distribution('../data/model_sim/1.0_0.1_2_2.json', 'lang_complexity', 50)),
+	        ('ε = .05', colors.blue, primary_results),
+	        ('ε = .01', colors.black, il_results.extract_generation_distribution('../data/model_sim/1.0_0.01_2_2.json', 'lang_complexity', 50))
 	    ])
 	]
-	il_results.plot_final_gen_distributions(final_gen_results, file_path, sum(primary_results)/len(primary_results), '#4D5C83')
+	il_results.plot_final_gen_distributions(final_gen_results, file_path, sum(primary_results)/len(primary_results), colors.blue)
 
 ######################################################################
 
@@ -107,10 +108,10 @@ def make_final_gen_dist_figure(file_path):
 
 # supplementary_model_results('../visuals/model/')
 
-# make_model_results_figure('../manuscript/figs/model_results.eps')
+make_model_results_figure('../manuscript/figs/model_results.eps')
 # make_model_chains_figure('../manuscript/figs/model_chains.eps')
-# make_final_gen_dist_figure('../manuscript/figs/model_final_distributions.eps')
-# make_model_results_figure_no_bottleneck('../manuscript/figs/model_results_wide.eps')
+make_final_gen_dist_figure('../manuscript/figs/model_final_distributions.eps')
+make_model_results_figure_no_bottleneck('../manuscript/figs/model_results_wide.eps')
 
 # make_model_results_figure('../visuals/model_results.pdf')
 # make_model_chains_figure('../visuals/model_chains.pdf')

@@ -7,11 +7,11 @@ visualize(language, 'some_file.pdf', show_stimuli=True)
 '''
 
 import numpy as np
+import colors
 import tools
 
 radiuses = [25, 50, 75, 100, 125, 150, 175, 200]
 angles = [2.5656, 3.0144, 3.4632, 3.912, 4.3608, 4.8096, 5.2583, 5.7072]
-category_colors = ['#E85A71', '#6B6B7F', '#4EA1D3', '#FCBE32']
 
 veridical_systems = {
 	'angle': np.array([[i]*8 for i in [0,0,1,1,2,2,3,3]], dtype=int),
@@ -28,11 +28,11 @@ def create_production_svg(data, show_stimuli=True, rectangles=None):
 		box_x, box_y = x * 500, y * 500
 		line_x, line_y = radius * np.cos(angle) + loc_x, radius * np.sin(angle) + loc_y
 		svg += '	<g id="stimulus-%i">\n' % stim_i
-		if category >= 0 and category < len(category_colors):
+		if category >= 0 and category < len(colors.categories):
 			if rectangles:
-				svg += '		<polygon points="%i,%i %i,%i %i,%i %i,%i" style="stroke:white; stroke-width:0; fill:%s;" />\n' % (box_x, box_y, box_x+500, box_y, box_x+500, box_y+500, box_x, box_y+500, category_colors[category])
+				svg += '		<polygon points="%i,%i %i,%i %i,%i %i,%i" style="stroke:white; stroke-width:0; fill:%s;" />\n' % (box_x, box_y, box_x+500, box_y, box_x+500, box_y+500, box_x, box_y+500, colors.categories[category])
 			else:
-				svg += '		<polygon points="%i,%i %i,%i %i,%i %i,%i" style="stroke:white; stroke-width:10; fill:%s;" />\n' % (box_x, box_y, box_x+500, box_y, box_x+500, box_y+500, box_x, box_y+500, category_colors[category])
+				svg += '		<polygon points="%i,%i %i,%i %i,%i %i,%i" style="stroke:white; stroke-width:10; fill:%s;" />\n' % (box_x, box_y, box_x+500, box_y, box_x+500, box_y+500, box_x, box_y+500, colors.categories[category])
 		if show_stimuli:
 			svg += '		<circle cx="%i" cy="%i" r="%i" style="stroke:black; stroke-width:10; fill:none;" />\n' % (loc_x, loc_y, radius)
 			svg += '		<line x1="%i" y1="%i" x2="%f" y2="%f" style="stroke: black; stroke-width:10;" />\n' % (loc_x, loc_y, line_x, line_y)
@@ -64,7 +64,7 @@ def create_comprehension_svg(data):
 				box_y = ang_i * 500 + offsets[cat_i][1]
 				line_x = rad * np.cos(ang) + loc_x
 				line_y = rad * np.sin(ang) + loc_y
-				color = fake_alpha(category_colors[cat_i], data[ang_i,rad_i,cat_i])
+				color = fake_alpha(colors.categories[cat_i], data[ang_i,rad_i,cat_i])
 				stim_i = rad_i*8 + ang_i
 				svg += '	<g id="stimulus-%i-%i">\n' % (cat_i, stim_i)
 				svg += '		<polygon points="%i,%i %i,%i %i,%i %i,%i" style="stroke: white; stroke-width:10; fill:%s;" />\n' % (box_x, box_y, box_x+500, box_y, box_x+500, box_y+500, box_x, box_y+500, color)

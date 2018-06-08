@@ -1,8 +1,15 @@
 import numpy as np
 import imageio
+import colors
 
-colors = [[232,90,113], [107,107,127], [78,161,211], [252,190,50], [255,255,255]]
-colors = [np.array(color, dtype=np.uint8) for color in colors]
+# Convert category colors from hex triplets to RGB as 8-bit unsigned
+# integer arrays (required by imageio)
+category_colors = []
+for hex_color in colors.categories:
+	r, g, b = int(hex_color[1:3], 16), int(hex_color[3:5], 16), int(hex_color[5:7], 16)
+	rgb_color = np.array([r, g, b], dtype=np.uint8)
+	category_colors.append(rgb_color)
+category_colors.append(np.array([255,255,255], dtype=np.uint8))
 
 def make_image(language, cell_width=16, grid_width=1):
 	width = language.shape[0] * cell_width - grid_width
@@ -10,7 +17,7 @@ def make_image(language, cell_width=16, grid_width=1):
 	image = np.full((width,height,3), 255, dtype=np.uint8)
 	for (x, y), category in np.ndenumerate(language):
 		image[x*cell_width:((x+1)*cell_width)-grid_width,
-			  y*cell_width:((y+1)*cell_width)-grid_width] = colors[category]
+			  y*cell_width:((y+1)*cell_width)-grid_width] = category_colors[category]
 	return image
 
 def save_image(language, output_file, cell_width=16, grid_width=1):

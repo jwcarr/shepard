@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import visualize
+import colors
 import tools
 
 plt.rcParams['svg.fonttype'] = 'none'
@@ -18,8 +19,8 @@ def plot_densities(axis, results):
 	for i, body in enumerate(violins['bodies']):
 		m = np.mean(body.get_paths()[0].vertices[:, 1])
 		body.get_paths()[0].vertices[:, 1] = np.clip(body.get_paths()[0].vertices[:, 1], m, np.inf)
-		body.set_facecolor('#323536')
-		body.set_edgecolor('#323536')
+		body.set_facecolor(colors.black)
+		body.set_edgecolor(colors.black)
 		body.set_alpha(1.0)
 	violins['cmedians'].set_color('white')
 	axis.set_xticks([0.0, 0.25, 0.5, 0.75, 1.0])
@@ -84,4 +85,3 @@ def visualize_participants_production(dataset, dir_path):
 # plot_prop_correct(prod_results, comp_results, '../visuals/exp1_results.svg')
 
 # visualize_participants_production(prod_data, '../visuals/production/')
-

@@ -1,9 +1,7 @@
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
 import commcost
-
-colors = ['#E85A71', '#6B6B7F', '#4EA1D3', '#FCBE32']
-#          pink       grey       blue       yellow
+import colors
 
 gammas = [0.01, 1, 'inf']
 metric = 'circle_euclidean'
@@ -30,7 +28,7 @@ for i in range(len(gammas)):
 	for j in range(len(P)):
 		category_distribution = list(L[j].probabilities.flatten())
 		category_distribution = [category_distribution[-1]] + category_distribution + [category_distribution[0]]
-		sp.plot(range(0, P.size+2), category_distribution, linewidth=2.0, color=colors[j])
+		sp.plot(range(0, P.size+2), category_distribution, linewidth=2.0, color=colors.categories[j])
 	plt.xticks(fontsize=7)
 	plt.yticks(fontsize=7)
 	plt.tick_params(axis='x', which='both', bottom='off', top='off')
