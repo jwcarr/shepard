@@ -80,22 +80,25 @@ def make_model_chains_figure(file_path):
 	il_visualize.make_figure(data, file_path, start_gen=0, end_gen=50, n_columns=15, method='language', overwrite=True)
 
 def make_final_gen_dist_figure(file_path):
-	bottleneck_results = {
-		'b = 3' : il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_3_2.json', 'lang_complexity', 50),
-		'b = 2' : il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_2_2.json', 'lang_complexity', 50),
-		'b = 1' : il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_1_2.json', 'lang_complexity', 50)
-	}
-	exposure_results = {
-		'ξ = 3' : il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_2_3.json', 'lang_complexity', 50),
-		'ξ = 2' : il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_2_2.json', 'lang_complexity', 50),
-		'ξ = 1' : il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_2_1.json', 'lang_complexity', 50)
-	}
-	noise_results = {
-		'ε = .1' : il_results.extract_generation_distribution('../data/model_sim/1.0_0.1_2_2.json', 'lang_complexity', 50),
-		'ε = .05' : il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_2_2.json', 'lang_complexity', 50),
-		'ε = .01' : il_results.extract_generation_distribution('../data/model_sim/1.0_0.01_2_2.json', 'lang_complexity', 50)
-	}
-	il_results.plot_final_gen_distributions(bottleneck_results, exposure_results, noise_results, file_path)
+	primary_results = il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_2_2.json', 'lang_complexity', 50)
+	final_gen_results = [
+	    ('Bottleneck', [
+	        ('b = 3', '#323536', il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_3_2.json', 'lang_complexity', 50)),
+	        ('b = 2', '#4D5C83', primary_results),
+	        ('b = 1', '#323536', il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_1_2.json', 'lang_complexity', 50))
+	    ]),
+	    ('Exposures', [
+	        ('ξ = 3', '#323536', il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_2_3.json', 'lang_complexity', 50)),
+	        ('ξ = 2', '#4D5C83', primary_results),
+	        ('ξ = 1', '#323536', il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_2_1.json', 'lang_complexity', 50))
+	    ]),
+	    ('Noise', [
+	        ('ε = .1', '#323536', il_results.extract_generation_distribution('../data/model_sim/1.0_0.1_2_2.json', 'lang_complexity', 50)),
+	        ('ε = .05', '#4D5C83', primary_results),
+	        ('ε = .01', '#323536', il_results.extract_generation_distribution('../data/model_sim/1.0_0.01_2_2.json', 'lang_complexity', 50))
+	    ])
+	]
+	il_results.plot_final_gen_distributions(final_gen_results, file_path, sum(primary_results)/len(primary_results), '#4D5C83')
 
 ######################################################################
 
@@ -107,7 +110,7 @@ def make_final_gen_dist_figure(file_path):
 # make_model_results_figure('../manuscript/figs/model_results.eps')
 # make_model_chains_figure('../manuscript/figs/model_chains.eps')
 # make_final_gen_dist_figure('../manuscript/figs/model_final_distributions.eps')
-# make_final_gen_dist_figure('../manuscript/figs/model_final_distributions.eps')
+# make_model_results_figure_no_bottleneck('../manuscript/figs/model_results_wide.eps')
 
 # make_model_results_figure('../visuals/model_results.pdf')
 # make_model_chains_figure('../visuals/model_chains.pdf')
