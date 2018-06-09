@@ -31,17 +31,17 @@ def plot_densities(axis, results):
 	axis.set_xlim(0,1)
 	axis.set_ylim(-0.8, 0.3)
 
-def plot_prop_correct(production_results, comprehension_results, file_path):
+def plot_prop_correct(production_results, comprehension_results, figure_path):
 	fig, axes = plt.subplots(1, 2, figsize=(5, 2.5))
 	plot_densities(axes[0], production_results)
 	plot_densities(axes[1], comprehension_results)
 	axes[0].set_title('Production', fontsize=10)
 	axes[1].set_title('Comprehension', fontsize=10)
 	fig.tight_layout(pad=0.1, h_pad=0.5, w_pad=0.5)
-	fig.savefig(file_path, format='svg')
-	tools.format_svg_labels(file_path)
-	if not file_path.endswith('.svg'):
-		tools.convert_svg(file_path, file_path)
+	fig.savefig(figure_path, format='svg')
+	tools.format_svg_labels(figure_path)
+	if not figure_path.endswith('.svg'):
+		tools.convert_svg(figure_path, figure_path)
 
 def mean_prop_correct_production(dataset):
 	results = { 'angle':[], 'size':[], 'both':[] }
@@ -72,8 +72,8 @@ def visualize_participants_production(dataset, dir_path):
 			for answer, response in zip(participant['test_sequence'], participant['test_responses']):
 				partition[answer] = response
 			partition = partition.reshape((8,8))
-			file_path = dir_path + '%s/%s.pdf' % (participant['condition'], participant['user_id'])
-			visualize.visualize(partition, file_path)
+			figure_path = dir_path + '%s/%s.pdf' % (participant['condition'], participant['user_id'])
+			visualize.visualize(partition, figure_path)
 
 ######################################################################
 

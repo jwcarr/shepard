@@ -14,8 +14,8 @@ measures_names = {'expressivity':'Expressivity', 'complexity':'Complexity', 'cos
 def distance(x, y):
 	return np.sqrt(sum((x-y)**2 for x, y in zip(x, y)))
 
-def load(json_file, start_gen, end_gen, method='prod', return_typical_chain=False):
-	data = tools.read_json_file(json_file)
+def load(data_path, start_gen, end_gen, method='prod', return_typical_chain=False):
+	data = tools.read_json_file(data_path)
 	dataset = {}
 	for measure in ['expressivity', 'complexity', 'cost', 'error']:
 		dataset[measure] = extract_dataset(data, start_gen, end_gen, method + '_' + measure, return_typical_chain)
@@ -44,15 +44,15 @@ def extract_dataset(data, start_gen, end_gen, measure, return_typical_chain=Fals
 			best_dist, best_chain = dist, chain_i
 	return data['chains'][best_chain]
 
-def extract_generation_distribution(file_path, measure, generation):
-	data = tools.read_json_file(file_path)
+def extract_generation_distribution(data_path, measure, generation):
+	data = tools.read_json_file(data_path)
 	distribution = []
 	for chain in data['chains']:
 		datum = chain['generations'][generation][measure]
 		distribution.append(datum)
 	return distribution
 
-def make_figure(datasets, file_path, title=None, show_legend=False, deep_legend=False):
+def make_figure(datasets, figure_path, title=None, show_legend=False, deep_legend=False):
 	if show_legend:
 		if deep_legend:
 			fig, axes = plt.subplots(2, 2, figsize=(5.5, 5))
@@ -94,16 +94,16 @@ def make_figure(datasets, file_path, title=None, show_legend=False, deep_legend=
 			fig.tight_layout(pad=0.5, h_pad=0.5, w_pad=0.5, rect=(0, 0.1, 1, 1))
 	else:
 		fig.tight_layout(pad=0.5, h_pad=0.5, w_pad=0.5)
-	fig.savefig(file_path, format='svg')
-	tools.format_svg_labels(file_path)
-	if not file_path.endswith('.svg'):
-		tools.convert_svg(file_path, file_path)
+	fig.savefig(figure_path, format='svg')
+	tools.format_svg_labels(figure_path)
+	if not figure_path.endswith('.svg'):
+		tools.convert_svg(figure_path, figure_path)
 
 def plot_final_gen_densities(axis, results, mean=None, mean_color='black'):
 	positions = [0, -0.4, -0.8]
 	labels, colors, distributions = zip(*results)
 	if mean is not None:
-		axis.plot([mean, mean], [-0.79, 0.3], c=mean_color, linestyle='--', zorder=0)
+		axis.plot([mean, mean], [-0.798, 0.3], c=mean_color, linestyle='--', zorder=0)
 	violins = axis.violinplot(distributions, positions, vert=False, showmedians=False, showextrema=False)
 	for i, body in enumerate(violins['bodies']):
 		m = np.mean(body.get_paths()[0].vertices[:, 1])
@@ -116,16 +116,19 @@ def plot_final_gen_densities(axis, results, mean=None, mean_color='black'):
 	axis.tick_params(axis='y', which='both', left='off', right='off')
 	axis.set_ylim(-0.8, 0.3)
 
-def plot_final_gen_distributions(datasets, file_path, mean=None, mean_color='black'):
+def plot_final_gen_distributions(datasets, figure_path, mean=None, mean_color='black'):
+	min_x = min([min([min(distribution) for _, _, distribution in dataset]) for _, dataset in datasets])
+	max_x = max([max([max(distribution) for _, _, distribution in dataset]) for _, dataset in datasets])
 	fig, axes = plt.subplots(1, len(datasets), figsize=(5.5, 2.5))
 	for i, (label, dataset) in enumerate(datasets):
 		plot_final_gen_densities(axes[i], dataset, mean, mean_color)
 		axes[i].set_title(label, fontsize=10)
-		axes[i].set_xlim(0, 150)
+		axes[i].set_xticks(range(0,151,25))
+		axes[i].set_xlim(min_x, max_x)
 		if i == 1:
 			axes[i].set_xlabel('Complexity')
 	fig.tight_layout(pad=0.1, h_pad=0.5, w_pad=0.5)
-	fig.savefig(file_path, format='svg')
-	tools.format_svg_labels(file_path)
-	if not file_path.endswith('.svg'):
-		tools.convert_svg(file_path, file_path)
+	fig.savefig(figure_path, format='svg')
+	tools.format_svg_labels(figure_path)
+	if not figure_path.endswith('.svg'):
+		tools.convert_svg(figure_path, figure_path)

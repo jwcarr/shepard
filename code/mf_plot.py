@@ -7,13 +7,18 @@ import tools
 
 plt.rcParams['svg.fonttype'] = 'none' # don't convert fonts to curves
 
+def load_optimizer(opt_path):
+	with open(opt_path, mode='rb') as file:
+		opt = pickle.load(file)
+	return opt
+
 def get_gaussian_process(model, space, bounds, n_points=50):
 	W = np.linspace(*bounds[0], n_points)
 	E = np.linspace(0, 1, n_points)
 	P = model.predict([(w, e) for e in E for w in W]).reshape((n_points, n_points))
 	return W, E, P
 
-def make_plot(sim_opt, inf_opt, file_path, n_levels=32, show_evaluations=False, show_maximum=True, log_scale=True):
+def make_plot(sim_opt, inf_opt, figure_path, n_levels=32, show_evaluations=False, show_maximum=True, log_scale=True):
 	'''
 	Make contour plots showing the model fit under the simplicity and
 	informativeness priors.
@@ -62,25 +67,21 @@ def make_plot(sim_opt, inf_opt, file_path, n_levels=32, show_evaluations=False, 
 	leg_axis.invert_yaxis()
 
 	fig.tight_layout(pad=0.1, h_pad=0.5, w_pad=0.5)
-	fig.savefig(file_path, format='svg')
-	tools.format_svg_labels(file_path)
-	if not file_path.endswith('.svg'):
-		tools.convert_svg(file_path, file_path)
+	fig.savefig(figure_path, format='svg')
+	tools.format_svg_labels(figure_path)
+	if not figure_path.endswith('.svg'):
+		tools.convert_svg(figure_path, figure_path)
 
 ######################################################################
 
-# with open('../data/modelfit/simplicity/result', mode='rb') as file:
-# 	sim_opt = pickle.load(file)
-
+# sim_opt = load_optimizer('../data/modelfit/simplicity/result')
 # (w_star, e_star), neg_log_p_sim = expected_minimum(sim_opt)
 # print('Simplicity:', len(sim_opt.func_vals), 'iterations)')
 # print('w* =', w_star)
 # print('e* =', e_star)
 # print('log(P) =', -neg_log_p_sim)
 
-# with open('../data/modelfit/informativeness/result', mode='rb') as file:
-# 	inf_opt = pickle.load(file)
-
+# inf_opt = load_optimizer('../data/modelfit/informativeness/result')
 # (w_star, e_star), neg_log_p_inf = expected_minimum(inf_opt)
 # print('\nInformativeness:', len(inf_opt.func_vals), 'iterations)')
 # print('w* =', w_star)
@@ -89,5 +90,5 @@ def make_plot(sim_opt, inf_opt, file_path, n_levels=32, show_evaluations=False, 
 
 # print('\nLLR =', neg_log_p_inf - neg_log_p_sim)
 
-# make_plot(sim_opt, inf_opt, file_path='../manuscript/figs/exp2_model_fit.eps')
-# make_plot(sim_opt, inf_opt, file_path='../visuals/model_fit.pdf')
+# make_plot(sim_opt, inf_opt, figure_path='../manuscript/figs/exp2_model_fit.eps')
+# make_plot(sim_opt, inf_opt, figure_path='../visuals/model_fit.pdf')

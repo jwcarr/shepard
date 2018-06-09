@@ -9,13 +9,13 @@ def iter_directory(directory):
 			if file[0] != '.':
 				yield path.join(root, file), file
 
-def read_json_file(file_path):
-	with open(file_path, mode='r') as file_handle:
+def read_json_file(data_path):
+	with open(data_path, mode='r') as file_handle:
 		data = json.loads(file_handle.read())
 	return data
 
-def read_json_lines(file_path):
-	with open(file_path, mode='r', encoding='utf-8') as file:
+def read_json_lines(data_path):
+	with open(data_path, mode='r', encoding='utf-8') as file:
 		data = [json.loads(line) for line in file if len(line) > 1]
 	return data
 
@@ -40,16 +40,16 @@ def format_svg_labels(svg_file_path):
 	with open(svg_file_path, mode='w', encoding='utf-8') as file:
 		file.write(svg)
 
-def convert_svg(svg_file_path, file_path, remove_svg_file=False, png_width=1000):
-	filename, extension = path.splitext(file_path)
+def convert_svg(svg_file_path, out_file_path, remove_svg_file=False, png_width=1000):
+	filename, extension = path.splitext(out_file_path)
 	if extension not in ['.pdf', '.eps', '.png']:
 		raise ValueError('Invalid format. Use either .pdf, .eps, or .png')
 	if extension == '.pdf':
-		call(['/usr/local/bin/inkscape', svg_file_path, '-A', file_path, '--export-text-to-path'], stdout=DEVNULL, stderr=STDOUT)
+		call(['/usr/local/bin/inkscape', svg_file_path, '-A', out_file_path, '--export-text-to-path'], stdout=DEVNULL, stderr=STDOUT)
 	elif extension == '.eps':
-		call(['/usr/local/bin/inkscape', svg_file_path, '-E', file_path, '--export-text-to-path'], stdout=DEVNULL, stderr=STDOUT)
+		call(['/usr/local/bin/inkscape', svg_file_path, '-E', out_file_path, '--export-text-to-path'], stdout=DEVNULL, stderr=STDOUT)
 	elif extension == '.png':
-		call(['/usr/local/bin/inkscape', svg_file_path, '-e', file_path, '--export-width=%i'%png_width], stdout=DEVNULL, stderr=STDOUT)
+		call(['/usr/local/bin/inkscape', svg_file_path, '-e', out_file_path, '--export-width=%i'%png_width], stdout=DEVNULL, stderr=STDOUT)
 	if remove_svg_file:
 		remove(svg_file_path)
 	print('File saved to: ' + filename + extension)

@@ -136,19 +136,19 @@ def draw_all_chains(chain_data, n_columns=10, show_stimuli=True, method='product
 			print(line)
 	return final_svg
 
-def make_figure(data, filename, start_gen=0, end_gen=100, n_columns=10, show_stimuli=False, method='productions', overwrite=False, verbose=False):
+def make_figure(data, figure_path, start_gen=0, end_gen=100, n_columns=10, show_stimuli=False, method='productions', overwrite=False, verbose=False):
 	'''
 	Make a figure depeciting the evolution of a bunch of chains.
 	'''
-	if path.isfile(filename) and not overwrite:
-		raise ValueError('Could not write to path: ' + str(filename) + '. Set overwrite=True to override')
+	if path.isfile(figure_path) and not overwrite:
+		raise ValueError('Could not write to path: ' + str(figure_path) + '. Set overwrite=True to override')
 
 	for chain in data['chains']:
 		chain['generations'] = [generation for gen_i, generation in enumerate(chain['generations']) if gen_i >= start_gen and gen_i <= end_gen]
 
 	svg = draw_all_chains(data['chains'], n_columns, show_stimuli, method, verbose)
 
-	with open(filename, mode='w', encoding='utf-8') as file:
+	with open(figure_path, mode='w', encoding='utf-8') as file:
 		file.write(svg)
-	if not filename.endswith('.svg'):
-		tools.convert_svg(filename, filename)
+	if not figure_path.endswith('.svg'):
+		tools.convert_svg(figure_path, figure_path)

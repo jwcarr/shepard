@@ -112,7 +112,7 @@ def produce_gaussian_veridical_systems(metric='euclidean', gamma=1):
 
 # -------------------------------------------------------------------
 
-def visualize(data, filename, show_stimuli=True, rectangles=None):
+def visualize(data, figure_path, show_stimuli=True, rectangles=None):
 	if not isinstance(data, np.ndarray):
 		raise ValueError('Input data should be numpy array')
 	if len(data.shape) == 2 and (data.dtype == int or data.dtype == bool):
@@ -121,7 +121,7 @@ def visualize(data, filename, show_stimuli=True, rectangles=None):
 		svg = create_comprehension_svg(data)
 	else:
 		raise ValueError('Invalid input data. Should be 8x8 ints (production) or 8x8x4 floats (comprehension)')
-	with open(filename, mode='w', encoding='utf-8') as file:
+	with open(figure_path, mode='w', encoding='utf-8') as file:
 		file.write(svg)
-	if not filename.endswith('.svg'):
-		tools.convert_svg(filename, filename)
+	if not figure_path.endswith('.svg'):
+		tools.convert_svg(figure_path, figure_path)

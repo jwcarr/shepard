@@ -54,11 +54,11 @@ def build_figure(universe, figure_width=5, n_cols=10, n_pages=1):
 		return pages[0]
 	return pages
 
-def save_figure(figure, filename):
-	with open(filename, mode='w', encoding='utf-8') as file:
+def save_figure(figure, figure_path):
+	with open(figure_path, mode='w', encoding='utf-8') as file:
 		file.write(figure)
-	if not filename.endswith('.svg'):
-		tools.convert_svg(filename, filename)
+	if not figure_path.endswith('.svg'):
+		tools.convert_svg(figure_path, figure_path)
 
 ######################################################################
 
