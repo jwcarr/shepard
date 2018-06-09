@@ -19,13 +19,12 @@ veridical_systems = {
 	'both' : np.array([[0,0,0,0,1,1,1,1] for _ in range(4)] + [[2,2,2,2,3,3,3,3] for _ in range(4)], dtype=int)
 }
 
-def create_production_svg(data, show_stimuli=True, rectangles=None):
-	height, width = 500 * data.shape[0], 500 * data.shape[1]
-	svg = '<svg width="%s" height="%s" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1">\n\n<g id="partition">\n\n' % (width, height)
+def create_production_svg(data, show_stimuli=True, offset_x=0, offset_y=0, rectangles=None):
+	svg = '<g id="partition">\n\n'
 	for stim_i, ((y, x), category) in enumerate(np.ndenumerate(data)):
 		radius, angle = radiuses[x], angles[y]
-		loc_x, loc_y = x * 500 + 250, (y + 1) * 500 - 250
-		box_x, box_y = x * 500, y * 500
+		loc_x, loc_y = x * 500 + 250 + offset_x, (y + 1) * 500 - 250 + offset_y
+		box_x, box_y = x * 500 + offset_x, y * 500 + offset_y
 		line_x, line_y = radius * np.cos(angle) + loc_x, radius * np.sin(angle) + loc_y
 		svg += '	<g id="stimulus-%i">\n' % stim_i
 		if category >= 0 and category < len(colors.categories):
@@ -47,12 +46,12 @@ def create_production_svg(data, show_stimuli=True, rectangles=None):
 				svg += '	<g id="rectangle">\n'
 				svg += '		<polygon points="%i,%i %i,%i %i,%i %i,%i" style="stroke:white; stroke-width:30; fill:none;" />\n' % (topleft[0], topleft[1], topright[0], topright[1], bottomright[0], bottomright[1], bottomleft[0], bottomleft[1])
 				svg += '	</g>\n\n'
-	svg += '</g>\n\n</svg>'
+	svg += '</g>\n\n'
 	return svg	
 
-def create_comprehension_svg(data):
-	svg = "<svg width='8500' height='8500' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:svg='http://www.w3.org/2000/svg' xmlns='http://www.w3.org/2000/svg' version='1.1'>\n\n"
-	offsets = [(100,100), (4400,100), (100,4400), (4400,4400)]
+def create_comprehension_svg(data, show_stimuli=True, offset_x=0, offset_y=0):
+	svg = '<g id="partition">\n\n'
+	offsets = [(100+offset_x,100+offset_y), (4400+offset_x,100+offset_y), (100+offset_x,4400+offset_y), (4400+offset_x,4400+offset_y)]
 	for cat_i in range(4):
 		for rad_i in range(8):
 			rad = radiuses[rad_i]
@@ -64,12 +63,13 @@ def create_comprehension_svg(data):
 				box_y = ang_i * 500 + offsets[cat_i][1]
 				line_x = rad * np.cos(ang) + loc_x
 				line_y = rad * np.sin(ang) + loc_y
-				color = fake_alpha(colors.categories[cat_i], data[ang_i,rad_i,cat_i])
+				color = fake_alpha(colors.categories[cat_i], data[cat_i,ang_i,rad_i])
 				stim_i = rad_i*8 + ang_i
 				svg += '	<g id="stimulus-%i-%i">\n' % (cat_i, stim_i)
 				svg += '		<polygon points="%i,%i %i,%i %i,%i %i,%i" style="stroke: white; stroke-width:10; fill:%s;" />\n' % (box_x, box_y, box_x+500, box_y, box_x+500, box_y+500, box_x, box_y+500, color)
-				svg += '		<circle cx="%i" cy="%i" r="%i" style="stroke:black; stroke-width: 10; fill:none;" />\n' % (loc_x, loc_y, rad)
-				svg += '		<line x1="%i" y1="%i" x2="%f" y2="%f" style="stroke: black; stroke-width: 10;" />\n' % (loc_x, loc_y, line_x, line_y)
+				if show_stimuli:
+					svg += '		<circle cx="%i" cy="%i" r="%i" style="stroke:black; stroke-width: 10; fill:none;" />\n' % (loc_x, loc_y, rad)
+					svg += '		<line x1="%i" y1="%i" x2="%f" y2="%f" style="stroke: black; stroke-width: 10;" />\n' % (loc_x, loc_y, line_x, line_y)
 				svg += '	</g>\n\n'
 		box1 = offsets[cat_i][0], offsets[cat_i][1]
 		box2 = offsets[cat_i][0]+4000, offsets[cat_i][1]
@@ -78,7 +78,7 @@ def create_comprehension_svg(data):
 		svg += '	<g id="bounding-box-%i">\n' % cat_i
 		svg += '		<polygon points="%i,%i %i,%i %i,%i %i,%i" style="stroke: black; stroke-width:20; fill:none;" />\n' % (box1[0], box1[1], box2[0], box2[1], box3[0], box3[1], box4[0], box4[1])
 		svg += '	</g>\n\n'
-	svg += '</svg>'
+	svg += '</g>'
 	return svg
 
 def fake_alpha(hex_color, alpha): # lightens a color, producing a fake alpha transparency effect (for the sake of EPS compatibility)
@@ -112,15 +112,58 @@ def produce_gaussian_veridical_systems(metric='euclidean', gamma=1):
 
 # -------------------------------------------------------------------
 
-def visualize(data, figure_path, show_stimuli=True, rectangles=None):
+def visualize(data, figure_path, figure_width=5, show_stimuli=True, rectangles=None):
 	if not isinstance(data, np.ndarray):
 		raise ValueError('Input data should be numpy array')
 	if len(data.shape) == 2 and (data.dtype == int or data.dtype == bool):
-		svg = create_production_svg(data, show_stimuli, rectangles)
+		height = 500 * data.shape[0]
+		width = 500 * data.shape[1]
+		figure_height = figure_width / width * height
+		svg = '<svg width="%iin" height="%fin" viewBox="0 0 %i %i" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1">\n\n' % (width, height)
+		svg += create_production_svg(data, show_stimuli, rectangles)
 	elif len(data.shape) == 3 and data.dtype == float:
-		svg = create_comprehension_svg(data)
+		height = 500 * data.shape[1] * 2 + 500
+		width = 500 * data.shape[2] * 2 + 500
+		figure_height = figure_width / width * height
+		svg = '<svg width="%iin" height="%fin" viewBox="0 0 %i %i" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1">\n\n' % (width, height)
+		svg += create_comprehension_svg(data)
 	else:
-		raise ValueError('Invalid input data. Should be 8x8 ints (production) or 8x8x4 floats (comprehension)')
+		raise ValueError('Invalid input data. Should be 8x8 ints (production) or 4x8x8 floats (comprehension)')
+	svg += '</svg>'
+	with open(figure_path, mode='w', encoding='utf-8') as file:
+		file.write(svg)
+	if not figure_path.endswith('.svg'):
+		tools.convert_svg(figure_path, figure_path)
+
+def visualize_all(data_by_participant, figure_path, figure_width=10, test_type='production', n_rows=5, n_cols=8, show_stimuli=True, label=None):
+	if label:
+		if test_type == 'production':
+			y_offset_for_label = 2000
+			label = '<text text-anchor="left" dominant-baseline="central" x="500" y="1000" fill="black" style="font-size: 1000px; font-family:Helvetica">%s</text>\n\n' % label
+		else:
+			y_offset_for_label = 4000
+			label = '<text text-anchor="left" dominant-baseline="central" x="1000" y="2000" fill="black" style="font-size: 2000px; font-family:Helvetica">%s</text>\n\n' % label
+	else:
+		label = ''
+	if test_type == 'production':
+		height = 500 * data_by_participant[0].shape[0] * n_rows + (500*(n_rows+1)) + y_offset_for_label
+		width = 500 * data_by_participant[0].shape[1] * n_cols + (500*(n_cols+1))
+		figure_height = figure_width / width * height
+	elif test_type == 'comprehension':
+		height = (500 * data_by_participant[0].shape[1] * n_rows + (500*(n_rows+1))) * 2 + 500 + y_offset_for_label
+		width = (500 * data_by_participant[0].shape[2] * n_cols + (500*(n_cols+1))) * 2 + 500
+		figure_height = figure_width / width * height
+	svg = '<svg width="%iin" height="%fin" viewBox="0 0 %i %i" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1">\n\n%s' % (figure_width, figure_height, width, height, label)
+	arrangement_iterator = np.ndindex((n_rows, n_cols))
+	for partition in data_by_participant:
+		position = arrangement_iterator.next()
+		if test_type == 'production':
+			offset_x, offset_y = position[1] * 4500 + 500, position[0] * 4500 + 500 + y_offset_for_label
+			svg += create_production_svg(partition, show_stimuli=show_stimuli, offset_x=offset_x, offset_y=offset_y)
+		elif test_type == 'comprehension':
+			offset_x, offset_y = position[1] * 9000 + 1000, position[0] * 9000 + 1000 + y_offset_for_label
+			svg += create_comprehension_svg(partition, show_stimuli=show_stimuli, offset_x=offset_x, offset_y=offset_y)
+	svg += '</svg>'
 	with open(figure_path, mode='w', encoding='utf-8') as file:
 		file.write(svg)
 	if not figure_path.endswith('.svg'):
