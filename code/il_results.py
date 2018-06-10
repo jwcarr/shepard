@@ -100,10 +100,11 @@ def make_figure(datasets, figure_path, title=None, show_legend=False, deep_legen
 		tools.convert_svg(figure_path, figure_path)
 
 def plot_final_gen_densities(axis, results, mean=None, mean_color='black'):
-	positions = [0, -0.4, -0.8]
+	positions = [0.6, 0.3, 0]
+	y_lim = [0, 0.9]
 	labels, colors, distributions = zip(*results)
 	if mean is not None:
-		axis.plot([mean, mean], [-0.798, 0.3], c=mean_color, linestyle='--', zorder=0)
+		axis.plot([mean, mean], y_lim, c=mean_color, linestyle='--', zorder=0)
 	violins = axis.violinplot(distributions, positions, vert=False, showmedians=False, showextrema=False)
 	for i, body in enumerate(violins['bodies']):
 		m = np.mean(body.get_paths()[0].vertices[:, 1])
@@ -114,7 +115,7 @@ def plot_final_gen_densities(axis, results, mean=None, mean_color='black'):
 		axis.text(np.median(distributions[i]), positions[i]+0.11, labels[i], {'color':'white'}, ha='center', va='top')
 	axis.set_yticklabels([])
 	axis.tick_params(axis='y', which='both', left='off', right='off')
-	axis.set_ylim(-0.8, 0.3)
+	axis.set_ylim(*y_lim)
 
 def plot_final_gen_distributions(datasets, figure_path, mean=None, mean_color='black'):
 	min_x = min([min([min(distribution) for _, _, distribution in dataset]) for _, dataset in datasets])
