@@ -15,10 +15,12 @@ partitions = {
 condition_names = {'angle':'Angle-only', 'both':'Angle &amp; Size', 'size':'Size-only'}
 
 def plot_densities(axis, results):
-	positions = [0, -0.4, -0.8]
-	axis.plot([0.25, 0.25], [-0.8, 0.3], c='black', linestyle='--', zorder=0)
-	violins = axis.violinplot([results['angle'], results['size'], results['both']], positions, vert=False, showmedians=True, showextrema=False)
-	for i, body in enumerate(violins['bodies']):
+	positions = [0.6, 0.3, 0]
+	y_lim = [0, 0.9]
+	distributions = [results['angle'], results['size'], results['both']]
+	axis.plot([0.25, 0.25], y_lim, c='black', linestyle='--', zorder=0)
+	violins = axis.violinplot(distributions, positions, vert=False, showmedians=True, showextrema=False)
+	for body in violins['bodies']:
 		m = np.mean(body.get_paths()[0].vertices[:, 1])
 		body.get_paths()[0].vertices[:, 1] = np.clip(body.get_paths()[0].vertices[:, 1], m, np.inf)
 		body.set_facecolor(colors.black)
@@ -31,7 +33,7 @@ def plot_densities(axis, results):
 	axis.tick_params(axis='y', which='both', left='off', right='off')
 	axis.set_xlabel('Proportion correct')
 	axis.set_xlim(0,1)
-	axis.set_ylim(-0.8, 0.3)
+	axis.set_ylim(*y_lim)
 
 def plot_prop_correct(production_results, comprehension_results, figure_path):
 	fig, axes = plt.subplots(1, 2, figsize=(5, 2.5))
