@@ -63,16 +63,16 @@ def draw_dots(offset_x, offset_y):
 	svg += '		</g>\n\n'
 	return svg
 
-def draw_all_chains(chain_data, n_columns=10, show_stimuli=True, method='productions', verbose=False):
+def draw_all_chains(chain_data, n_columns=10, show_stimuli=False, show_generation_numbers=False, method='productions', verbose=False):
 	arr = []
 	svg = ''
 	offset_x = 4400
-	offset_y = 0
-	for gen_i in range(n_columns+1):
-		svg += draw_number(gen_i, offset_x, offset_y)
-		offset_x += 4400
-	# svg += draw_etc(offset_x, offset_y)
-	offset_y = 4400
+	offset_y = 400
+	if show_generation_numbers:
+		for gen_i in range(n_columns+1):
+			svg += draw_number(gen_i, offset_x, offset_y)
+			offset_x += 4400
+		offset_y += 4000
 	for chain_i in range(len(chain_data)):
 		svg +=  '	<g id="chain-%i">\n\n' % chain_i
 		chain = chain_data[chain_i]
@@ -121,7 +121,6 @@ def draw_all_chains(chain_data, n_columns=10, show_stimuli=True, method='product
 						arr[-1].append('--')
 				offset_x += 4400
 			offset_y += 4400
-		offset_y += 400
 		svg += '	</g>\n\n'
 	width, height = offset_x//scale_factor, offset_y//scale_factor
 	figure_height = (height/width) * figure_width
@@ -136,7 +135,7 @@ def draw_all_chains(chain_data, n_columns=10, show_stimuli=True, method='product
 			print(line)
 	return final_svg
 
-def make_figure(data, figure_path, start_gen=0, end_gen=100, n_columns=10, show_stimuli=False, method='productions', overwrite=False, verbose=False):
+def make_figure(data, figure_path, start_gen=0, end_gen=100, n_columns=10, show_stimuli=False, show_generation_numbers=False, method='productions', overwrite=False, verbose=False):
 	'''
 	Make a figure depeciting the evolution of a bunch of chains.
 	'''
@@ -146,7 +145,7 @@ def make_figure(data, figure_path, start_gen=0, end_gen=100, n_columns=10, show_
 	for chain in data['chains']:
 		chain['generations'] = [generation for gen_i, generation in enumerate(chain['generations']) if gen_i >= start_gen and gen_i <= end_gen]
 
-	svg = draw_all_chains(data['chains'], n_columns, show_stimuli, method, verbose)
+	svg = draw_all_chains(data['chains'], n_columns, show_stimuli, show_generation_numbers, method, verbose)
 
 	with open(figure_path, mode='w', encoding='utf-8') as file:
 		file.write(svg)
