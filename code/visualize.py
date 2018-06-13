@@ -19,7 +19,7 @@ veridical_systems = {
 	'both' : np.array([[0,0,0,0,1,1,1,1] for _ in range(4)] + [[2,2,2,2,3,3,3,3] for _ in range(4)], dtype=int)
 }
 
-def create_production_svg(data, show_stimuli=True, offset_x=0, offset_y=0, rectangles=None):
+def create_production_svg(data, show_stimuli=True, offset_x=0, offset_y=0):
 	svg = '<g id="partition">\n\n'
 	for stim_i, ((y, x), category) in enumerate(np.ndenumerate(data)):
 		radius, angle = radiuses[x], angles[y]
@@ -36,16 +36,33 @@ def create_production_svg(data, show_stimuli=True, offset_x=0, offset_y=0, recta
 			svg += '		<circle cx="%i" cy="%i" r="%i" style="stroke:black; stroke-width:10; fill:none;" />\n' % (loc_x, loc_y, radius)
 			svg += '		<line x1="%i" y1="%i" x2="%f" y2="%f" style="stroke: black; stroke-width:10;" />\n' % (loc_x, loc_y, line_x, line_y)
 		svg += '	</g>\n\n'
-	if rectangles:
-		for category_rectangles in rectangles:
-			for rectangle in category_rectangles:
-				topleft     = rectangle[0][1]*500, rectangle[0][0]*500
-				topright    = rectangle[1][1]*500, rectangle[1][0]*500
-				bottomleft  = rectangle[2][1]*500, rectangle[2][0]*500
-				bottomright = rectangle[3][1]*500, rectangle[3][0]*500
-				svg += '	<g id="rectangle">\n'
-				svg += '		<polygon points="%i,%i %i,%i %i,%i %i,%i" style="stroke:white; stroke-width:30; fill:none;" />\n' % (topleft[0], topleft[1], topright[0], topright[1], bottomright[0], bottomright[1], bottomleft[0], bottomleft[1])
-				svg += '	</g>\n\n'
+	svg += '</g>\n\n'
+	return svg	
+
+def create_production_svg_rect(data, show_stimuli=True, offset_x=0, offset_y=0):
+	import rectlang
+	rectlang_space = rectlang.Space((8,8), solutions_file='../data/8x8_solutions.json')
+	svg = '<g id="partition">\n\n'
+	for cat_i in np.unique(data):
+		color = colors.categories[cat_i]
+		cat_rects = rectlang_space.compress_concept(data==cat_i)[1]
+		for (y, x), _, _, _, (h, w) in cat_rects:
+			box_x = offset_x + (x * 500)
+			box_y = offset_y + (y * 500)
+			box_w = w * 500
+			box_h = h * 500
+			svg += "\t\t\t<rect x='%s' y='%s' width='%s' height='%s' style='fill:%s; stroke-width:0.1; stroke:%s' />\n" % (str(box_x), str(box_y), str(box_w), str(box_h), color, color)
+
+	if show_stimuli:
+		for stim_i, (y, x) in enumerate(np.ndindex(data.shape)):
+			radius, angle = radiuses[x], angles[y]
+			loc_x, loc_y = x * 500 + 250 + offset_x, (y + 1) * 500 - 250 + offset_y
+			box_x, box_y = x * 500 + offset_x, y * 500 + offset_y
+			line_x, line_y = radius * np.cos(angle) + loc_x, radius * np.sin(angle) + loc_y
+			svg += '\t<g id="stimulus-%i">\n' % stim_i
+			svg += '\t\t<circle cx="%i" cy="%i" r="%i" style="stroke:black; stroke-width:10; fill:none;" />\n' % (loc_x, loc_y, radius)
+			svg += '\t\t<line x1="%i" y1="%i" x2="%f" y2="%f" style="stroke: black; stroke-width:10;" />\n' % (loc_x, loc_y, line_x, line_y)
+			svg += '\t</g>\n\n'
 	svg += '</g>\n\n'
 	return svg	
 
@@ -112,20 +129,23 @@ def produce_gaussian_veridical_systems(metric='euclidean', gamma=1):
 
 # -------------------------------------------------------------------
 
-def visualize(data, figure_path, figure_width=5, show_stimuli=True, rectangles=None):
+def visualize(data, figure_path, figure_width=5, show_stimuli=True, rect_compress=False):
 	if not isinstance(data, np.ndarray):
 		raise ValueError('Input data should be numpy array')
 	if len(data.shape) == 2 and (data.dtype == int or data.dtype == bool):
 		height = 500 * data.shape[0]
 		width = 500 * data.shape[1]
 		figure_height = figure_width / width * height
-		svg = '<svg width="%iin" height="%fin" viewBox="0 0 %i %i" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1">\n\n' % (width, height)
-		svg += create_production_svg(data, show_stimuli, rectangles)
+		svg = '<svg width="%iin" height="%fin" viewBox="0 0 %i %i" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1">\n\n' % (figure_width, figure_height, width, height)
+		if rect_compress:
+			svg += create_production_svg_rect(data, show_stimuli)
+		else:
+			svg += create_production_svg(data, show_stimuli)
 	elif len(data.shape) == 3 and data.dtype == float:
 		height = 500 * data.shape[1] * 2 + 500
 		width = 500 * data.shape[2] * 2 + 500
 		figure_height = figure_width / width * height
-		svg = '<svg width="%iin" height="%fin" viewBox="0 0 %i %i" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1">\n\n' % (width, height)
+		svg = '<svg width="%iin" height="%fin" viewBox="0 0 %i %i" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1">\n\n' % (figure_width, figure_height, width, height)
 		svg += create_comprehension_svg(data)
 	else:
 		raise ValueError('Invalid input data. Should be 8x8 ints (production) or 4x8x8 floats (comprehension)')

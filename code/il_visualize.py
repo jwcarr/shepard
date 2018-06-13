@@ -1,5 +1,6 @@
 from os import path, remove
 import numpy as np
+import rectlang
 import colors
 import tools
 
@@ -10,7 +11,14 @@ letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 scale_factor = 16
 figure_width = 5.5 #inches
 
-def draw_language(language, offset_x, offset_y, chain, generation, show_stimuli=True):
+rectlang_space = rectlang.Space((8,8), solutions_file='../data/8x8_solutions.json')
+
+def draw_language(language, offset_x, offset_y, chain, generation, show_stimuli=False, rect_compress=True):
+	if rect_compress:
+		return draw_language_rects(language, offset_x, offset_y, chain, generation, show_stimuli)
+	return draw_language_cells(language, offset_x, offset_y, chain, generation, show_stimuli)
+
+def draw_language_cells(language, offset_x, offset_y, chain, generation, show_stimuli=True):
 	language_id = letters[chain] + str(generation)
 	svg = '		<g id="language-%s">\n' % language_id
 	for x in range(8):
@@ -32,6 +40,21 @@ def draw_language(language, offset_x, offset_y, chain, generation, show_stimuli=
 				svg += "				<line x1='%s' y1='%s' x2='%s' y2='%s' style='stroke: black; stroke-width:1;' />\n" % (loc_x, loc_y, line_x, line_y)
 			svg += '			</g>\n'
 	svg += '		</g>\n\n'
+	return svg
+
+def draw_language_rects(language, offset_x, offset_y, chain, generation, show_stimuli=True):
+	language_id = letters[chain] + str(generation)
+	svg = '\t\t<g id="language-%s">\n' % language_id
+	for cat_i in np.unique(language):
+		color = colors.categories[cat_i]
+		cat_rects = rectlang_space.compress_concept(language==cat_i)[1]
+		for (y, x), _, _, _, (h, w) in cat_rects:
+			box_x = (offset_x + (x * 500)) / scale_factor
+			box_y = (offset_y + (y * 500)) / scale_factor
+			box_w = w * 500 / scale_factor
+			box_h = h * 500 / scale_factor
+			svg += "\t\t\t<rect x='%s' y='%s' width='%s' height='%s' style='fill:%s; stroke-width:0.1; stroke:%s' />\n" % (str(box_x), str(box_y), str(box_w), str(box_h), color, color)
+	svg += '\t\t</g>\n\n'
 	return svg
 
 def draw_letter(letter_i, offset_x, offset_y):
@@ -63,7 +86,7 @@ def draw_dots(offset_x, offset_y):
 	svg += '		</g>\n\n'
 	return svg
 
-def draw_all_chains(chain_data, n_columns=10, show_stimuli=False, show_generation_numbers=False, method='productions', verbose=False):
+def draw_all_chains(chain_data, n_columns=10, show_stimuli=False, show_generation_numbers=False, method='productions', rect_compress=True, verbose=False):
 	arr = []
 	svg = ''
 	offset_x = 4400
@@ -94,7 +117,7 @@ def draw_all_chains(chain_data, n_columns=10, show_stimuli=False, show_generatio
 					svg += draw_letter(chain['chain_id'], offset_x, offset_y)
 				elif row_i == 0 and col_i == 1:
 					language = np.array(chain['generations'][0][method], dtype=int).reshape((8,8))
-					svg += draw_language(language, offset_x, offset_y, chain['chain_id'], 0, show_stimuli)
+					svg += draw_language(language, offset_x, offset_y, chain['chain_id'], 0, show_stimuli, rect_compress)
 					arr[-1].append('0')
 				elif row_i > 0 and col_i == 0:
 					# blank
@@ -116,7 +139,7 @@ def draw_all_chains(chain_data, n_columns=10, show_stimuli=False, show_generatio
 							str_gen = '0' + str_gen
 						arr[-1].append(str_gen)
 						language = np.array(chain['generations'][generation][method], dtype=int).reshape((8,8))
-						svg += draw_language(language, offset_x, offset_y, chain['chain_id'], generation, show_stimuli)
+						svg += draw_language(language, offset_x, offset_y, chain['chain_id'], generation, show_stimuli, rect_compress)
 					else:
 						arr[-1].append('--')
 				offset_x += 4400
@@ -135,17 +158,14 @@ def draw_all_chains(chain_data, n_columns=10, show_stimuli=False, show_generatio
 			print(line)
 	return final_svg
 
-def make_figure(data, figure_path, start_gen=0, end_gen=100, n_columns=10, show_stimuli=False, show_generation_numbers=False, method='productions', overwrite=False, verbose=False):
+def make_figure(data, figure_path, start_gen=0, end_gen=100, n_columns=10, show_stimuli=False, show_generation_numbers=False, method='productions', rect_compress=True, verbose=False):
 	'''
 	Make a figure depeciting the evolution of a bunch of chains.
 	'''
-	if path.isfile(figure_path) and not overwrite:
-		raise ValueError('Could not write to path: ' + str(figure_path) + '. Set overwrite=True to override')
-
 	for chain in data['chains']:
 		chain['generations'] = [generation for gen_i, generation in enumerate(chain['generations']) if gen_i >= start_gen and gen_i <= end_gen]
 
-	svg = draw_all_chains(data['chains'], n_columns, show_stimuli, show_generation_numbers, method, verbose)
+	svg = draw_all_chains(data['chains'], n_columns, show_stimuli, show_generation_numbers, method, rect_compress, verbose)
 
 	with open(figure_path, mode='w', encoding='utf-8') as file:
 		file.write(svg)

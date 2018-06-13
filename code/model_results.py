@@ -78,7 +78,7 @@ def make_model_chains_figure(figure_path):
 	best_chain_inf['chain_id'] = 1
 	best_chain_strong_inf['chain_id'] = 2
 	data = {'chains':[best_chain_sim, best_chain_inf, best_chain_strong_inf]}
-	il_visualize.make_figure(data, figure_path, start_gen=0, end_gen=50, n_columns=14, method='language', overwrite=True)
+	il_visualize.make_figure(data, figure_path, start_gen=0, end_gen=50, n_columns=14, method='language', rect_compress=True)
 
 def make_final_gen_dist_figure(figure_path):
 	primary_results = il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_2_2.json', 'lang_complexity', 50)
