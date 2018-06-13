@@ -174,8 +174,8 @@ class Agent:
 
 	def _signal_probability(self, signal, language, meaning):
 		'''
-		Calculate p(s|L,m) = 1 - ε        if m in L(s)
-		                   = ε / (Nmax-1) if m not in L(s)
+		Calculate p(s|L,m) = 1 - ε        if L(m) == s
+		                   = ε / (Nmax-1) if L(m) != s
 		'''
 		if language[meaning] == signal:
 			return self._prob_correct
@@ -237,8 +237,8 @@ class Agent:
 			cand_language = self._propose_candidate(language, mutables)
 			cand_mutables = self._get_mutables(cand_language)
 			cand_posterior = self._posterior(cand_language, data)
-			prob_c_given_l = -np.log2(len(mutables)) # g(cand|lang)
-			prob_l_given_c = -np.log2(len(cand_mutables)) # g(lang|cand)
+			prob_c_given_l = -np.log2(len(mutables)) # p(cand|lang)
+			prob_l_given_c = -np.log2(len(cand_mutables)) # p(lang|cand)
 			alpha = (cand_posterior - posterior) + (prob_l_given_c - prob_c_given_l)
 			if (alpha >= 0.0) or (np.log2(np.random.random()) < alpha):
 				language = cand_language
