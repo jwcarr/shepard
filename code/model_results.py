@@ -65,10 +65,15 @@ def make_model_results_figure(figure_path):
 
 def make_model_results_figure_no_bottleneck(figure_path):
 	model_results_sim_001 = il_results.load('../data/model_sim/1.0_0.01_4_2.json', start_gen=0, end_gen=50, method='lang')
+	model_results_sim_005 = il_results.load('../data/model_sim/1.0_0.05_4_2.json', start_gen=0, end_gen=50, method='lang')
 	model_results_sim_010 = il_results.load('../data/model_sim/1.0_0.1_4_2.json', start_gen=0, end_gen=50, method='lang')
-	il_results.make_figure([(model_results_sim_001, 'Simplicity prior (ε = 0.01)', colors.blue, colors.light_blue, '-'),
-	                        (model_results_sim_010, 'Simplicity prior (ε = 0.1)', colors.blue, colors.light_blue, ':')],
-	                        figure_path=figure_path, show_legend=True)
+	il_results.figure_layout = [['expressivity', 'cost']]
+	il_results.measure_bounds['cost'] = (4.6, 5)
+	il_results.make_figure([(model_results_sim_001, 'ε = 0.01', colors.blue, colors.light_blue, '-'),
+	                        (model_results_sim_005, 'ε = 0.05', colors.blue, colors.light_blue, '--'),
+	                        (model_results_sim_010, 'ε = 0.1', colors.blue, colors.light_blue, ':')],
+	                        figure_path=figure_path, show_legend=True, figsize=(5.5, 2.5))
+
 
 def make_model_chains_figure(figure_path):
 	best_chain_sim = il_results.extract_dataset(tools.read_json_file('../data/model_sim/1.0_0.01_2_2.json'), 0, 50, 'lang_cost', True)
