@@ -52,13 +52,19 @@ def extract_generation_distribution(data_path, measure, generation):
 		distribution.append(datum)
 	return distribution
 
-def make_figure(datasets, figure_path, title=None, show_legend=False, deep_legend=False):
+def make_figure(datasets, figure_path, title=None, show_legend=False, deep_legend=False, figsize=None):
 	if show_legend:
 		if deep_legend:
-			fig, axes = plt.subplots(2, 2, figsize=(5.5, 5))
+			if figsize is None:
+				figsize = (5.5, 5)
+			fig, axes = plt.subplots(len(figure_layout), len(figure_layout[0]), figsize=figsize, squeeze=False, sharex=True)
 		else:
-			fig, axes = plt.subplots(2, 2, figsize=(5.5, 4))
+			if figsize is None:
+				figsize = (5.5, 4)
+			fig, axes = plt.subplots(len(figure_layout), len(figure_layout[0]), figsize=figsize, squeeze=False)
 	else:
+		if figsize is None:
+			figsize = (5.5, 4)
 		fig, axes = plt.subplots(2, 2, figsize=(5.5, 3.6))
 	for (i, j), axis in np.ndenumerate(axes):
 		measure = figure_layout[i][j]
@@ -72,17 +78,18 @@ def make_figure(datasets, figure_path, title=None, show_legend=False, deep_legen
 		ypad = (ylim[1]-ylim[0])*0.05
 		axis.set_ylim(ylim[0]-ypad, ylim[1]+ypad)
 		axis.set_ylabel(measures_names[measure])
-		axis.set_xlim(0, xvals[-1])
-		axis.set_xticks(list(range(0, xvals[-1]+1, xvals[-1]//5)))
-		if i == 0:
-			axis.set_xticklabels([])
-		else:
+		x_max = len(dataset[figure_layout[i][j]][0])-1
+		axis.set_xlim(0, x_max)
+		axis.set_xticks(list(range(0, x_max+1, x_max//5)))
+		if i == len(axes) - 1:
 			axis.set_xlabel('Generation')
+		else:
+			axis.set_xticklabels([])
 	# Line up the y-axis labels
-	for axis in axes[:, 0]:
-		d = axis.get_yaxis().set_label_coords(-0.2, 0.5)
-	for axis in axes[:, 1]:
-		d = axis.get_yaxis().set_label_coords(-0.2, 0.5)
+	if len(axes) > 1:
+		for col_i in range(len(axes[0])):
+			for axis in axes[:, col_i]:
+				d = axis.get_yaxis().set_label_coords(-0.2, 0.5)
 	if title:
 		fig.suptitle(title)
 	if show_legend:
@@ -91,7 +98,7 @@ def make_figure(datasets, figure_path, title=None, show_legend=False, deep_legen
 			fig.tight_layout(pad=2, h_pad=0.5, w_pad=0.5, rect=(0, 0.1, 1, 1))
 		else:
 			fig.legend(handles, labels, loc='lower center', ncol=3, frameon=False)
-			fig.tight_layout(pad=0.5, h_pad=0.5, w_pad=0.5, rect=(0, 0.1, 1, 1))
+			fig.tight_layout(pad=0.5, h_pad=0.5, w_pad=0.5, rect=(0, 0.15, 1, 1))
 	else:
 		fig.tight_layout(pad=0.5, h_pad=0.5, w_pad=0.5)
 	fig.savefig(figure_path, format='svg')
