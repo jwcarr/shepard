@@ -1,35 +1,51 @@
 Loading required package: Matrix
 Loading required package: methods
 [1] '1.1.13'
+Warning message:
+In checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv,  :
+  Model failed to converge with max|grad| = 0.137011 (tol = 0.001, component 1)
 Generalized linear mixed model fit by maximum likelihood (Laplace
   Approximation) [glmerMod]
  Family: binomial  ( logit )
-Formula: correct ~ test_type + category_system + (1 | subject)
+Formula: correct ~ test_type * category_system + (1 | subject)
    Data: exp1
 
      AIC      BIC   logLik deviance df.resid 
- 12735.9  12774.1  -6363.0  12725.9    15355 
+ 12736.5  12790.0  -6361.3  12722.5    15353 
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--7.6285 -0.5280  0.1449  0.4590  2.6614 
+-8.0373 -0.5264  0.1462  0.4586  2.6645 
 
 Random effects:
  Groups  Name        Variance Std.Dev.
- subject (Intercept) 2.606    1.614   
+ subject (Intercept) 2.592    1.61    
 Number of obs: 15360, groups:  subject, 240
 
 Fixed effects:
-                       Estimate Std. Error z value Pr(>|z|)    
-(Intercept)             1.68734    0.15605  10.813   <2e-16 ***
-test_typecomprehension  0.14216    0.22152   0.642    0.521    
-category_system1       -1.32538    0.13986  -9.477   <2e-16 ***
-category_system2       -0.69732    0.07725  -9.026   <2e-16 ***
+                                        Estimate Std. Error z value Pr(>|z|)
+(Intercept)                               1.6729     0.1572  10.643  < 2e-16
+test_typecomprehension                    0.2016     0.2252   0.895   0.3708
+category_system1                         -1.0955     0.1959  -5.593 2.23e-08
+category_system2                         -0.6631     0.1084  -6.115 9.64e-10
+test_typecomprehension:category_system1  -0.5129     0.2827  -1.814   0.0697
+test_typecomprehension:category_system2  -0.0854     0.1549  -0.551   0.5815
+                                           
+(Intercept)                             ***
+test_typecomprehension                     
+category_system1                        ***
+category_system2                        ***
+test_typecomprehension:category_system1 .  
+test_typecomprehension:category_system2    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
-            (Intr) tst_ty ctgr_1
-tst_typcmpr -0.692              
-ctgry_syst1 -0.060 -0.020       
-ctgry_syst2 -0.044 -0.010  0.071
+            (Intr) tst_ty ctgr_1 ctgr_2 ts_:_1
+tst_typcmpr -0.684                            
+ctgry_syst1 -0.088  0.051                     
+ctgry_syst2 -0.065  0.038  0.062              
+tst_typc:_1  0.051 -0.113 -0.686 -0.038       
+tst_typc:_2  0.040 -0.076 -0.039 -0.697  0.082
+convergence code: 0
+Model failed to converge with max|grad| = 0.137011 (tol = 0.001, component 1)

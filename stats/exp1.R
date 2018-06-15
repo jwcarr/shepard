@@ -14,7 +14,7 @@ contrasts(exp1$category_system) <- contr.helmert(3)
 
 # Correctness predicted by Test Type and Category System with random intercepts for subject
 # Family = binomial because correctness is binary
-model <- glmer(correct ~ test_type + category_system + (1|subject), data=exp1, family=binomial)
+model <- glmer(correct ~ test_type * category_system + (1|subject), data=exp1, family=binomial)
 
 # "category_system1" is difference between (Angle-only) and (Size-only)
 # "category_system2" is difference between (Angle-only and Size-only) and (Angle & Size)
