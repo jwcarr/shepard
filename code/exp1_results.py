@@ -14,6 +14,29 @@ partitions = {
 
 condition_names = {'angle':'Angle-only', 'both':'Angle &amp; Size', 'size':'Size-only'}
 
+def generate_csv_for_stats(dataset, output_file):
+	csv = 'subject,test_type,category_system,correct\n'
+	subject = 1
+	for participant in dataset:
+		if participant['status'] == 'finished':
+			if participant['test_type'] == 'production':
+				for answer, response in zip(participant['test_sequence'], participant['test_responses']):
+					if partitions[participant['condition']][answer] == response:
+						csv += '%i,%s,%s,1\n' % (subject, participant['test_type'], participant['condition']) # correct
+					else:
+						csv += '%i,%s,%s,0\n' % (subject, participant['test_type'], participant['condition']) # incorrect
+			elif participant['test_type'] == 'comprehension':
+				for answer, response in zip(participant['test_sequence'], participant['test_responses']):
+					if answer == partitions[participant['condition']][response]:
+						csv += '%i,%s,%s,1\n' % (subject, participant['test_type'], participant['condition']) # correct
+					else:
+						csv += '%i,%s,%s,0\n' % (subject, participant['test_type'], participant['condition']) # incorrect
+			else:
+				raise ValueError('Unrecognized test type')
+			subject += 1
+	with open(output_file, mode='w') as file:
+		file.write(csv)
+
 def plot_densities(axis, results):
 	positions = [0.6, 0.3, 0]
 	y_lim = [0, 0.9]
@@ -50,7 +73,7 @@ def plot_prop_correct(production_results, comprehension_results, figure_path):
 def mean_prop_correct_production(dataset):
 	results = { 'angle':[], 'size':[], 'both':[] }
 	for participant in dataset:
-		if participant['status'] == 'finished':
+		if participant['test_type'] == 'production' and participant['status'] == 'finished':
 			score = 0.0
 			for answer, response in zip(participant['test_sequence'], participant['test_responses']):
 				if partitions[participant['condition']][answer] == response:
@@ -61,7 +84,7 @@ def mean_prop_correct_production(dataset):
 def mean_prop_correct_comprehension(dataset):
 	results = { 'angle':[], 'size':[], 'both':[] }
 	for participant in dataset:
-		if participant['status'] == 'finished':
+		if participant['test_type'] == 'comprehension' and participant['status'] == 'finished':
 			score = 0.0
 			for answer, response in zip(participant['test_sequence'], participant['test_responses']):
 				if answer == partitions[participant['condition']][response]:
@@ -71,7 +94,7 @@ def mean_prop_correct_comprehension(dataset):
 
 def visualize_participant_production(dataset, dir_path):
 	for participant in dataset:
-		if participant['status'] == 'finished':
+		if participant['test_type'] == 'production' and participant['status'] == 'finished':
 			partition = np.zeros(64, dtype=int)
 			for answer, response in zip(participant['test_sequence'], participant['test_responses']):
 				partition[answer] = response
@@ -81,7 +104,7 @@ def visualize_participant_production(dataset, dir_path):
 
 def visualize_participant_comprehension(dataset, dir_path):
 	for participant in dataset:
-		if participant['status'] == 'finished':
+		if participant['test_type'] == 'comprehension' and participant['status'] == 'finished':
 			partition = np.zeros((4,8,8), dtype=float)
 			for answer, response in zip(participant['test_sequence'], participant['test_responses']):
 				row = response % 8
@@ -92,10 +115,10 @@ def visualize_participant_comprehension(dataset, dir_path):
 				partition[cat] = partition[cat] / partition[cat].max()
 			visualize.visualize(partition, figure_path)
 
-def visualize_all_participant_production(prod_data, figure_dir):
+def visualize_all_participant_production(dataset, figure_dir):
 	partitions_by_condition = {'angle':[], 'both':[], 'size':[]}
-	for participant in prod_data:
-		if participant['status'] == 'finished':
+	for participant in dataset:
+		if participant['test_type'] == 'production' and participant['status'] == 'finished':
 			partition = np.zeros(64, dtype=int)
 			for answer, response in zip(participant['test_sequence'], participant['test_responses']):
 				partition[answer] = response
@@ -105,10 +128,10 @@ def visualize_all_participant_production(prod_data, figure_dir):
 		label = 'Production, ' + condition_names[condition]
 		visualize.visualize_all(partitions, figure_dir + condition + '.pdf', test_type='production', label=label)
 
-def visualize_all_participant_comprehension(comp_data, figure_dir):
+def visualize_all_participant_comprehension(dataset, figure_dir):
 	partitions_by_condition = {'angle':[], 'both':[], 'size':[]}
-	for participant in comp_data:
-		if participant['status'] == 'finished':
+	for participant in dataset:
+		if participant['test_type'] == 'comprehension' and participant['status'] == 'finished':
 			partition = np.zeros((4,8,8), dtype=float)
 			for answer, response in zip(participant['test_sequence'], participant['test_responses']):
 				row = response % 8
@@ -123,16 +146,16 @@ def visualize_all_participant_comprehension(comp_data, figure_dir):
 
 ######################################################################
 
-# prod_data = tools.read_json_lines('../data/experiments/exp1_production.json')
-# comp_data = tools.read_json_lines('../data/experiments/exp1_comprehension.json')
+dataset = tools.read_json_lines('../data/experiments/exp1_participants.json')
 
-# prod_results = mean_prop_correct_production(prod_data)
-# comp_results = mean_prop_correct_comprehension(comp_data)
+generate_csv_for_stats(dataset, '../data/experiments/exp1_stats.csv')
+
+# prod_results = mean_prop_correct_production(dataset)
+# comp_results = mean_prop_correct_comprehension(dataset)
 # plot_prop_correct(prod_results, comp_results, '../visuals/exp1_results.svg')
 
-# visualize_participant_production(prod_data, '../visuals/production/')
-# visualize_participant_comprehension(comp_data, '../visuals/comprehension/')
+# visualize_participant_production(dataset, '../visuals/production/')
+# visualize_participant_comprehension(dataset, '../visuals/comprehension/')
 
-# visualize_all_participant_production(prod_data, '../visuals/production_')
-# visualize_all_participant_comprehension(comp_data, '../visuals/comprehension_')
-
+# visualize_all_participant_production(dataset, '../visuals/production_')
+# visualize_all_participant_comprehension(dataset, '../visuals/comprehension_')
