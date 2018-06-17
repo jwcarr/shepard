@@ -341,6 +341,8 @@ class Chain:
 
 		self._model_parameters = {'shape':self._shape, 'mincats':self._mincats, 'maxcats':self._maxcats, 'prior':self._prior, 'weight':self._weight, 'noise':self._noise, 'bottleneck':self._bottleneck, 'exposures':self._exposures, 'mcmc_iterations':self._mcmc_iterations}
 
+		self.generations = []
+
 	def _segment_space(self):
 		'''
 		Break the space up into 2x2 segments in order to sample
@@ -403,8 +405,8 @@ class Chain:
 		communicative cost. Each generation is appended to the file.
 		'''
 		generation_data = {
-			'language':language.flatten().tolist(),
-			'productions':productions.flatten().tolist(),
+			'language':language,
+			'productions':productions,
 			'data_out':data,
 			'filtered_agent':filtered,
 			'lang_expressivity':len(np.unique(language)),
@@ -417,8 +419,13 @@ class Chain:
 			'prod_cost':self._commcost_grid.cost(productions),
 			'model_parameters':self._model_parameters
 		}
-		with open(output_file, mode='a') as file:
-			file.write(str(generation_data) + '\n')
+		self.generations.append(generation_data)
+		if output_file is not None:
+			output_data = generation_data.copy()
+			output_data['language'] = output_data['language'].flatten().tolist()
+			output_data['productions'] = output_data['productions'].flatten().tolist()
+			with open(output_file, mode='a') as file:
+				file.write(str(generation_data) + '\n')
 
 	def _begin_chain(self, output_file):
 		'''
@@ -457,7 +464,7 @@ class Chain:
 	# PUBLIC METHODS #
 	##################
 
-	def simulate(self, output_file, resume=False):
+	def simulate(self, output_file=None, resume=False):
 		'''
 		Runs an iterated learning chain. For each generation in the
 		chain, an agent is created that learns from the previous
