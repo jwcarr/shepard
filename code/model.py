@@ -510,8 +510,7 @@ if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser()
 	parser.add_argument('output_path', action='store', type=str, help='directory to write data to')
-	parser.add_argument('chain_i', action='store', type=int, help='first chain number')
-	parser.add_argument('--chains', action='store', type=int, default=10, help='number of chains (10)')
+	parser.add_argument('chain_i', action='store', type=int, help='chain number')
 	parser.add_argument('--generations', action='store', type=int, default=100, help='number of generations in a chain (100)')
 	parser.add_argument('--height', action='store', type=int, default=8, help='height of the meaning space')
 	parser.add_argument('--width', action='store', type=int, default=8, help='width of the meaning space')
@@ -531,7 +530,5 @@ if __name__ == '__main__':
 		pass
 
 	chain = Chain(args.generations, (args.height, args.width), args.mincats, args.maxcats, args.prior, args.weight, args.noise, args.bottleneck, args.exposures, args.mcmc_iterations)
-
-	for chain_i in range(args.chain_i, args.chain_i + args.chains):
-		output_file = os.path.join(args.output_path, str(chain_i))
-		chain.simulate(output_file, os.path.isfile(output_file))
+	output_file = os.path.join(args.output_path, str(chain_i))
+	chain.simulate(output_file, os.path.isfile(output_file))

@@ -18,7 +18,7 @@ ulimit -c 0
 module load anaconda
 source activate modpy
 
-python model.py scratch/model_results/{path}/ $SGE_TASK_ID --chains 1 --generations 50 --mincats 1 --maxcats 4 --prior simplicity --weight {weight} --noise {noise} --bottleneck {bottleneck} --exposures {exposures} --mcmc_iterations 5000
+python model.py scratch/model_results/{path}/ $SGE_TASK_ID --generations 50 --mincats 1 --maxcats 4 --prior simplicity --weight {weight} --noise {noise} --bottleneck {bottleneck} --exposures {exposures} --mcmc_iterations 5000
 '''
 
 inf_job = '''#!/bin/sh
@@ -37,7 +37,7 @@ export OMP_NUM_THREADS=1
 module load anaconda
 source activate modpy
 
-python model.py scratch/model_results/{path}/ $SGE_TASK_ID --chains 1 --generations 50 --mincats 1 --maxcats 4 --prior informativeness --weight {weight} --noise {noise} --bottleneck {bottleneck} --exposures {exposures} --mcmc_iterations 5000
+python model.py scratch/model_results/{path}/ $SGE_TASK_ID --generations 50 --mincats 1 --maxcats 4 --prior informativeness --weight {weight} --noise {noise} --bottleneck {bottleneck} --exposures {exposures} --mcmc_iterations 5000
 '''
 
 def write_script(jobid, script):
