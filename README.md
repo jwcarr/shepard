@@ -1,88 +1,106 @@
 shepard
 =======
 
-This repository contains data and code from Carr, Smith, Culbertson, and Kirby (submitted). It includes Python code for running a Bayesian iterated learning model of the emergence of semantic categories (plus the raw data that we generated from this model), and code for running online experiments that test the predictions of the model (plus the participant data we collected). Various other Python and R scripts are also included for replicating the analysis. All Python code in this repo was written for Python 3; little attempt has been made to ensure compatibility with Python 2. Much of the Python code requires Numpy, Scipy, and Matplotlib.
+This repository contains data and code from Carr, Smith, Culbertson, and Kirby (submitted). It includes Python code for running a Bayesian iterated learning model of the emergence of semantic categories (plus the raw data that we generated from this model), and code for running online experiments that test the predictions of the model (plus the participant data we collected).
+
+Various other Python and R scripts are also included for replicating the analysis. All Python code in this repo was written for Python 3 and much of it requires [NumPy](http://www.numpy.org), [SciPy](https://scipy.org), and [matplotlib](https://matplotlib.org) to be installed.
 
 The top-level structure of the repo is:
 
-- ```code/```: All Python code used for the model and analysis
+- `code/`: All Python code used for the model and analysis
 
-- ```data/```: All the raw data files
+- `data/`: All the raw data files
 
-- ```experiments/```: Node.js code for the experiments
+- `experiments/`: Node.js code for the experiments
 
-- ```illustrations/```: Illustrations created in Affinity Designer
+- `illustrations/`: Illustrations created in Affinity Designer
 
-- ```manuscript/```: LaTeX source and EPS figures for the manuscript
+- `manuscript/`: LaTeX source and EPS figures for the manuscript
 
-- ```stats/```: R scripts for reproducing the statistics
+- `stats/`: R scripts for reproducing the statistics
 
-- ```supplementary/```: Various supplementary items
+- `supplementary/`: Various supplementary items
 
-- ```visuals/```: Various visualizations
+- `visuals/`: Various visualizations
 
 Data
 ----
 
 All experimental data can be found in the ```data/experiments/``` directory. This includes the following files:
 
-- ```exp1_participants.json```: Raw JSON data for all participants in Experiment 1 (one participant per line). Personal information has been removed from the original file, such as participant IP addresses and user IDs.
+- `exp1_participants.json`: Raw JSON data for all participants in Experiment 1 (one participant per line). Personal information has been removed from the original file, such as participant IP addresses and user IDs.
 
-- ```exp1_stats.csv```: CSV data for Experiment 1 (used by the R script to compute the stats). This file may be regenerated using the ```generate_csv_for_stats()``` function in ```code/exp1_results.py```.
+- `exp1_stats.csv`: CSV data for Experiment 1 (used by the R script to compute the stats). This file may be regenerated using the `generate_csv_for_stats()` function in `code/exp1_results.py`.
 
-- ```exp2_chains.json```: JSON data for all chains in Experiment 2. This is flattened version of the original file (giving it a similar structure to the model result JSON files) and removes personal participant information.
+- `exp2_chains.json`: JSON data for all chains in Experiment 2. This is flattened version of the original file (giving it a similar structure to the model result JSON files) and removes personal participant information.
 
-- ```exp2_participants.json```: Raw JSON data for all participants in Experiment 2 (one participant per line). Personal information has been removed from the original file, such as participant IP addresses and user IDs.
+- `exp2_participants.json`: Raw JSON data for all participants in Experiment 2 (one participant per line). Personal information has been removed from the original file, such as participant IP addresses and user IDs.
 
-- ```exp2_stats.csv```: CSV data for Experiment 2 (used by the R script to compute the stats). This file may be regenerated using the ```generate_csv_for_stats()``` function in ```code/exp2_results.py```.
+- `exp2_stats.csv`: CSV data for Experiment 2 (used by the R script to compute the stats). This file may be regenerated using the `generate_csv_for_stats()` function in `code/exp2_results.py`.
 
 The model and model-fit data has been compressed into zip files. Uncompressed, this data consumes about 1GB of disk space. If you wish to access the raw model or model-fit data, you will need to uncompress the following files:
 
-- ```data/model_inf.zip```: 97 JSON files, each for a different run of the model under the informativeness prior. Each JSON file contains 100 chains of 50 generations. Files are named following the pattern ```weight_noise_bottleneck_exposures.json```.
+- `data/model_inf.zip`: 97 JSON files, each for a different run of the model under the informativeness prior. Each JSON file contains 100 chains of 50 generations. Files are named following the pattern `weight_noise_bottleneck_exposures.json`.
 
-- ```data/model_sim.zip```: 49 JSON files, each for a different run of the model under the simplicity prior. Each JSON file contains 100 chains of 50 generations. Files are named following the pattern ```weight_noise_bottleneck_exposures.json```.
+- `data/model_sim.zip`: 49 JSON files, each for a different run of the model under the simplicity prior. Each JSON file contains 100 chains of 50 generations. Files are named following the pattern `weight_noise_bottleneck_exposures.json`.
 
-- ```data/modelfit.zip```: Various raw data files and pickled scikit-optimize ```result``` objects. Includes the data_in–data_out pairs for 168 participants (generated by ```code/mf_extract_data_in_out.py```) and log likelihood results under random and candidate parameter settings (generated by ```code/mf_sample.py```).
+- `data/modelfit.zip`: Various raw data files and pickled scikit-optimize `result` objects. Includes the data_in–data_out pairs for 168 participants (generated by `code/mf_extract_data_in_out.py`) and log likelihood results under random and candidate parameter settings (generated by `code/mf_sample.py`).
 
-The ```data``` directory also contains:
+The `data` directory also contains:
 
-- ```8x8_solutions.json```: Rectangular decomposition solutions for Experiment 2 data.
+- `8x8_solutions.json`: Cached rectangular decomposition solutions for Experiment 2 data.
 
-- ```rectlang.zip```: The raw data (generated by ```exp2_chunkify.py```) used to compute ```8x8_solutions.json``` (this raw data should not be of much interest)
+- `rectlang.zip`: The raw data (generated by `exp2_chunkify.py`) used to compute `8x8_solutions.json` (this raw data should not be of much interest).
 
-The structure of the JSON and CSV files should be self-explanatory. The JSON files may be loaded using functions provided in ```tools.py```, for example:
+The structure of the JSON and CSV files should be self-explanatory from inspecting the files. However, to give a few examples, most of the JSON files may be loaded using the function `read_json_file()` in `tools.py`, for example:
 
-```
+```python
 >>> import tools
 >>> model_dataset = tools.read_json_file('../data/model_sim/1.0_0.01_2_2.json')
 >>> exp2_dataset = tools.read_json_file('../data/experiments/exp2_chains.json')
-```
-
-These datasets are Python dictionaries that can be inspected, manipulated, and iterated over like this:
-
-```
->>> model_dataset['chains'][16]['generations'][32]['lang_complexity'] # Complexity of chain 16, generation 32
+>>> # Complexity of chain 16, generation 32 in the model dataset
+>>> model_dataset['chains'][16]['generations'][32]['lang_complexity']
 49.44161477482669
->>> exp2_dataset['chains'][4]['generations'][8]['prod_complexity'] # Complexity of chain 4, generation 8
-465.36882864375775
+>>> # Transmission errors for tenth generations across all chains in Experiment 2
+>>> [chain['generations'][10]['prod_error'] for chain in exp2_dataset['chains']]
+[3.653458818052006, 0.0, 0.11611507530476972, 0.6877694482804536, 3.050944842557372, 1.0529841448544655, 1.1603143477694449, 0.366849896644455, 0.7086360622147698, 0.8754503193229525, 1.8341556081932127, 3.082350200874642]
 ```
+
+In the two by-participant data files (`exp1_participants.json` and `exp2_participants.json`), which hold more detailed information about individual participants, each line is a JSON record (exported from the MongoDB database). These should be accessed using the function `read_json_lines()`. For example, to calculate average reaction times by category system, you could do:
+
+```python
+>>> exp1_dataset = tools.read_json_lines('../data/experiments/exp1_participants.json')
+>>> test_reaction_times = {'angle':[], 'size':[], 'both':[]}
+>>> for participant in exp1_dataset:
+...     test_reaction_times[participant['condition']].extend(participant['test_reaction_times'])
+... 
+>>> sum(test_reaction_times['angle']) / len(test_reaction_times['angle'])
+3600.316015625
+>>> sum(test_reaction_times['size']) / len(test_reaction_times['size'])
+3642.93844126506
+>>> sum(test_reaction_times['both']) / len(test_reaction_times['both'])
+4580.0734375
+```
+
 
 Model
 -----
 
-The code to run the model is in ```code/model.py```. This Python script is well documented and should allow the reader to run a simple iterated learning chain. The script is designed to be run from the command line. For example, the following command will run a single chain of 50 generations under the simplicity prior and the same basic parameter settings reported in the paper.
+Various functions are provided in `code/model_resuts.py` to reproduce figures and visualizations for the model. Generally, these functions can produce SVG, PDF, EPS, or PNG files, but formats other than SVG require [Inkscape](https://inkscape.org) to be installed on your machine. Producing animated gifs requires the Python package [imageio](https://pypi.org/project/imageio/).
 
-```
-python model.py my/results/directory/ 1 --generations 50 --height 8 --width 8 --mincats 1 --maxcats 4 --prior simplicity --weight 1.0 --noise 0.01 --bottleneck 2 --exposures 2 --mcmc_iterations 5000
+The code to run the model is in `code/model.py`. This Python script is well documented and should allow the reader to run a simple iterated learning chain. The script is designed to be run from the command line. For example, the following command will run a single chain of 50 generations under the simplicity prior and the same basic parameter settings reported in the paper.
+
+```bash
+$ python model.py my/results/directory/ 1 --generations 50 --height 8 --width 8 --mincats 1 --maxcats 4 --prior simplicity --weight 1.0 --noise 0.01 --bottleneck 2 --exposures 2 --mcmc_iterations 5000
 ```
 
-The results will be written out to the file ```my/results/directory/1``` (the number ```1``` in the above command represents the chain number and can be varied to write each chain to a different file). Depending on the parameter settings you choose, running a single chain can take several hours. In general, the simplicity prior is slower to compute than the informativeness prior. Running a large number of chains is best performed on a cluster (for example, run one chain per CPU core). Each line in the output file gives the results from a single generation.
+The results will be written out to the file `my/results/directory/1` (the number `1` in the above command represents the chain number and can be varied to write each chain to a different file). Depending on the parameter settings you choose, running a single chain can take several hours. In general, the simplicity prior is slower to compute than the informativeness prior. Running a large number of chains is best performed on a cluster (for example, run one chain per CPU core). Each line in the output file gives the results from a single generation. A collection of output files (i.e., one file per chain) can be merged into a single JSON file using `model_process.py`, which is then suitable for analysis using various functions in `model_results.py` and `il_results.py`.
 
 ### Example: Creating agents that learn from data
 
-If you just want to experiment with the model, it might be more convenient to run the code from an interactive Python shell. This will allow you to do things like this:
+If you just want to experiment with the model, it might be more convenient to run the code from an interactive Python shell. Here we run through a few examples to get you started.
 
-```
+```python
 >>> import model
 >>> my_agent = model.Agent(shape=(4,4), prior='simplicity', weight=1.0, noise=0.01, exposures=2)
 >>> my_data = [((0,0), 0), ((1,0), 0), ((0,2), 1), ((1,2), 1), ((2,1), 2), ((3,1), 2), ((2,3), 3), ((3,3), 3)]
@@ -94,16 +112,28 @@ array([[0, 2, 1, 3],
        [0, 2, 1, 3]])
 ```
 
-In this example, we first created an agent with various parameters (the shape parameter determines the size of the universe – here a 4×4 universe). We then constructed some data (data is a list of meaning–signal pairs, where each meaning is a point in the universe). We then got the agent to learn from this data. Finally, we took a look at what language the agent inferred. Languages are Numpy arrays; each number represents a category/signal, so in this case, the agent has inferred a language which breaks the space up into four vertical stripes. We could also ask the agent to produce a signal for a particular meaning:
+In this example, we first created an agent with various parameters (the shape parameter determines the size of the universe – here a 4×4 universe). We then constructed some data (data is a list of meaning–signal pairs, where each meaning is a point in the universe). We then got the agent to learn from this data. Finally, we took a look at what language the agent inferred. Languages are Numpy arrays representing the two-dimensional space; each number represents a category/signal, so in this case, the agent has inferred a language which breaks the space up into four vertical stripes. Contrast with what happens when an agent has a strong informativeness prior and is exposed to the same data:
 
+```python
+>>> my_inf_agent = model.Agent(shape=(4,4), prior='informativeness', weight=200.0, noise=0.01, exposures=2)
+>>> my_inf_agent.learn(my_data)
+>>> my_inf_agent.language
+array([[0, 0, 1, 1],
+       [0, 0, 1, 1],
+       [2, 2, 3, 3],
+       [2, 2, 3, 3]])
 ```
+
+The agent infers a quadrant partition of the space. We can ask an agent to produce a signal for a particular meaning like this:
+
+```python
 >>> my_agent.speak((3,3))
 3
 ```
 
-Asked to produce a signal for meaning ```(3,3)```, the agent produces signal ```3```. Of course, there is a small probability that the agent might make a production error, which is determined by the noise parameter we set above (in this example, 1%). To ask the agent to produce signals for all meanings, use ```speak_all()```:
+Asked to produce a signal for meaning `(3,3)`, the agent produces signal `3`. Of course, there is a small probability that the agent might make a production error, which is determined by the noise parameter we set above (in this example, 1%). To ask the agent to produce signals for all meanings, use `speak_all()`:
 
-```
+```python
 >>> my_agent.speak_all()
 array([[0, 0, 1, 3],
        [0, 2, 1, 3],
@@ -111,13 +141,13 @@ array([[0, 0, 1, 3],
        [0, 2, 1, 3]])
 ```
 
-In this example, the agent has made a production error; meaning ```(0,1)``` has been mislabeled as ```0``` rather than ```2```.
+In this example, the agent has made a production error; meaning `(0,1)` has been mislabeled as `0` rather than `2`.
 
 ### Example: Running an iterated learning chain
 
-We can now do some iterated learning. First, we'll construct a data set for a few meanings:
+We can now do some iterated learning. First, we'll construct a new dataset derived from the previous agent:
 
-```
+```python
 >>> new_data = [(meaning, my_agent.speak(meaning)) for meaning in [(0,0), (1,1), (2,2), (3,3)]]
 >>> new_data
 [((0, 0), 0), ((1, 1), 2), ((2, 2), 1), ((3, 3), 3)]
@@ -125,7 +155,7 @@ We can now do some iterated learning. First, we'll construct a data set for a fe
 
 Now we'll create a new agent, who will learn from this rather impoverished dataset:
 
-```
+```python
 >>> my_agent2 = model.Agent(shape=(4,4), prior='simplicity', weight=1.0, noise=0.01, exposures=2)
 >>> my_agent2.learn(new_data)
 >>> my_agent2.language
@@ -137,23 +167,23 @@ array([[0, 2, 1, 3],
 
 Even though the new agent only saw signals for four of the meanings (the meanings on the diagonal), it still managed to infer exactly the same language hypothesis as the previous agent. This is because it has a simplicity prior: Given a small amount of data, it looks for the simplest explanation for that data, which is the stripy partition.
 
-We could continue in this fashion, creating a new agent who learns from new data generated by the previous agent. Instead, we will use a ```Chain``` object to automatically run an iterated learning chain starting from an initially random language. We set up and run a chain like this:
+We could continue in this fashion, creating a new agent who learns from new data generated by the previous agent. Instead, we will use a `Chain` object to automatically run an iterated learning chain starting from an initially random language. We set up and run a chain like this:
 
-```
+```python
 >>> my_chain = model.Chain(generations=10, shape=(4,4), prior='simplicity', weight=1.0, noise=0.01, bottleneck=2, exposures=2)
 >>> my_chain.simulate()
 ```
 
-specifying whatever particular parameters we want to test. Under the parameters above, this will take around 20 seconds to run. The results are stored in the list ```my_chain.generations``` (you can also pass a filename to the ```simulate()``` method in order to have the results written out to a file). Let's have a look at generation 0:
+specifying whatever particular parameters we want to test. Under the parameters above, this will take around 20 seconds to run. The results are stored in the list `my_chain.generations` (you can also pass a filename to the `simulate()` method in order to have the results written out to a file). Let's have a look at generation 0:
 
-```
+```python
 >>> my_chain.generations[0]
 {'language': array([[0, 2, 1, 2], [1, 3, 0, 1], [1, 0, 3, 3], [2, 0, 3, 2]]), 'productions': array([[0, 2, 1, 2], [1, 3, 0, 1], [1, 0, 3, 3], [2, 0, 3, 2]]), 'data_out': [((0, 1), 2), ((1, 0), 1), ((0, 3), 2), ((1, 3), 1), ((2, 1), 0), ((3, 1), 0), ((2, 3), 3), ((3, 3), 2)], 'filtered_agent': False, 'lang_expressivity': 4, 'prod_expressivity': 4, 'lang_error': None, 'prod_error': None, 'lang_complexity': 96.9399527356992, 'prod_complexity': 96.9399527356992, 'lang_cost': 2.9863784237091693, 'prod_cost': 2.9863784237091693, 'model_parameters': {'shape': (4, 4), 'mincats': 1, 'maxcats': 4, 'prior': 'simplicity', 'weight': 1.0, 'noise': 0.01, 'bottleneck': 2, 'exposures': 2, 'mcmc_iterations': 5000}}
 ```
 
 These results are for a dummy agent that was used to initialize the chain. In particular, we might be interested in looking at the initial random language and its complexity:
 
-```
+```python
 >>> my_chain.generations[0]['language']
 array([[0, 2, 1, 2],
        [1, 3, 0, 1],
@@ -165,7 +195,7 @@ array([[0, 2, 1, 2],
 
 Quite a complex language, which is to be expected because it's random. Now, lets take a look at generation 10:
 
-```
+```python
 >>> my_chain.generations[10]['language']
 array([[2, 2, 2, 2],
        [2, 2, 3, 3],
@@ -177,59 +207,196 @@ array([[2, 2, 2, 2],
 
 Much simpler! The language has simplified to two contiguous categories and the complexity is now about 20 bits. Finally, lets make a quick and dirty plot showing how complexity varies with generation:
 
-```
+```python
 >>> import matplotlib.pyplot as plt
 >>> complexity_scores = [generation['lang_complexity'] for generation in my_chain.generations]
 >>> plt.plot(complexity_scores)
 >>> plt.show()
 ```
 
-For nicer plots, visualizations, and animations, code can be found in ```code/il_visualize.py```, ```code/il_animations.py```, ```code/il_results.py```, and ```code/visualize.py```. However, most of this code is specific to the 8×8 case.
-
-### Reproducing results reported in the paper
-
-Various functions are provided in ```code/model_resuts.py``` to reproduce figures and visualizations for the model. Generally, these functions can produce SVG, PDF, EPS, or PNG files, but formats other than SVG require Inkscpae to be installed on your machine. Producing animated gifs requires the Python package imageio.
+For nicer plots, visualizations, and animations, code can be found in `code/il_visualize.py`, `code/il_animations.py`, `code/il_results.py`, and `code/visualize.py`. However, most of this code is specific to the 8×8 case.
 
 
 Experiments
-------------
+-----------
 
-Various functions are provided in ```code/exp1_results.py``` and ```code/exp2_results.py``` to reproduce figures and visualizations for the experiments. Generally, these functions can produce SVG, PDF, EPS, or PNG files, but formats other than SVG require Inkscpae to be installed on your machine. Producing animated gifs requires the Python package imageio. The model fit figure can be reproduced from ```code/mf_results.py``` and requires scikit-optimize to be installed. The model fit analysis was performed by ```code/mf_collect.py``` and ```code/mf_sample.py``` – reproducing the model fit analysis could be tricky because it's extremely resource intensive (it took about three weeks on an HPC cluster) and the code is somewhat tailored to our specific HPC cluster.
+Various functions are provided in `code/exp1_results.py` and `code/exp2_results.py` to reproduce figures and visualizations for the experiments. Generally, these functions can produce SVG, PDF, EPS, or PNG files, but formats other than SVG require [Inkscape](https://inkscape.org) to be installed on your machine. Producing animated gifs requires the Python package [imageio](https://pypi.org/project/imageio/). The model fit figure can be reproduced from `code/mf_results.py` and requires [scikit-optimize](https://scikit-optimize.github.io) to be installed. The model fit analysis was performed by `code/mf_collect.py` and `code/mf_sample.py` – reproducing the model fit analysis could be tricky because it's extremely resource intensive (it took about three weeks on an HPC cluster) and the code is somewhat tailored to our specific HPC cluster.
 
 ### Reproducing the experimental statistics
 
-All statistics were done in R using the lme4 package. They can be reproduced by running the R scripts ```stats/exp1.R``` and ```stats/exp2.R```. Our canonical output of these scripts can be found in ```stats/exp1.R.out``` and ```stats/exp2.R.out```.
+All statistics were done in R using the lme4 package. They can be reproduced by running the R scripts `stats/exp1.R` and `stats/exp2.R`. Our canonical output of these scripts can be found in `stats/exp1.R.out` and `stats/exp2.R.out`.
 
 ### Running the experiments
 
-All the code for the experiments is in the ```experiments/``` directory. The experiments are written in Node.js. To run the experiments you will need a web server with [Node.js](https://nodejs.org) and [MongoDB](https://www.mongodb.com) installed. On a Mac, this can be accomplished by doing something like:
+All the code for the experiments is in the `experiments/` directory. The experiments are written in Node.js. `server.js` is the script that runs on the server-side and does most of the experiment logic (randomization, iteration, participant exclusion, writing to the database, etc.). The script contains several parameters at the top of the code for controlling how the experiment works – these are fairly well documented. `client.js` is the script that runs on the client side and mostly deals with rendering of the stimuli, responding to button clicks, and so forth. The port numbers at the top of `server.js` and `client.js` must match. The code is also able to handle a live communication experiment which we never actually ran (this has not been tested in depth).
 
-```
-brew install node
-brew install mongodb
+To run the experiments you will need a web server with [Node.js](https://nodejs.org) and [MongoDB](https://www.mongodb.com) installed. On a Mac, this can be accomplished by doing something like:
+
+```bash
+$ brew install node
+$ brew install mongodb
 ```
 
 Launch MongoDB by doing:
 
-```
-mongod
+```bash
+$ mongod
 ```
 
-and leave it running in the background or set it up as a system service. Place the contents of this repo in some directory on your server and ```cd``` into that directory. Then install the Node.js dependencies using:
+and leave it running in the background or set it up as a system service. Place the contents of the `experiments/` directory on your server and install the Node.js dependencies:
 
-```npm install```
+```bash
+$ npm install
+```
 
 Start the Node.js server using:
 
-```node server.js```
+```bash
+$ node server.js
+Listening on port 9000
+```
 
-If everything's set up right, you'll get a message like this:
 
-```Listening on port 9000```
+Measures
+--------
 
-N.B. The first time you run the server, a MongoDB collection called ```shepard``` will be created automatically. If this happens to clash with a collection you've already set up for something else, you'll need to modify this in ```server.js```.
+There are three key measures used in the paper: complexity, communicative cost, and variation of information. These are handled by `code/rectlang.py`, `code/commcost.py`, and `code/varofinf.py`.
 
-```server.js``` is the script that runs on the server-side and does most of the experiment logic (randomization, iteration, participant exclusion, writing to the database, etc.). The script contains several parameters at the top of the code for controlling how the experiment works – these are fairly well documented. ```client.js``` is the script that runs on the client side and mostly deals with rendering of the stimuli, responding to button clicks, and so forth. The port numbers at the top of ```server.js``` and ```client.js``` must match. The code is also able to handle a live communication experiment which we never actually ran (this has not been tested in depth).
+
+### Complexity
+
+`code/rectlang.py` implements Fass & Feldman's (2002) “rectangle language”. We use this as a meta-language to describe the languages that arise in our models and experiments; the longer the description, the more complex the language is. Here we provide a few examples of how it may be used. We start by constructing a `Space` object, which specifies the dimensionality of the universe:
+
+```python
+>>> import rectlang
+>>> universe = rectlang.Space((4,4))
+```
+
+We may then calculate the complexity of some language we're interested in (languages are represented as Numpy arrays):
+
+```python
+>>> import numpy as np
+>>> lang = np.array([[1,1,1,2], [0,1,1,2], [0,0,1,2], [0,0,2,2]], dtype=int)
+>>> lang
+array([[1, 1, 1, 2],
+       [0, 1, 1, 2],
+       [0, 0, 1, 2],
+       [0, 0, 2, 2]])
+```
+
+This is one of the example languages depicted in the paper (a three-contiguous-category language). To compute its complexity, we do:
+
+```python
+>>> universe.complexity(lang)
+48.593346667096164
+```
+
+To return the set of rectangles that minimize complexity:
+
+```python
+>>> universe.compress_language(lang)
+(48.593346667096164, [[((1, 0), (1, 1), (2, 0), (2, 1), (1, 1)), ((2, 0), (2, 2), (4, 0), (4, 2), (2, 2))], [((0, 0), (0, 1), (1, 0), (1, 1), (1, 1)), ((0, 1), (0, 3), (2, 1), (2, 3), (2, 2)), ((2, 2), (2, 3), (3, 2), (3, 3), (1, 1))], [((0, 3), (0, 4), (4, 3), (4, 4), (4, 1)), ((3, 2), (3, 3), (4, 2), (4, 3), (1, 1))]])
+```
+
+To look at the codelength and rectangles of individual categories within the language:
+
+```python
+>>> universe.compress_concept(lang == 1)
+(21.1357092861044, [((0, 0), (0, 1), (1, 0), (1, 1), (1, 1)), ((0, 1), (0, 3), (2, 1), (2, 3), (2, 2)), ((2, 2), (2, 3), (3, 2), (3, 3), (1, 1))])
+```
+
+To obtain binary strings for concepts, you can do:
+
+```python
+>>> universe.encode_concept(lang == 1)
+'00011001011010100101001'
+```
+
+Such strings are purely for illustrative purposes, but note that a given binary string uniquely picks out a particular category (i.e., this binary string picks out concept `1` from our language):
+
+```python
+>>> universe.decode_concept('00011001011010100101001')
+array([[ True,  True,  True, False],
+       [False,  True,  True, False],
+       [False, False,  True, False],
+       [False, False, False, False]])
+```
+
+Finally, you can produce a tabulation of codelengths like this:
+
+```python
+>>> universe.tabulate()
+Class    N locations    Probability            Codelength (bits)
+-------  -------------  ---------------------  --------------------
+1x1      16             1/10 x 1/16 = 0.00625  -log 1/160 = 7.32193
+1x2      24             1/10 x 1/24 = 0.00417  -log 1/240 = 7.90689
+1x3      16             1/10 x 1/16 = 0.00625  -log 1/160 = 7.32193
+1x4      8              1/10 x 1/8 = 0.0125    -log 1/80 = 6.32193
+2x2      9              1/10 x 1/9 = 0.01111   -log 1/90 = 6.49185
+2x3      12             1/10 x 1/12 = 0.00833  -log 1/120 = 6.90689
+2x4      6              1/10 x 1/6 = 0.01667   -log 1/60 = 5.90689
+3x3      4              1/10 x 1/4 = 0.025     -log 1/40 = 5.32193
+3x4      4              1/10 x 1/4 = 0.025     -log 1/40 = 5.32193
+4x4      1              1/10 x 1/1 = 0.1       -log 1/10 = 3.32193
+```
+
+Various other methods and options are available; study the code for more detail.
+
+
+### Communicative cost
+
+`code/commcost.py` implements Regier and colleagues' communicative cost measure (e.g., Regier, Kemp, & Kay, 2015). This measures how informative a language is in terms of the extent to which there is a loss of information during communicative interaction. Here we provide a few examples of how it may be used. We start by constructing a `Space` object, which specifies the dimensionality of the universe:
+
+```python
+>>> import commcost
+>>> universe = commcost.Space((4,4), gamma=1, mu=2)
+```
+
+Optionally, the parameters `gamma` (how quickly similarity decays with distance) and `mu` (the Minkowski exponent; 1 = Manhattan distance, 2 = Euclidean distance) can be passed. We may then calculate the communicative cost of some language we're interested in (languages are represented as Numpy arrays):
+
+```python
+>>> import numpy as np
+>>> lang = np.array([[1,1,1,2], [0,1,1,2], [0,0,1,2], [0,0,2,2]], dtype=int)
+>>> lang
+array([[1, 1, 1, 2],
+       [0, 1, 1, 2],
+       [0, 0, 1, 2],
+       [0, 0, 2, 2]])
+```
+
+This is one of the example languages depicted in the paper (a three-contiguous-category language). To compute its communicative cost, we do:
+
+```python
+>>> universe.cost(lang)
+2.8555467613130343
+```
+
+The ```commcost``` module provides various other classes and methods for doing more advanced things, such as changing the need distribution and modeling speaker uncertainty; study the code for more detail.
+
+
+### Variation of information
+
+`code/varofinf.py` implements Meilă's (2007) variation of information, an information theoretic measure of the distance between two set partitions, which is used as the measure of transmission error between consecutive languages. Simply pass in two languages, represented as Numpy arrays, to the `variation_of_information()` function:
+
+```python
+>>> import varofinf
+>>> lang1 = np.array([[1,1,1,2], [0,1,1,2], [0,0,1,2], [0,0,2,2]], dtype=int)
+>>> lang2 = np.array([[1,1,1,2], [0,1,1,2], [0,0,1,2], [0,0,2,1]], dtype=int)
+>>> varofinf.variation_of_information(lang1, lang2)
+0.484459370282069
+```
+
+
+References
+----------
+
+Carr, Smith, Culbertson, & Kirby (submitted). Simplicity and informativeness in semantic category systems.
+
+Fass, D., & Feldman, J. (2002). Categorization under complexity: A unified MDL account of human learning of regular and irregular categories. In S. Becker, S. Thrun, & K. Obermayer (Eds.), *Advances in neural information processing systems 15* (pp. 35–42). Cambridge, MA: MIT Press.
+
+Meilă, M. (2007). Comparing clusterings—an information based distance. *Journal of Multivariate Analysis*, *98*, 873–895. doi: [10.1016/j.jmva.2006.11.013](http://doi.org/10.1016/j.jmva.2006.11.013)
+
+Regier, T., Kemp, C., & Kay, P. (2015). Word meanings across languages support efficient communication. In B. MacWhinney & W. O’Grady (Eds.), *The handbook of language emergence* (pp. 237–263). Hoboken, NJ: John Wiley & Sons. doi: [10.1002/9781118346136.ch11](http://doi.org/10.1002/9781118346136.ch11)
 
 
 License
