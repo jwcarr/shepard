@@ -70,6 +70,78 @@ def plot_prop_correct(production_results, comprehension_results, figure_path):
 	if not figure_path.endswith('.svg'):
 		tools.convert_svg(figure_path, figure_path)
 
+def plot_click_entropy_all_experiments(figure_path):
+	exp1 = tools.read_json_lines('../data/experiments/exp1_participants.json')
+	exp2 = tools.read_json_lines('../data/experiments/exp2_participants.json')
+	res1p = click_entropy(exp1, 'production')
+	res1c = click_entropy(exp1, 'comprehension')
+	res2 = click_entropy(exp2)
+	fig, axes = plt.subplots(1, 3, figsize=(5.5, 2))
+
+	y, c = zip(*res1p)
+	axes[0].scatter(range(len(res1p)), y, c=c, marker='x')
+	axes[0].set_ylim(-0.1,2.1); axes[0].set_xlim(0,len(res1p))
+	axes[0].set_xticks([]); axes[0].set_xticklabels([])
+	axes[0].set_title('Experiment 1 (P)', fontsize=10)
+	
+	y, c = zip(*res1c)
+	axes[1].scatter(range(len(res1c)), y, c=c, marker='x')
+	axes[1].set_ylim(0,6); axes[1].set_xlim(0,len(res1p))
+	axes[1].set_xticks([]); axes[1].set_xticklabels([])
+	axes[1].set_title('Experiment 1 (C)', fontsize=10)
+	
+	y, c = zip(*res2)
+	axes[2].scatter(range(len(res2)), y, c=c, marker='x')
+	axes[2].plot([0, len(res1p)], [1.75,1.75], c='red', linestyle='--')
+	axes[2].set_ylim(-0.1,2.1); axes[2].set_xlim(0,len(res1p))
+	axes[2].set_xticks([]); axes[2].set_xticklabels([])
+	axes[2].set_title('Experiment 2', fontsize=10)
+
+	axes[0].set_ylabel('Button-click entropy')
+	axes[1].set_xlabel('Participant')
+	fig.tight_layout(pad=0.1, h_pad=0.5, w_pad=0.5)
+	fig.savefig(figure_path, format='svg')
+	tools.format_svg_labels(figure_path)
+	if not figure_path.endswith('.svg'):
+		tools.convert_svg(figure_path, figure_path)
+
+def click_entropy(dataset, test_type=None):
+	results = []
+	if test_type == 'production':
+		for participant in dataset:
+			if participant['test_type'] == 'production':
+				H = entropy(participant['test_positions'], 4)
+				if participant['status'] == 'finished':
+					results.append((H, 'black'))
+				else:
+					results.append((H, 'red'))
+	elif test_type == 'comprehension':
+		for participant in dataset:
+			if participant['test_type'] == 'comprehension':
+				H = entropy(participant['test_positions'], 64)
+				if participant['status'] == 'finished':
+					results.append((H, 'black'))
+				else:
+					results.append((H, 'red'))
+	else:
+		for participant in dataset:
+			H = entropy(participant['test_positions'], 4)
+			if participant['status'] == 'finished':
+				results.append((H, 'black'))
+			else:
+				results.append((H, 'red'))
+	return results
+
+def entropy(positions, n_buttons):
+	n_clicks = len(positions)
+	buttons = [positions.count(button_i) for button_i in range(n_buttons)]
+	summation = 0.0
+	for button in buttons:
+		p = button / n_clicks
+		if p > 0.0:
+			summation += p * np.log2(p)
+	return -summation
+
 def mean_prop_correct_production(dataset):
 	results = { 'angle':[], 'size':[], 'both':[] }
 	for participant in dataset:
@@ -146,9 +218,9 @@ def visualize_all_participant_comprehension(dataset, figure_dir):
 
 ######################################################################
 
-dataset = tools.read_json_lines('../data/experiments/exp1_participants.json')
+# dataset = tools.read_json_lines('../data/experiments/exp1_participants.json')
 
-generate_csv_for_stats(dataset, '../data/experiments/exp1_stats.csv')
+# generate_csv_for_stats(dataset, '../data/experiments/exp1_stats.csv')
 
 # prod_results = mean_prop_correct_production(dataset)
 # comp_results = mean_prop_correct_comprehension(dataset)
@@ -159,3 +231,5 @@ generate_csv_for_stats(dataset, '../data/experiments/exp1_stats.csv')
 
 # visualize_all_participant_production(dataset, '../visuals/production_')
 # visualize_all_participant_comprehension(dataset, '../visuals/comprehension_')
+
+# plot_click_entropy_all_experiments('../supplementary/S3_participant_nums/exclusion.eps')
