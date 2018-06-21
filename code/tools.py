@@ -32,6 +32,7 @@ def format_svg_labels(svg_file_path):
 	svg = svg.replace('πsim', '<tspan style="font-style: italic;">π</tspan><tspan baseline-shift="sub" style="font-size: 6pt">sim</tspan>')
 	svg = svg.replace('πinf', '<tspan style="font-style: italic;">π</tspan><tspan baseline-shift="sub" style="font-size: 6pt">inf</tspan>')
 	svg = svg.replace('<g id="legend_1">', '<g id="legend_1" transform="translate(10)">')
+	svg = svg.replace('γ', '<tspan style="font-style: italic;">γ</tspan>')
 	svg = svg.replace('ε', '<tspan style="font-style: italic;">ε</tspan>')
 	svg = svg.replace('ξ', '<tspan style="font-style: italic;">ξ</tspan>')
 	svg = svg.replace('b =', '<tspan style="font-style: italic;">b</tspan> =')
