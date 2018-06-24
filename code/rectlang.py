@@ -28,7 +28,7 @@ Numpy array (bool or int) to one of the following methods:
 		needed to represent the language (list of lists of tuples)
 
 Methods are also provided to encode and decode concepts or languages
-to and from binary strings (using the Shannon-Fano code):
+to and from binary strings (derived from the Shannon-Fano algorithm):
 
 	space.encode_concept(bool_array) -> binary_string
 	space.decode_concept(binary_string) -> bool_array
@@ -46,7 +46,8 @@ concepts (> 20 concept members), but cacheing, beam search, clipping,
 and initial dissection are implemented to mitigate this somewhat. A
 faster method, which is very complicated to implement, would involve
 iterating over the minimal dissections of a rectilinear polygon to
-find the dissection that yields the shortest codelength.
+find the dissection that yields the shortest codelength. An initial
+attempt at this can be found in rectdissect.py.
 '''
 
 from collections import defaultdict
@@ -428,7 +429,7 @@ class Space:
 		Beam search version of the exhaustive algorithm above. Rather
 		than recurse on every branch, select the n most promising
 		branches (based on total coding length) and recurse on those,
-		where n is the class-level attribute Space.max_exhaustive_size.
+		where n is the class-level attribute Space.max_beam_width.
 		This is significantly faster for larger chunk sizes, but is
 		not guaranteed to yield the best possible rectangularization.
 		'''
@@ -458,12 +459,12 @@ class Space:
 	@lru_cache(maxsize=CACHE_SIZE)
 	def _rectangularize(self, chunk_array):
 		'''
-		Takes a tuple-ified chunk array, creates a Rectangularizer,
-		and iterates over the minimal rectangularizations of the
-		chunk. The _exhaustive_merge() function then finds any
-		remaining rectangles that can still be merged to minimize
-		codelength. Returns the minimum codelength and minimum set of
-		rectangles.
+		Takes a tuple-ified chunk array and dissects the chunk into an
+		initial set of rectangles based on the chords eminating from
+		concave vertices. These rectangles are then merged using
+		_exhaustive_merge() (or _beam_merge() if the number of
+		rectangles is greater than Space.max_exhaustive_size). Returns
+		the minimum codelength and minimum set of rectangles.
 		'''
 		chunk_array = np.array(chunk_array, dtype=bool) # untuple the array
 		rectangles = self._initial_dissection(chunk_array)
