@@ -28,10 +28,7 @@ def create_production_svg(data, show_stimuli=True, offset_x=0, offset_y=0):
 		line_x, line_y = radius * np.cos(angle) + loc_x, radius * np.sin(angle) + loc_y
 		svg += '	<g id="stimulus-%i">\n' % stim_i
 		if category >= 0 and category < len(colors.categories):
-			if rectangles:
-				svg += '		<polygon points="%i,%i %i,%i %i,%i %i,%i" style="stroke:white; stroke-width:0; fill:%s;" />\n' % (box_x, box_y, box_x+500, box_y, box_x+500, box_y+500, box_x, box_y+500, colors.categories[category])
-			else:
-				svg += '		<polygon points="%i,%i %i,%i %i,%i %i,%i" style="stroke:white; stroke-width:10; fill:%s;" />\n' % (box_x, box_y, box_x+500, box_y, box_x+500, box_y+500, box_x, box_y+500, colors.categories[category])
+			svg += '		<polygon points="%i,%i %i,%i %i,%i %i,%i" style="stroke:white; stroke-width:10; fill:%s;" />\n' % (box_x, box_y, box_x+500, box_y, box_x+500, box_y+500, box_x, box_y+500, colors.categories[category])
 		if show_stimuli:
 			svg += '		<circle cx="%i" cy="%i" r="%i" style="stroke:black; stroke-width:10; fill:none;" />\n' % (loc_x, loc_y, radius)
 			svg += '		<line x1="%i" y1="%i" x2="%f" y2="%f" style="stroke: black; stroke-width:10;" />\n' % (loc_x, loc_y, line_x, line_y)
