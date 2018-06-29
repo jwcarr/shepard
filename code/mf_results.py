@@ -61,7 +61,7 @@ def make_plot(sim_opt, inf_opt, figure_path, n_levels=32, show_evaluations=False
 	inf_axis.set_yticklabels([])
 
 	cb = plt.colorbar(cs, cax=leg_axis)
-	cb.set_label('log likelihood (Eq. 11)', labelpad=-20, y=0.5)
+	cb.set_label('log likelihood (Eq. 12)', labelpad=-20, y=0.5)
 	cb.set_ticks([levels[0], levels[-1]])
 	cb.set_ticklabels(['high', 'low'])
 	leg_axis.invert_yaxis()
