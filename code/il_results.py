@@ -79,6 +79,8 @@ def make_figure(datasets, figure_path, title=None, show_legend=False, deep_legen
 		axis.set_ylim(ylim[0]-ypad, ylim[1]+ypad)
 		axis.set_ylabel(measures_names[measure])
 		x_max = len(dataset[figure_layout[i][j]][0])-1
+		if figure_layout[i][j] == 'error':
+			x_max += 1
 		axis.set_xlim(0, x_max)
 		axis.set_xticks(list(range(0, x_max+1, x_max//5)))
 		if i == len(axes) - 1:
@@ -97,10 +99,14 @@ def make_figure(datasets, figure_path, title=None, show_legend=False, deep_legen
 			fig.legend(handles, labels, loc='lower center', ncol=1, frameon=False)
 			fig.tight_layout(pad=2, h_pad=0.5, w_pad=0.5, rect=(0, 0.1, 1, 1))
 		else:
-			fig.legend(handles, labels, loc='lower center', ncol=3, frameon=False)
-			fig.tight_layout(pad=0.5, h_pad=0.5, w_pad=0.5, rect=(0, 0.15, 1, 1))
+			legend_offset = 1 / (figsize[1] / 0.25)
+			if len(figure_layout) == 1:
+				fig.legend(handles, labels, ncol=3, frameon=False, bbox_to_anchor=(0.5, -0.04), loc='lower center')
+			else:
+				fig.legend(handles, labels, ncol=3, frameon=False, bbox_to_anchor=(0.5, -0.02), loc='lower center')
+			fig.tight_layout(pad=0.1, h_pad=0.5, w_pad=0.5, rect=(0.01, legend_offset, 1, 1))
 	else:
-		fig.tight_layout(pad=0.5, h_pad=0.5, w_pad=0.5)
+		fig.tight_layout(pad=0.1, h_pad=0.5, w_pad=0.5, rect=(0.01, 0, 1, 1))
 	fig.savefig(figure_path, format='svg')
 	tools.format_svg_labels(figure_path)
 	if not figure_path.endswith('.svg'):
