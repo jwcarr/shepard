@@ -69,10 +69,10 @@ def make_model_results_figure_no_bottleneck(figure_path):
 	model_results_sim_010 = il_results.load('../data/model_sim/1.0_0.1_4_2.json', start_gen=0, end_gen=50, method='lang')
 	il_results.figure_layout = [['expressivity', 'cost']]
 	il_results.measure_bounds['cost'] = (4.6, 5)
-	il_results.make_figure([(model_results_sim_001, 'ε = 0.01', colors.blue, colors.light_blue, '-'),
-	                        (model_results_sim_005, 'ε = 0.05', colors.blue, colors.light_blue, '--'),
-	                        (model_results_sim_010, 'ε = 0.1', colors.blue, colors.light_blue, ':')],
-	                        figure_path=figure_path, show_legend=True, figsize=(5.5, 2.5))
+	il_results.make_figure([(model_results_sim_001, 'ε = .01', colors.blue, colors.light_blue, '-'),
+	                        (model_results_sim_005, 'ε = .05', colors.blue, colors.light_blue, '--'),
+	                        (model_results_sim_010, 'ε = .1', colors.blue, colors.light_blue, ':')],
+	                        figure_path=figure_path, show_legend=True, figsize=(5.5, 2.2))
 
 
 def make_model_chains_figure(figure_path):
