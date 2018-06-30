@@ -24,8 +24,8 @@ def make_fig(figure_path):
 
 	fig, axes = plt.subplots(1, 2, figsize=(5.5, 2.1), sharey=True)
 
-	axes[0].plot(comp_weights, p_comp_stripe, c=colors.blue, linestyle='-')
-	axes[0].plot(comp_weights, p_comp_qudrnt, c=colors.blue, linestyle=':')
+	axes[0].plot(comp_weights, p_comp_stripe, c=colors.blue, linewidth=2, linestyle='-')
+	axes[0].plot(comp_weights, p_comp_qudrnt, c=colors.blue, linewidth=2, linestyle=':')
 	axes[0].set_ylabel('Prior probability')
 	axes[0].set_xlabel('Weight (w)')
 	axes[0].set_title('Simplicity prior (πsim)', fontsize=10)
@@ -33,8 +33,8 @@ def make_fig(figure_path):
 	axes[0].text(comp_weights[-1]*0.97, 0.9, 'stripes', horizontalalignment='right', verticalalignment='center')
 	axes[0].text(comp_weights[-1]*0.97, 0.1, 'quadrants', horizontalalignment='right', verticalalignment='center')
 
-	axes[1].plot(cost_weights, p_cost_stripe, c=colors.red, linestyle='-')
-	axes[1].plot(cost_weights, p_cost_qudrnt, c=colors.red, linestyle=':')
+	axes[1].plot(cost_weights, p_cost_stripe, c=colors.red, linewidth=2, linestyle='-')
+	axes[1].plot(cost_weights, p_cost_qudrnt, c=colors.red, linewidth=2, linestyle=':')
 	axes[1].set_xlabel('Weight (w)')
 	axes[1].set_title('Informativeness prior (πinf)', fontsize=10)
 	axes[1].set_xlim(0, cost_weights[-1])
