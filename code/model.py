@@ -206,6 +206,15 @@ class Agent:
 		cand_language[y:y+h, x:x+w] = random_signal
 		return cand_language
 
+	def _propose_candidate_by_cell_mutation(self, language):
+		random_meaning = np.random.randint(self._shape[0]), np.random.randint(self._shape[1])
+		random_signal = np.random.randint(self._maxcats-1)
+		if random_signal >= language[random_meaning]:
+			random_signal += 1
+		cand_language = language.copy()
+		cand_language[random_meaning] = random_signal
+		return cand_language
+
 	##################
 	# PUBLIC METHODS #
 	##################
@@ -227,14 +236,18 @@ class Agent:
 		exactly one mutable that allows you to jump back again, so the
 		proposal probabilities are calculated as 1 / number of
 		mutables (which changes slightly depending on the direction,
-		making the function asymmetric).
+		making the function asymmetric). Uncomment the 'log' lines to
+		return a log of the MCMC iterations for visualization.
 		'''
+		# log = {'chains':[{'chain_id':0 ,'generations':[]}]}
 		if language is None:
 			language = np.random.randint(0, self._maxcats, self._shape)
+		# log['chains'][0]['generations'].append({'language':language, 'accepted':None})
 		mutables = self._get_mutables(language)
 		posterior = self._posterior(language, data)
 		for _ in range(self._mcmc_iterations):
 			cand_language = self._propose_candidate(language, mutables)
+			# log['chains'][0]['generations'].append({'language':cand_language, 'accepted':False})
 			cand_mutables = self._get_mutables(cand_language)
 			cand_posterior = self._posterior(cand_language, data)
 			prob_c_given_l = -np.log2(len(mutables)) # p(cand|lang)
@@ -244,7 +257,34 @@ class Agent:
 				language = cand_language
 				mutables = cand_mutables
 				posterior = cand_posterior
+				# log['chains'][0]['generations'][-1]['accepted'] = True
+			# log['chains'][0]['generations'].append({'language':language, 'accepted':None})
 		self.language = language
+		# return log
+
+	def learn_by_cell_mutation(self, data):
+		'''
+		As above but uses cell mutation. This shouldn't be used except
+		to demonstate why rectangle mutation is better. Uncomment the
+		'log' lines to return a log of the MCMC iterations for
+		visualization.
+		'''
+		# log = {'chains':[{'chain_id':0 ,'generations':[]}]}
+		language = np.random.randint(0, self._maxcats, self._shape)
+		# log['chains'][0]['generations'].append({'language':language, 'accepted':None})
+		posterior = self._posterior(language, data)
+		for _ in range(self._mcmc_iterations):
+			cand_language = self._propose_candidate_by_cell_mutation(language)
+			# log['chains'][0]['generations'].append({'language':cand_language, 'accepted':False})
+			cand_posterior = self._posterior(cand_language, data)
+			alpha = cand_posterior - posterior
+			if (alpha >= 0.0) or (np.log2(np.random.random()) < alpha):
+				language = cand_language
+				posterior = cand_posterior
+				# log['chains'][0]['generations'][-1]['accepted'] = True
+			# log['chains'][0]['generations'].append({'language':language, 'accepted':None})
+		self.language = language
+		# return log
 
 	def speak(self, meaning):
 		'''
