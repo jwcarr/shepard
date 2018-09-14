@@ -31,6 +31,20 @@ def supplementary_model_results(dir_path):
 				                       (model_results_inf_500, 'Strong informativeness prior (πinf, w = 500)', colors.red, colors.light_red, ':')],
 				                       figure_path=figure_path, title=title, show_legend=True, deep_legend=True)
 
+def thesis_appendix_model_results(dir_path):	
+	for b, bottleneck in enumerate(['1', '2', '3', '4'], 1):
+		for x, exposures in enumerate(['1', '2', '3', '4'], 1):
+			for e, noise in enumerate(['0.01', '0.05', '0.1'], 1):
+				figure_path = dir_path + '%i%i%i.eps' % (b, x, e)
+				title = 'b = %s, ξ = %s, ε = %s' % (bottleneck, exposures, noise)
+				model_results_sim = il_results.load('../data/model_sim/1.0_%s_%s_%s.json' % (noise, bottleneck, exposures), start_gen=0, end_gen=50, method='lang')
+				model_results_inf = il_results.load('../data/model_inf/1.0_%s_%s_%s.json' % (noise, bottleneck, exposures), start_gen=0, end_gen=50, method='lang')
+				model_results_inf_500 = il_results.load('../data/model_inf/500.0_%s_%s_%s.json' % (noise, bottleneck, exposures), start_gen=0, end_gen=50, method='lang')
+				il_results.make_figure([(model_results_sim, 'Simplicity prior (πsim, w = 1)', colors.blue, colors.light_blue, '-'),
+				                       (model_results_inf, 'Informativeness prior (πinf, w = 1)', colors.red, colors.light_red, '-'),
+				                       (model_results_inf_500, 'Strong informativeness prior (πinf, w = 500)', colors.red, colors.light_red, ':')],
+				                       figure_path=figure_path, title=title, show_legend=False, figsize=(5.1, 2.8))
+
 def web_animations(dir_path):
 	for noise in ['0.01', '0.05', '0.1']:
 		for bottleneck in ['1', '2', '3', '4']:
