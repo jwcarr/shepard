@@ -179,8 +179,8 @@ def visualize_participant_comprehension(dataset, dir_path):
 		if participant['test_type'] == 'comprehension' and participant['status'] == 'finished':
 			partition = np.zeros((4,8,8), dtype=float)
 			for answer, response in zip(participant['test_sequence'], participant['test_responses']):
-				row = response % 8
-				col = response // 8
+				row = response // 8
+				col = response % 8
 				partition[answer,row,col] += 1
 			figure_path = dir_path + '%s/%s.pdf' % (participant['condition'], participant['user_id'])
 			for cat in range(4):
@@ -206,8 +206,8 @@ def visualize_all_participant_comprehension(dataset, figure_dir):
 		if participant['test_type'] == 'comprehension' and participant['status'] == 'finished':
 			partition = np.zeros((4,8,8), dtype=float)
 			for answer, response in zip(participant['test_sequence'], participant['test_responses']):
-				row = response % 8
-				col = response // 8
+				row = response // 8
+				col = response % 8
 				partition[answer,row,col] += 1
 			for cat in range(4):
 				partition[cat] = partition[cat] / partition[cat].max()
