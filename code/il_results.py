@@ -65,7 +65,7 @@ def make_figure(datasets, figure_path, title=None, show_legend=False, deep_legen
 	else:
 		if figsize is None:
 			figsize = (5.5, 4)
-		fig, axes = plt.subplots(2, 2, figsize=(5.5, 3.6))
+		fig, axes = plt.subplots(2, 2, figsize=figsize)
 	for (i, j), axis in np.ndenumerate(axes):
 		measure = figure_layout[i][j]
 		for k, (dataset, label, color, color_conf, linestyle) in enumerate(datasets):
