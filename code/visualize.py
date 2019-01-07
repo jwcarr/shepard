@@ -77,7 +77,7 @@ def create_comprehension_svg(data, show_stimuli=True, offset_x=0, offset_y=0):
 				box_y = ang_i * 500 + offsets[cat_i][1]
 				line_x = rad * np.cos(ang) + loc_x
 				line_y = rad * np.sin(ang) + loc_y
-				color = fake_alpha(colors.categories[cat_i], data[cat_i,ang_i,rad_i])
+				color = colors.fake_alpha(colors.categories[cat_i], data[cat_i,ang_i,rad_i])
 				stim_i = rad_i*8 + ang_i
 				svg += '	<g id="stimulus-%i-%i">\n' % (cat_i, stim_i)
 				svg += '		<polygon points="%i,%i %i,%i %i,%i %i,%i" style="stroke: white; stroke-width:10; fill:%s;" />\n' % (box_x, box_y, box_x+500, box_y, box_x+500, box_y+500, box_x, box_y+500, color)
@@ -94,21 +94,6 @@ def create_comprehension_svg(data, show_stimuli=True, offset_x=0, offset_y=0):
 		svg += '	</g>\n\n'
 	svg += '</g>'
 	return svg
-
-def fake_alpha(hex_color, alpha): # lightens a color, producing a fake alpha transparency effect (for the sake of EPS compatibility)
-	rgb_color = hex_to_rgb(hex_color)
-	rgb_color = lighten(rgb_color[0], alpha), lighten(rgb_color[1], alpha), lighten(rgb_color[2], alpha)
-	return rgb_to_hex(rgb_color)
-
-def lighten(value, alpha):
-	return int(round(value + ((255 - value) * (1-alpha))))
-
-def hex_to_rgb(hex_color):
-	hex_color = hex_color.lstrip('#')
-	return tuple(int(hex_color[i:i+2], 16) for i in range(0, 6, 2))
-
-def rgb_to_hex(rgb_color):
-	return '#%02x%02x%02x' % tuple(map(int, map(round, rgb_color)))
 
 def produce_categorical_veridical_systems():
 	for system_name, system in veridical_systems.items():
