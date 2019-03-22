@@ -577,5 +577,5 @@ if __name__ == '__main__':
 		pass
 
 	chain = Chain(args.generations, (args.height, args.width), args.mincats, args.maxcats, args.prior, args.weight, args.noise, args.bottleneck, args.exposures, args.mcmc_iterations)
-	output_file = os.path.join(args.output_path, str(chain_i))
+	output_file = os.path.join(args.output_path, str(args.chain_i))
 	chain.simulate(output_file, os.path.isfile(output_file))
