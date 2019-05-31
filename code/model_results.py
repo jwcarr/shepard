@@ -97,26 +97,41 @@ def make_model_chains_figure(figure_path):
 	il_visualize.make_figure(data, figure_path, start_gen=0, end_gen=50, n_columns=17, method='language', rect_compress=True)
 
 def make_final_gen_dist_figure(figure_path):
-	primary_results = il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_2_2.json', 'lang_complexity', 50)
+	primary_results_sim = il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_2_2.json', 'lang_complexity', 50)
+	primary_results_inf = il_results.extract_generation_distribution('../data/model_inf/500.0_0.05_2_2.json', 'lang_cost', 50)
 	final_gen_results = [
-	    ('Bottleneck', [
+	    ('noise', [
+	        ('ε = .1', colors.black, il_results.extract_generation_distribution('../data/model_sim/1.0_0.1_2_2.json', 'lang_complexity', 50)),
+	        ('ε = .05', colors.blue, primary_results_sim),
+	        ('ε = .01', colors.black, il_results.extract_generation_distribution('../data/model_sim/1.0_0.01_2_2.json', 'lang_complexity', 50))
+	    ]),
+	    ('bottleneck', [
 	        ('b = 3', colors.black, il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_3_2.json', 'lang_complexity', 50)),
-	        ('b = 2', colors.blue, primary_results),
+	        ('b = 2', colors.blue, primary_results_sim),
 	        ('b = 1', colors.black, il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_1_2.json', 'lang_complexity', 50))
 	    ]),
-	    ('Exposures', [
+	    ('exposures', [
 	        ('ξ = 3', colors.black, il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_2_3.json', 'lang_complexity', 50)),
-	        ('ξ = 2', colors.blue, primary_results),
+	        ('ξ = 2', colors.blue, primary_results_sim),
 	        ('ξ = 1', colors.black, il_results.extract_generation_distribution('../data/model_sim/1.0_0.05_2_1.json', 'lang_complexity', 50))
 	    ]),
-	    ('Noise', [
-	        ('ε = .1', colors.black, il_results.extract_generation_distribution('../data/model_sim/1.0_0.1_2_2.json', 'lang_complexity', 50)),
-	        ('ε = .05', colors.blue, primary_results),
-	        ('ε = .01', colors.black, il_results.extract_generation_distribution('../data/model_sim/1.0_0.01_2_2.json', 'lang_complexity', 50))
+	    ('noise', [
+	        ('ε = .1', colors.black, il_results.extract_generation_distribution('../data/model_inf/500.0_0.1_2_2.json', 'lang_cost', 50)),
+	        ('ε = .05', colors.red, primary_results_inf),
+	        ('ε = .01', colors.black, il_results.extract_generation_distribution('../data/model_inf/500.0_0.01_2_2.json', 'lang_cost', 50))
+	    ]),
+	    ('bottleneck', [
+	        ('b = 3', colors.black, il_results.extract_generation_distribution('../data/model_inf/500.0_0.05_3_2.json', 'lang_cost', 50)),
+	        ('b = 2', colors.red, primary_results_inf),
+	        ('b = 1', colors.black, il_results.extract_generation_distribution('../data/model_inf/500.0_0.05_1_2.json', 'lang_cost', 50))
+	    ]),
+	    ('exposures', [
+	        ('ξ = 3', colors.black, il_results.extract_generation_distribution('../data/model_inf/500.0_0.05_2_3.json', 'lang_cost', 50)),
+	        ('ξ = 2', colors.red, primary_results_inf),
+	        ('ξ = 1', colors.black, il_results.extract_generation_distribution('../data/model_inf/500.0_0.05_2_1.json', 'lang_cost', 50))
 	    ])
 	]
-	mean_of_primary_results = sum(primary_results) / len(primary_results)
-	il_results.plot_final_gen_distributions(final_gen_results, figure_path, mean_of_primary_results, colors.blue)
+	il_results.plot_final_gen_distributions(final_gen_results, figure_path)
 
 ######################################################################
 

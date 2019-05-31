@@ -107,7 +107,6 @@ def make_figure(datasets, figure_path, title=None, show_legend=False, deep_legen
 	if not figure_path.endswith('.svg'):
 		tools.convert_svg(figure_path, figure_path)
 
-def plot_final_gen_densities(axis, results, mean=None, mean_color='black'):
 def make_carstensen_figure(datasets, figure_path, figsize):
 	fig, axes = plt.subplots(1, 2, figsize=figsize, sharey=True)
 	y_bounds = (4.6, 5)
@@ -143,11 +142,10 @@ def make_carstensen_figure(datasets, figure_path, figsize):
 	if not figure_path.endswith('.svg'):
 		tools.convert_svg(figure_path, figure_path)
 
+def plot_final_gen_densities(axis, results):
 	positions = [0.6, 0.3, 0]
 	y_lim = [0, 0.9]
 	labels, colors, distributions = zip(*results)
-	if mean is not None:
-		axis.plot([mean, mean], y_lim, c=mean_color, linestyle='--', zorder=0)
 	violins = axis.violinplot(distributions, positions, vert=False, showmedians=False, showextrema=False)
 	for i, body in enumerate(violins['bodies']):
 		m = np.mean(body.get_paths()[0].vertices[:, 1])
@@ -155,23 +153,31 @@ def make_carstensen_figure(datasets, figure_path, figsize):
 		body.set_facecolor(colors[i])
 		body.set_edgecolor(colors[i])
 		body.set_alpha(1.0)
-		axis.text(np.median(distributions[i]), positions[i]+0.11, labels[i], {'color':'white'}, ha='center', va='top')
+		axis.text(np.median(distributions[i]), positions[i]+0.1, labels[i], {'color':'white'}, ha='center', va='top')
 	axis.set_yticklabels([])
 	axis.tick_params(axis='y', which='both', left='off', right='off')
 	axis.set_ylim(*y_lim)
 
-def plot_final_gen_distributions(datasets, figure_path, mean=None, mean_color='black'):
-	min_x = min([min([min(distribution) for _, _, distribution in dataset]) for _, dataset in datasets])
-	max_x = max([max([max(distribution) for _, _, distribution in dataset]) for _, dataset in datasets])
-	fig, axes = plt.subplots(1, len(datasets), figsize=(5.5, 2.5))
+def plot_final_gen_distributions(datasets, figure_path):
+	fig, axes = plt.subplots(1, len(datasets), figsize=(7.48, 1.75))
 	for i, (label, dataset) in enumerate(datasets):
-		plot_final_gen_densities(axes[i], dataset, mean, mean_color)
-		axes[i].set_title(label, fontsize=10)
-		axes[i].set_xticks(range(0,151,25))
-		axes[i].set_xlim(min_x, max_x)
-		if i == 1:
-			axes[i].set_xlabel('Complexity')
-	fig.tight_layout(pad=0.1, h_pad=0.5, w_pad=0.5)
+		plot_final_gen_densities(axes[i], dataset)
+		axes[i].set_title(label, fontsize=7)
+	axes[0].set_xticks([25, 75, 125])
+	axes[1].set_xticks([25, 75, 125])
+	axes[2].set_xticks([25, 75, 125])
+	axes[0].set_xlim(0, 150)
+	axes[1].set_xlim(0, 150)
+	axes[2].set_xlim(0, 150)
+	axes[1].set_xlabel('Complexity')
+	axes[3].set_xticks([4.25, 4.3, 4.35])
+	axes[4].set_xticks([4.25, 4.3, 4.35])
+	axes[5].set_xticks([4.25, 4.3, 4.35])
+	axes[3].set_xlim(4.2, 4.4)
+	axes[4].set_xlim(4.2, 4.4)
+	axes[5].set_xlim(4.2, 4.4)
+	axes[4].set_xlabel('Cost')
+	fig.tight_layout(pad=0.01, h_pad=0.01, w_pad=0.01)
 	fig.savefig(figure_path, format='svg')
 	tools.format_svg_labels(figure_path)
 	if not figure_path.endswith('.svg'):
