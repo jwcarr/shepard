@@ -6,6 +6,7 @@ from skopt import expected_minimum
 import tools
 
 plt.rcParams['svg.fonttype'] = 'none' # don't convert fonts to curves
+plt.rcParams.update({'font.size': 7})
 
 def load_optimizer(opt_path):
 	with open(opt_path, mode='rb') as file:
@@ -23,7 +24,7 @@ def make_plot(sim_opt, inf_opt, figure_path, n_levels=32, show_evaluations=False
 	Make contour plots showing the model fit under the simplicity and
 	informativeness priors.
 	'''
-	fig = plt.figure(figsize=(5.5, 2.4))
+	fig = plt.figure(figsize=(3.54, 1.6))
 	gs = gridspec.GridSpec(1, 3, width_ratios=[10, 10, 1])
 	sim_axis, inf_axis, leg_axis = plt.subplot(gs[0]), plt.subplot(gs[1]), plt.subplot(gs[2])
 
@@ -55,8 +56,8 @@ def make_plot(sim_opt, inf_opt, figure_path, n_levels=32, show_evaluations=False
 		axis.set_xlim(*opt.space.bounds[0])
 		axis.set_ylim(0,1)
 		axis.set_xlabel('Weight (w)')
-	sim_axis.set_title('Simplicity prior (πsim)', fontsize=10)
-	inf_axis.set_title('Informativeness prior (πinf)', fontsize=10)
+	sim_axis.set_title('Simplicity prior', fontsize=7)
+	inf_axis.set_title('Informativeness prior', fontsize=7)
 	sim_axis.set_ylabel('Noise (ε)')
 	inf_axis.set_yticklabels([])
 
@@ -66,7 +67,7 @@ def make_plot(sim_opt, inf_opt, figure_path, n_levels=32, show_evaluations=False
 	cb.set_ticklabels(['high', 'low'])
 	leg_axis.invert_yaxis()
 
-	fig.tight_layout(pad=0.1, h_pad=0.5, w_pad=0.5)
+	fig.tight_layout(pad=0.01, h_pad=0.01, w_pad=0.01)
 	fig.savefig(figure_path, format='svg')
 	tools.format_svg_labels(figure_path)
 	if not figure_path.endswith('.svg'):
@@ -90,5 +91,5 @@ def make_plot(sim_opt, inf_opt, figure_path, n_levels=32, show_evaluations=False
 
 # print('\nLLR =', neg_log_p_inf - neg_log_p_sim)
 
-# make_plot(sim_opt, inf_opt, figure_path='../manuscript/figs/exp2_model_fit.eps')
+# make_plot(sim_opt, inf_opt, figure_path='../manuscript/figs/exp_model_fit.eps')
 # make_plot(sim_opt, inf_opt, figure_path='../visuals/model_fit.pdf')
