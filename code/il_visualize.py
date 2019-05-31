@@ -9,7 +9,7 @@ angles = [2.5656, 3.0144, 3.4632, 3.912, 4.3608, 4.8096, 5.2583, 5.7072]
 
 letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 scale_factor = 16
-figure_width = 5.5 #inches
+figure_width = 7.48 #inches
 
 rectlang_space = rectlang.Space((8,8), solutions_file='../data/8x8_solutions.json')
 
@@ -66,41 +66,15 @@ def draw_letter(letter_i, offset_x, offset_y):
 	svg += '		</g>\n\n'
 	return svg
 
-def draw_number(number, offset_x, offset_y):
-	loc_x = (offset_x + (4000 / 2)) / scale_factor
-	loc_y = (offset_y + (4000 / 2)) / scale_factor
-	svg =  '	<g id="generation-number-%i">\n' % number
-	svg += '		<text text-anchor="middle" dominant-baseline="central" x="%s" y="%s" fill="black" style="font-size: %ipx; font-family:Helvetica">%s</text>\n' % (loc_x, loc_y, 2000//scale_factor, str(number))
-	svg += '	</g>\n\n'
-	return svg
-
-def draw_dots(offset_x, offset_y):
-	mid_loc_x= (offset_x + (4000 / 2)) / scale_factor
-	mid_loc_y = (offset_y + (4000 / 2)) / scale_factor
-	left_loc_x = mid_loc_x - (680//scale_factor)
-	right_loc_x = mid_loc_x + (680//scale_factor)
-	svg =  '		<g id="dots">\n'
-	svg += "			<circle cx='%s' cy='%s' r='%i' style='stroke:black; stroke-width: 5; fill:black;' />\n" % (str(mid_loc_x), str(mid_loc_y), 200//scale_factor)
-	svg += "			<circle cx='%s' cy='%s' r='%i' style='stroke:black; stroke-width: 5; fill:black;' />\n" % (str(left_loc_x), str(mid_loc_y), 200//scale_factor)
-	svg += "			<circle cx='%s' cy='%s' r='%i' style='stroke:black; stroke-width: 5; fill:black;' />\n" % (str(right_loc_x), str(mid_loc_y), 200//scale_factor)
-	svg += '		</g>\n\n'
-	return svg
-
-def draw_all_chains(chain_data, n_columns=10, show_stimuli=False, show_generation_numbers=False, method='productions', rect_compress=True, verbose=False):
+def draw_all_chains(chain_data, n_columns=10, show_stimuli=False, method='productions', rect_compress=True, verbose=False):
 	arr = []
 	svg = ''
 	offset_x = 4400
 	offset_y = 400
-	if show_generation_numbers:
-		for gen_i in range(n_columns+1):
-			svg += draw_number(gen_i, offset_x, offset_y)
-			offset_x += 4400
-		offset_y += 4000
 	for chain_i in range(len(chain_data)):
 		svg +=  '	<g id="chain-%i">\n\n' % chain_i
 		chain = chain_data[chain_i]
-		n_generations = len(chain['generations'])-1 # doesn't include gen 0
-		# first_fixation = chain['first_fixation']
+		n_generations = len(chain['generations'])
 		n_full_rows = n_generations // n_columns # number of full rows that will be required
 		final_row_length = n_generations % n_columns # number of gens in the final row
 		if final_row_length == 0:
@@ -109,42 +83,37 @@ def draw_all_chains(chain_data, n_columns=10, show_stimuli=False, show_generatio
 			n_rows = n_full_rows + 1
 		for row_i in range(n_rows):
 			arr.append([])
-			offset_x = 0
-			for col_i in range(n_columns+2):
+			offset_x = -1200
+			for col_i in range(n_columns+1):
 				if row_i == 0 and col_i == 0:
-					# insert the chain number
+					# insert the chain letter
 					arr[-1].append(str(chain['chain_id']))
 					svg += draw_letter(chain['chain_id'], offset_x, offset_y)
-				elif row_i == 0 and col_i == 1:
-					language = np.array(chain['generations'][0][method], dtype=int).reshape((8,8))
-					svg += draw_language(language, offset_x, offset_y, chain['chain_id'], 0, show_stimuli, rect_compress)
-					arr[-1].append('0')
 				elif row_i > 0 and col_i == 0:
 					# blank
 					arr[-1].append('-')
-				elif row_i > 0 and col_i == 1:
+				elif row_i >= 0 and row_i < n_rows-1 and col_i == n_columns+1:
 					# insert ...
 					arr[-1].append('.')
-					svg += draw_dots(offset_x, offset_y)
-				elif row_i >= 0 and row_i < n_rows-1 and col_i == n_columns+2:
-					# insert ...
-					arr[-1].append('.')
-				elif row_i < n_rows-1 and col_i == n_columns+3:
+				elif row_i < n_rows-1 and col_i == n_columns+2:
 					arr[-1].append('--')
 				else:
 					generation = (row_i * n_columns) + (col_i - 1)
-					if generation <= n_generations:
+					if generation < n_generations:
 						str_gen = str(generation)
 						if len(str_gen) == 1:
 							str_gen = '0' + str_gen
 						arr[-1].append(str_gen)
+						print(generation)
 						language = np.array(chain['generations'][generation][method], dtype=int).reshape((8,8))
 						svg += draw_language(language, offset_x, offset_y, chain['chain_id'], generation, show_stimuli, rect_compress)
 					else:
 						arr[-1].append('--')
 				offset_x += 4400
 			offset_y += 4400
+		offset_y += 800
 		svg += '	</g>\n\n'
+	offset_y -= 800
 	width, height = offset_x//scale_factor, offset_y//scale_factor
 	figure_height = (height/width) * figure_width
 	final_svg = "<svg width='%fin' height='%fin' viewBox='0 0 %i %i' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:svg='http://www.w3.org/2000/svg' xmlns='http://www.w3.org/2000/svg' version='1.1'>\n\n" % (figure_width, figure_height, width, height)
