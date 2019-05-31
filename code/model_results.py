@@ -72,9 +72,9 @@ def make_model_results_figure(figure_path):
 	model_results_sim = il_results.load('../data/model_sim/1.0_0.01_2_2.json', start_gen=0, end_gen=50, method='lang')
 	model_results_inf = il_results.load('../data/model_inf/1.0_0.01_2_2.json', start_gen=0, end_gen=50, method='lang')
 	model_results_inf_500 = il_results.load('../data/model_inf/500.0_0.01_2_2.json', start_gen=0, end_gen=50, method='lang')
-	il_results.make_figure([(model_results_sim, 'Simplicity', colors.blue, colors.light_blue, '-'),
-	                        (model_results_inf, 'Informativeness', colors.red, colors.light_red, '-'),
-	                        (model_results_inf_500, 'Strong informativeness', colors.red, colors.light_red, ':')],
+	il_results.make_figure([(model_results_sim, 'Simplicity prior', colors.blue, colors.light_blue, '-'),
+	                        (model_results_inf, 'Informativeness prior', colors.red, colors.light_red, '-'),
+	                        (model_results_inf_500, 'Strong informativeness prior', colors.red, colors.light_red, ':')],
 	                        figure_path=figure_path, show_legend=True)
 
 def make_model_results_figure_no_bottleneck(figure_path):
