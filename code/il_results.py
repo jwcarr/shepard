@@ -108,6 +108,41 @@ def make_figure(datasets, figure_path, title=None, show_legend=False, deep_legen
 		tools.convert_svg(figure_path, figure_path)
 
 def plot_final_gen_densities(axis, results, mean=None, mean_color='black'):
+def make_carstensen_figure(datasets, figure_path, figsize):
+	fig, axes = plt.subplots(1, 2, figsize=figsize, sharey=True)
+	y_bounds = (4.6, 5)
+	y_pad = (y_bounds[1]-y_bounds[0])*0.05
+	
+	for k, (dataset, label, color, color_conf, linestyle) in enumerate(datasets):
+		mean, conf_pos, conf_neg, start_gen = dataset['cost']
+		xvals = list(range(start_gen, start_gen+len(mean)))
+		axes[0].plot(xvals, mean, c=color, label=label, linestyle=linestyle, dash_capstyle='round', linewidth=2)
+		axes[0].fill_between(xvals, conf_neg, conf_pos, facecolor=color_conf, alpha=0.5)
+	handles, labels = axes[0].get_legend_handles_labels()
+	axes[0].set_ylim(y_bounds[0]-y_pad, y_bounds[1]+y_pad)
+	axes[0].set_ylabel('Communicative cost (bits)')
+	axes[0].set_xlim(0, 10)
+	axes[0].set_xticks(list(range(0, 11, 2)))
+	axes[0].set_xlabel('Generation')
+
+	for k, (dataset, label, color, color_conf, linestyle) in enumerate(datasets):
+		mean, conf_pos, conf_neg, start_gen = dataset['cost']
+		xvals = list(range(start_gen, start_gen+len(mean)))
+		axes[1].plot(xvals, mean, c=color, label=label, linestyle=linestyle, dash_capstyle='round', linewidth=2)
+		axes[1].fill_between(xvals, conf_neg, conf_pos, facecolor=color_conf, alpha=0.5)
+	axes[1].set_ylim(y_bounds[0]-y_pad, y_bounds[1]+y_pad)
+	axes[1].set_xlim(0, 100)
+	axes[1].set_xticks(list(range(0, 101, 20)))
+	axes[1].set_xlabel('Generation')
+
+	legend_offset = 1 / (figsize[1] / 0.15)
+	fig.legend(handles, labels, ncol=3, frameon=False, bbox_to_anchor=(0.5, -0.04), loc='lower center')
+	fig.tight_layout(pad=0.1, h_pad=0.5, w_pad=0.5, rect=(0.01, legend_offset, 1, 1))
+	fig.savefig(figure_path, format='svg')
+	tools.format_svg_labels(figure_path)
+	if not figure_path.endswith('.svg'):
+		tools.convert_svg(figure_path, figure_path)
+
 	positions = [0.6, 0.3, 0]
 	y_lim = [0, 0.9]
 	labels, colors, distributions = zip(*results)
