@@ -77,17 +77,14 @@ def make_model_results_figure(figure_path):
 	                        (model_results_inf_500, 'Strong informativeness prior', colors.red, colors.light_red, ':')],
 	                        figure_path=figure_path, show_legend=True)
 
-def make_model_results_figure_no_bottleneck(figure_path):
-	model_results_sim_001 = il_results.load('../data/model_sim/1.0_0.01_4_2.json', start_gen=0, end_gen=50, method='lang')
-	model_results_sim_005 = il_results.load('../data/model_sim/1.0_0.05_4_2.json', start_gen=0, end_gen=50, method='lang')
-	model_results_sim_010 = il_results.load('../data/model_sim/1.0_0.1_4_2.json', start_gen=0, end_gen=50, method='lang')
-	il_results.figure_layout = [['expressivity', 'cost']]
-	il_results.measure_bounds['cost'] = (4.6, 5)
-	il_results.make_figure([(model_results_sim_001, 'ε = .01', colors.blue, colors.light_blue, '-'),
-	                        (model_results_sim_005, 'ε = .05', colors.blue, colors.light_blue, '--'),
-	                        (model_results_sim_010, 'ε = .1', colors.blue, colors.light_blue, ':')],
-	                        figure_path=figure_path, show_legend=True, figsize=(5.5, 2.2))
-
+def make_model_results_figure_carstensen(figure_path):
+	model_results_sim_001 = il_results.load('../data/model_sim/1.0_0.01_4_2.json', start_gen=0, end_gen=100, method='lang')
+	model_results_sim_005 = il_results.load('../data/model_sim/1.0_0.05_4_2.json', start_gen=0, end_gen=100, method='lang')
+	model_results_sim_010 = il_results.load('../data/model_sim/1.0_0.1_4_2.json', start_gen=0, end_gen=100, method='lang')
+	il_results.make_carstensen_figure([(model_results_sim_001, 'ε = .01', colors.blue, colors.light_blue, '-'),
+	                                   (model_results_sim_005, 'ε = .05', colors.blue, colors.light_blue, '--'),
+	                                   (model_results_sim_010, 'ε = .1', colors.blue, colors.light_blue, ':')],
+	                                   figure_path=figure_path, figsize=(3.54, 1.75))
 
 def make_model_chains_figure(figure_path):
 	best_chain_sim = il_results.extract_dataset(tools.read_json_file('../data/model_sim/1.0_0.01_2_2.json'), 0, 50, 'lang_cost', True)
@@ -131,9 +128,9 @@ def make_final_gen_dist_figure(figure_path):
 # make_model_results_figure('../manuscript/figs/model_results.eps')
 # make_model_chains_figure('../manuscript/figs/model_chains.eps')
 # make_final_gen_dist_figure('../manuscript/figs/model_final_distributions.eps')
-# make_model_results_figure_no_bottleneck('../manuscript/figs/model_results_wide.eps')
+# make_model_results_figure_carstensen('../manuscript/figs/model_results_wide.eps')
 
 # make_model_results_figure('../visuals/model_results.pdf')
 # make_model_chains_figure('../visuals/model_chains.pdf')
 # make_final_gen_dist_figure('../visuals/model_final_distributions.pdf')
-# make_model_results_figure_no_bottleneck('../visuals/model_results_wide.pdf')
+# make_model_results_figure_carstensen('../visuals/model_results_wide.pdf')
