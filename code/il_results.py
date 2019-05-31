@@ -4,12 +4,12 @@ import matplotlib.pyplot as plt
 import tools
 
 plt.rcParams['svg.fonttype'] = 'none' # don't convert fonts to curves in SVGs
+plt.rcParams.update({'font.size': 7})
 
-figure_layout = [['expressivity', 'error'],
-                 ['complexity',   'cost' ]]
+figure_layout = [['expressivity','complexity', 'cost', 'error']]
 
 measure_bounds = {'expressivity':(1, 4), 'complexity':(0, 600), 'cost':(4, 6), 'error':(0, 4)}
-measures_names = {'expressivity':'Expressivity', 'complexity':'Complexity', 'cost':'Communicative cost', 'error':'Transmission error'}
+measures_names = {'expressivity':'Number of categories', 'complexity':'Complexity (bits)', 'cost':'Communicative cost (bits)', 'error':'Transmission error (bits)'}
 
 def distance(x, y):
 	return np.sqrt(sum((x-y)**2 for x, y in zip(x, y)))
@@ -56,16 +56,16 @@ def make_figure(datasets, figure_path, title=None, show_legend=False, deep_legen
 	if show_legend:
 		if deep_legend:
 			if figsize is None:
-				figsize = (5.5, 5)
+				figsize = (7.48, 1.75)
 			fig, axes = plt.subplots(len(figure_layout), len(figure_layout[0]), figsize=figsize, squeeze=False, sharex=True)
 		else:
 			if figsize is None:
-				figsize = (5.5, 4)
+				figsize = (7.48, 1.75)
 			fig, axes = plt.subplots(len(figure_layout), len(figure_layout[0]), figsize=figsize, squeeze=False)
 	else:
 		if figsize is None:
-			figsize = (5.5, 4)
-		fig, axes = plt.subplots(2, 2, figsize=figsize)
+			figsize = (7.48, 1.6)
+		fig, axes = plt.subplots(len(figure_layout), len(figure_layout[0]), figsize=figsize, squeeze=False)
 	for (i, j), axis in np.ndenumerate(axes):
 		measure = figure_layout[i][j]
 		for k, (dataset, label, color, color_conf, linestyle) in enumerate(datasets):
@@ -87,11 +87,6 @@ def make_figure(datasets, figure_path, title=None, show_legend=False, deep_legen
 			axis.set_xlabel('Generation')
 		else:
 			axis.set_xticklabels([])
-	# Line up the y-axis labels
-	if len(axes) > 1:
-		for col_i in range(len(axes[0])):
-			for axis in axes[:, col_i]:
-				d = axis.get_yaxis().set_label_coords(-0.2, 0.5)
 	if title:
 		fig.suptitle(title)
 	if show_legend:
@@ -99,7 +94,7 @@ def make_figure(datasets, figure_path, title=None, show_legend=False, deep_legen
 			fig.legend(handles, labels, loc='lower center', ncol=1, frameon=False)
 			fig.tight_layout(pad=2, h_pad=0.5, w_pad=0.5, rect=(0, 0.1, 1, 1))
 		else:
-			legend_offset = 1 / (figsize[1] / 0.25)
+			legend_offset = 1 / (figsize[1] / 0.15)
 			if len(figure_layout) == 1:
 				fig.legend(handles, labels, ncol=3, frameon=False, bbox_to_anchor=(0.5, -0.04), loc='lower center')
 			else:
