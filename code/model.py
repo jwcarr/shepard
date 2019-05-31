@@ -98,7 +98,7 @@ class Agent:
 		elif not callable(prior):
 			raise ValueError('Invalid prior: Use \'simplicity\' or \'informativeness\', or pass a callable function')
 		else:
-			self._prior_func = prior	
+			self._prior_func = prior
 
 		if not isinstance(weight, (float, int)):
 			raise ValueError('Invalid weight: Should be float or int')
@@ -465,7 +465,7 @@ class Chain:
 			output_data['language'] = output_data['language'].flatten().tolist()
 			output_data['productions'] = output_data['productions'].flatten().tolist()
 			with open(output_file, mode='a') as file:
-				file.write(str(generation_data) + '\n')
+				file.write(str(output_data) + '\n')
 
 	def _begin_chain(self, output_file):
 		'''
