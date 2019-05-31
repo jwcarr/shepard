@@ -1,5 +1,5 @@
 '''
-Generates jobs scripts (one for each model parameter combinatiobs)
+Generates jobs scripts (one for each model parameter combination)
 that can be submitted to the cluster.
 '''
 
