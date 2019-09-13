@@ -86,7 +86,7 @@ def make_model_results_figure_carstensen(figure_path):
 	il_results.make_carstensen_figure([(model_results_sim_001, 'ε = .01', colors.blue, colors.light_blue, '-'),
 	                                   (model_results_sim_005, 'ε = .05', colors.blue, colors.light_blue, '--'),
 	                                   (model_results_sim_010, 'ε = .1', colors.blue, colors.light_blue, ':')],
-	                                   figure_path=figure_path, figsize=(3.54, 1.75))
+	                                   figure_path=figure_path, figsize=(3.46, 1.75))
 
 def make_model_chains_figure(figure_path):
 	best_chain_sim = il_results.extract_dataset(tools.read_json_file('../data/model_sim/1.0_0.01_2_2.json'), 0, 50, 'lang_cost', True)

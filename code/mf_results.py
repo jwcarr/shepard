@@ -24,8 +24,8 @@ def make_plot(sim_opt, inf_opt, figure_path, n_levels=32, show_evaluations=False
 	Make contour plots showing the model fit under the simplicity and
 	informativeness priors.
 	'''
-	fig = plt.figure(figsize=(3.54, 1.6))
-	gs = gridspec.GridSpec(1, 3, width_ratios=[10, 10, 1])
+	fig = plt.figure(figsize=(3.46, 1.7))
+	gs = gridspec.GridSpec(1, 3, width_ratios=[15, 15, 1])
 	sim_axis, inf_axis, leg_axis = plt.subplot(gs[0]), plt.subplot(gs[1]), plt.subplot(gs[2])
 
 	sim_xyz = get_gaussian_process(sim_opt['models'][-1], sim_opt.space, sim_opt.space.bounds)
@@ -52,7 +52,7 @@ def make_plot(sim_opt, inf_opt, figure_path, n_levels=32, show_evaluations=False
 		if show_maximum:
 			(w_star, e_star), _ = expected_minimum(opt)
 			axis.plot([0, w_star, w_star], [e_star, e_star, 0], c='k', linestyle=':')
-			axis.scatter(*opt.x, c='k', s=100, lw=0, marker='*')
+			axis.scatter(*opt.x, c='k', s=20, lw=0, marker='o')
 		axis.set_xlim(*opt.space.bounds[0])
 		axis.set_ylim(0,1)
 		axis.set_xlabel('Weight (w)')
@@ -62,7 +62,7 @@ def make_plot(sim_opt, inf_opt, figure_path, n_levels=32, show_evaluations=False
 	inf_axis.set_yticklabels([])
 
 	cb = plt.colorbar(cs, cax=leg_axis)
-	cb.set_label('log likelihood (Eq. 12)', labelpad=-20, y=0.5)
+	cb.set_label('log likelihood (Eq. 11)', labelpad=-15, y=0.5)
 	cb.set_ticks([levels[0], levels[-1]])
 	cb.set_ticklabels(['high', 'low'])
 	leg_axis.invert_yaxis()

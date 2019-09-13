@@ -56,15 +56,15 @@ def make_figure(datasets, figure_path, title=None, show_legend=False, deep_legen
 	if show_legend:
 		if deep_legend:
 			if figsize is None:
-				figsize = (7.48, 1.75)
+				figsize = (5.5, 5.0)
 			fig, axes = plt.subplots(len(figure_layout), len(figure_layout[0]), figsize=figsize, squeeze=False, sharex=True)
 		else:
 			if figsize is None:
-				figsize = (7.48, 1.75)
+				figsize = (7.2, 1.75)
 			fig, axes = plt.subplots(len(figure_layout), len(figure_layout[0]), figsize=figsize, squeeze=False)
 	else:
 		if figsize is None:
-			figsize = (7.48, 1.6)
+			figsize = (7.2, 1.6)
 		fig, axes = plt.subplots(len(figure_layout), len(figure_layout[0]), figsize=figsize, squeeze=False)
 	for (i, j), axis in np.ndenumerate(axes):
 		measure = figure_layout[i][j]
@@ -85,8 +85,6 @@ def make_figure(datasets, figure_path, title=None, show_legend=False, deep_legen
 		axis.set_xticks(list(range(0, x_max+1, x_max//5)))
 		if i == len(axes) - 1:
 			axis.set_xlabel('Generation')
-		else:
-			axis.set_xticklabels([])
 	if title:
 		fig.suptitle(title)
 	if show_legend:
@@ -159,7 +157,7 @@ def plot_final_gen_densities(axis, results):
 	axis.set_ylim(*y_lim)
 
 def plot_final_gen_distributions(datasets, figure_path):
-	fig, axes = plt.subplots(1, len(datasets), figsize=(7.48, 1.75))
+	fig, axes = plt.subplots(1, len(datasets), figsize=(7.2, 1.75))
 	for i, (label, dataset) in enumerate(datasets):
 		plot_final_gen_densities(axes[i], dataset)
 		axes[i].set_title(label, fontsize=7)
