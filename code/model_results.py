@@ -18,6 +18,8 @@ def web_model_results(dir_path):
 				                       figure_path=figure_path, show_legend=True)
 
 def supplementary_model_results(dir_path):
+	il_results.figure_layout = [['expressivity', 'complexity'], ['cost', 'error']]
+	il_results.plt.rcParams.update({'font.size': 10})
 	for e, noise in enumerate(['0.01', '0.05', '0.1'], 1):
 		for b, bottleneck in enumerate(['1', '2', '3', '4'], 1):
 			for x, exposures in enumerate(['1', '2', '3', '4'], 1):
