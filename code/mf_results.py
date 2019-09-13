@@ -91,5 +91,5 @@ def make_plot(sim_opt, inf_opt, figure_path, n_levels=32, show_evaluations=False
 
 # print('\nLLR =', neg_log_p_inf - neg_log_p_sim)
 
-# make_plot(sim_opt, inf_opt, figure_path='../manuscript/figs/exp_model_fit.eps')
+# make_plot(sim_opt, inf_opt, figure_path='../manuscript/fig13.eps')
 # make_plot(sim_opt, inf_opt, figure_path='../visuals/model_fit.pdf')

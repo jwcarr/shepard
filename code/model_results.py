@@ -142,10 +142,10 @@ def make_final_gen_dist_figure(figure_path):
 
 # supplementary_model_results('../visuals/model/')
 
-# make_model_results_figure('../manuscript/figs/model_results.eps')
-# make_model_chains_figure('../manuscript/figs/model_chains.eps')
-# make_final_gen_dist_figure('../manuscript/figs/model_final_distributions.eps')
-# make_model_results_figure_carstensen('../manuscript/figs/model_results_wide.eps')
+# make_model_results_figure('../manuscript/fig05.eps')
+# make_model_chains_figure('../manuscript/fig06.eps')
+# make_final_gen_dist_figure('../manuscript/fig07.eps')
+# make_model_results_figure_carstensen('../manuscript/fig16.eps')
 
 # make_model_results_figure('../visuals/model_results.pdf')
 # make_model_chains_figure('../visuals/model_chains.pdf')

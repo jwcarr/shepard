@@ -43,9 +43,9 @@ def make_experiment_chains_figure(figure_path):
 
 # generate_csv_for_stats('../data/experiments/exp2_chains.json', '../data/experiments/exp2_stats_new.csv', 1, 10)
 
-# make_experiment_results_figure('../manuscript/figs/exp_results.eps')
-# make_model_comparison_figure('../manuscript/figs/exp_model_comparison.eps')
-# make_experiment_chains_figure('../manuscript/figs/exp_chains.eps')
+# make_experiment_results_figure('../manuscript/fig12.eps')
+# make_model_comparison_figure('../manuscript/fig14.eps')
+# make_experiment_chains_figure('../manuscript/fig10.eps')
 
 # make_experiment_results_figure('../visuals/exp_results.pdf')
 # make_model_comparison_figure('../visuals/exp_model_comparison.pdf')
