@@ -5,6 +5,8 @@ This repository contains data and code from Carr, Smith, Culbertson, and Kirby (
 
 Various other Python and R scripts are also included for replicating the analysis. All Python code in this repo was written for Python 3 and much of it requires [NumPy](http://www.numpy.org), [SciPy](https://scipy.org), and [matplotlib](https://matplotlib.org) to be installed.
 
+Note that the code and data make reference to two experiments, but the final paper only reports Experiment 2 (the iterated learning experiment). Details about Experiment 1 (a category learning experiment) can be found in my thesis.
+
 The top-level structure of the repo is:
 
 - `code/`: All Python code used for the model and analysis
@@ -18,8 +20,6 @@ The top-level structure of the repo is:
 - `manuscript/`: LaTeX source and EPS figures for the manuscript
 
 - `stats/`: R scripts for reproducing the statistics
-
-- `supplementary/`: Various supplementary items
 
 - `visuals/`: Various visualizations
 
