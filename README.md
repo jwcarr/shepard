@@ -92,7 +92,7 @@ In the two by-participant data files (`exp1_participants.json` and `exp2_partici
 Model
 -----
 
-Various functions are provided in `code/model_resuts.py` to reproduce figures and visualizations for the model. Generally, these functions can produce SVG, PDF, EPS, or PNG files, but formats other than SVG require [Inkscape](https://inkscape.org) to be installed on your machine. Producing animated gifs requires the Python package [imageio](https://pypi.org/project/imageio/).
+Various functions are provided in `code/model_resuts.py` to reproduce figures and visualizations for the model. Generally, these functions can produce SVG, PDF, EPS, or PNG files, but formats other than SVG require [cairosvg](https://cairosvg.org) to be installed on your machine. Producing animated gifs requires the Python package [imageio](https://pypi.org/project/imageio/).
 
 The code to run the model is in `code/model.py`. This Python script is well documented and should allow the reader to run a simple iterated learning chain. The script is designed to be run from the command line. For example, the following command will run a single chain of 50 generations under the simplicity prior and the same basic parameter settings reported in the paper.
 
@@ -226,7 +226,7 @@ For nicer plots, visualizations, and animations, code can be found in `code/il_v
 Experiments
 -----------
 
-Various functions are provided in `code/exp1_results.py` and `code/exp2_results.py` to reproduce figures and visualizations for the experiments. Generally, these functions can produce SVG, PDF, EPS, or PNG files, but formats other than SVG require [Inkscape](https://inkscape.org) to be installed on your machine. Producing animated gifs requires the Python package [imageio](https://pypi.org/project/imageio/). The model fit figure can be reproduced from `code/mf_results.py` and requires [scikit-optimize](https://scikit-optimize.github.io) to be installed. The model fit analysis was performed by `code/mf_collect.py` and `code/mf_sample.py` – reproducing the model fit analysis could be tricky because it's extremely resource intensive (it took about three weeks on an HPC cluster) and the code is somewhat tailored to our specific HPC cluster.
+Various functions are provided in `code/exp1_results.py` and `code/exp2_results.py` to reproduce figures and visualizations for the experiments. Generally, these functions can produce SVG, PDF, EPS, or PNG files, but formats other than SVG require [cairosvg](https://cairosvg.org) to be installed on your machine. Producing animated gifs requires the Python package [imageio](https://pypi.org/project/imageio/). The model fit figure can be reproduced from `code/mf_results.py` and requires [scikit-optimize](https://scikit-optimize.github.io) to be installed. The model fit analysis was performed by `code/mf_collect.py` and `code/mf_sample.py` – reproducing the model fit analysis could be tricky because it's extremely resource intensive (it took about three weeks on an HPC cluster) and the code is somewhat tailored to our specific HPC cluster.
 
 ### Reproducing the experimental statistics
 

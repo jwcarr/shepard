@@ -1,5 +1,4 @@
-from os import path, remove, walk
-from subprocess import call, STDOUT, DEVNULL
+from os import path, walk
 import re
 import json
 
@@ -41,16 +40,14 @@ def format_svg_labels(svg_file_path):
 	with open(svg_file_path, mode='w', encoding='utf-8') as file:
 		file.write(svg)
 
-def convert_svg(svg_file_path, out_file_path, remove_svg_file=False, png_width=1000):
+def convert_svg(svg_file_path, out_file_path, png_width=1000):
+	import cairosvg
 	filename, extension = path.splitext(out_file_path)
 	if extension not in ['.pdf', '.eps', '.png']:
 		raise ValueError('Invalid format. Use either .pdf, .eps, or .png')
 	if extension == '.pdf':
-		call(['/usr/local/bin/inkscape', svg_file_path, '-A', out_file_path, '--export-text-to-path'], stdout=DEVNULL, stderr=STDOUT)
+		cairosvg.svg2pdf(url=svg_file_path, write_to=out_file_path)
 	elif extension == '.eps':
-		call(['/usr/local/bin/inkscape', svg_file_path, '-E', out_file_path, '--export-text-to-path'], stdout=DEVNULL, stderr=STDOUT)
+		cairosvg.svg2ps(url=svg_file_path, write_to=out_file_path)
 	elif extension == '.png':
-		call(['/usr/local/bin/inkscape', svg_file_path, '-e', out_file_path, '--export-width=%i'%png_width], stdout=DEVNULL, stderr=STDOUT)
-	if remove_svg_file:
-		remove(svg_file_path)
-	print('File saved to: ' + filename + extension)
+		cairosvg.svg2png(url=svg_file_path, write_to=out_file_path, dpi=300)
