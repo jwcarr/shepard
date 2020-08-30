@@ -1,0 +1,35 @@
+#!/bin/bash
+
+master_bib='/Users/jon/Documents/master.bib'
+
+# Identify the basename of the tex file in this directory
+basename=$(basename $(find . -type f -name *.tex) .tex)
+
+# Assuming my master.bib file is available on this system
+if test -f $master_bib; then
+	# use makebib to extract only the relevant references to create refs.bib
+	echo "Creating refs.bib from $master_bib"
+	makebib $basename.tex $master_bib refs.bib
+fi
+
+echo "Parsing $basename.tex"
+latex -halt-on-error $basename.tex > /dev/null
+
+echo 'Creating the bibliography'
+biber $basename.bcf > /dev/null
+
+echo 'Typesetting'
+latex -halt-on-error $basename.tex > /dev/null
+
+echo "Creating $basename.pdf"
+dvipdfm -q $basename.dvi
+
+# Delete any processing files that are no longer needed
+for extension in aux bbl bcf blg dvi fff log out run.xml ttt; do
+	if test -f $basename.$extension; then
+		rm $basename.$extension
+	fi
+done
+
+# Output a word count
+texcount -total $basename.tex
